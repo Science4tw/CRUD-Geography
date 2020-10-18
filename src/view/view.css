@@ -1,0 +1,7 @@
+.label {
+	-fx-padding: 5.0px;
+    -fx-min-width: 200.0;
+    -fx-max-width: 2000.0;
+  	-fx-alignment: center;
+}
+

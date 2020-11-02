@@ -1,25 +1,23 @@
 package controller;
 
 import javafx.beans.binding.Bindings;
-import javafx.beans.property.StringProperty;
 import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.scene.Node;
-import javafx.scene.control.TableView;
-import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
 import model.FormOfGovernment;
 import model.Geo_Model;
 import model.GovernedRegion;
 import view.Geo_View;
-import view.CountryView;
+
 
 // 0
 public class Geo_Controller {
 
 	private Geo_Model model;
 	private Geo_View view;
+	
+	//Speichert Wert für gültige Textfelder
+	private boolean countryValid = false;
+	private boolean areaValid = false;
 
 	// 0 Konstruktor
 	public Geo_Controller(Geo_Model model, Geo_View view) {
@@ -39,13 +37,19 @@ public class Geo_Controller {
 
 		// ADDITIONAL FUNCTIONALITY
 		/**
-		 * 3 Wenn kein Name & Area in den Textfeldern eingegeben ist, "DEAKTIVIERE" den
-		 * CREATE Button (DISABLED)
+		 * 3 ChangeListener Wenn kein kein Integer in Area oder kein String in
+		 * Countryname, dann Farbe rot, sonst Farbe grün
 		 */
-		view.getCountryView().getBtnCreate().disableProperty()
-				.bind(view.getCountryView().getTxtCountry().textProperty().isEmpty());
-		view.getCountryView().getBtnCreate().disableProperty()
-				.bind(view.getCountryView().getTxtArea().textProperty().isEmpty());
+
+		view.getCountryView().getTxtCountry().textProperty().addListener((obserable, oldValue, newValue) -> {
+			validateCountry(newValue);
+		});
+
+		view.getCountryView().getTxtArea().textProperty().addListener((obserable, oldValue, newValue) -> {
+			validateArea(newValue);
+		});
+
+		// ADDITIONAL FUNCTIONALITY
 		/**
 		 * 3 Wenn kein Zeile in der TableView angewählt ist "DEAKTIVIERE" den DELETE
 		 * Button (DISABLED)
@@ -64,6 +68,78 @@ public class Geo_Controller {
 		});
 	}
 
+	// 3 Methoden, um Eingabe zu validieren mit ChangeListener
+	/**
+	 * Muss ein String sein, zwischen 3 und 50 Zeichen
+	 */
+
+	private void validateCountry(String newValue) {
+		boolean valid = false;
+		String country = newValue;
+		if (country.length() >= 3 && country.length() <= 50) {
+			//wie not Integer?
+			valid = true;
+		}
+
+		// Farben neutralisieren
+		view.getCountryView().getTxtCountry().getStyleClass().remove("countryNotOk");
+		view.getCountryView().getStyleClass().remove("countryOk");
+
+		// Farben setzen, rot = invalid, grün = valid
+		if (valid) {
+			view.getCountryView().getTxtCountry().getStyleClass().add("countryOk");
+		} else {
+			view.getCountryView().getTxtCountry().getStyleClass().add("countryNotOk");
+		}
+		// Speichert true/false-Wert für Button aktivieren
+		countryValid = valid;
+		// Aktiviert Button, wenn alles korrekt
+		enableCreateButton();
+	}
+
+	/**
+	 * Eingabe in Textfeld Area uss ein Integer sein: > 0, <= Max_Value
+	 */
+	private void validateArea(String newValue) {
+		boolean valid = false;
+
+		try {
+			int area = Integer.parseInt(newValue);
+			if (area > 0 && area <= Integer.MAX_VALUE)
+				valid = true;
+				
+		//wenn kein Integer
+		} catch (NumberFormatException e) { 
+			valid = false;
+		}
+
+		// Farben neutralisieren
+		view.getCountryView().getTxtArea().getStyleClass().remove("areaNotOk");
+		view.getCountryView().getTxtArea().getStyleClass().remove("areaOk");
+		// Farben setzen, rot = invalid, grün = valid
+		if (valid) {
+			view.getCountryView().getTxtArea().getStyleClass().add("areaOk");
+
+		} else {
+			view.getCountryView().getTxtArea().getStyleClass().add("areaNotOk");
+		}
+		
+		// Speichert true/false-Wert für Button aktivieren
+		areaValid = valid;
+		// Aktiviert Button, wenn alles korrekt
+		enableCreateButton();
+	}
+
+	
+	/*
+	 * Aktiviert Button, wenn beide Felder korrekt ausgefüllt
+	 */
+	private void enableCreateButton() {
+		boolean valid = countryValid & areaValid;
+		view.getCountryView().getBtnCreate().setDisable(!valid);
+	}
+
+	
 	// CREATE COUNTRY
 	// TODO: Exceptions(Text in Area Attribut löst Exception aus)
 	// INPUT: Event

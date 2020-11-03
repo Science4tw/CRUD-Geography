@@ -1,5 +1,8 @@
 package controller;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import javafx.beans.binding.Bindings;
 import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
@@ -70,14 +73,16 @@ public class Geo_Controller {
 
 	// 3 Methoden, um Eingabe zu validieren mit ChangeListener
 	/**
-	 * Muss ein String sein, zwischen 3 und 50 Zeichen
+	 * Muss ein String sein, zwischen 3 und 50 Zeichen, nur Letters keine Zeichen/Zahlen
 	 */
 
 	private void validateCountry(String newValue) {
 		boolean valid = false;
 		String country = newValue;
-		if (country.length() >= 3 && country.length() <= 50) {
-			//wie not Integer?
+		Pattern pattern = Pattern.compile("[a-zA-Z]*");
+		Matcher m = pattern.matcher(country);
+		boolean alphabetic = m.matches();
+		if (country.length() >= 3 && country.length() <= 50 && alphabetic) {
 			valid = true;
 		}
 

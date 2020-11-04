@@ -1,8 +1,5 @@
 package model;
 
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.StringProperty;
-
 /*
  *MINIMUM REQUIRMENTS: (MR)
  *Concrete class State: A dependent GovernedRegion that is part of a Country.
@@ -13,10 +10,10 @@ public class State extends GovernedRegion {
 
 	// X (MR)
 	protected Country myCountry;
-	
+
 	// Konstruktor (MR)String
-	public State(String name, FormOfGovernment formOfGovernment, int area, Country myCountry) {
-		super(name, formOfGovernment, area);
+	public State(String name, double area, int population, FormOfGovernment formOfGovernment, Country myCountry) {
+		super(name, area, population, formOfGovernment);
 		this.myCountry = myCountry;
 	}
 

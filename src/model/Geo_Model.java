@@ -8,6 +8,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import model.FormOfGovernment;
 
 /*
  *MINIMUM REQUIRMENTS: (MR)
@@ -22,18 +23,21 @@ public class Geo_Model {
 
 	// 2 (MR)
 	private static ObservableList<GovernedRegion> allData = FXCollections.observableArrayList();
+	
+	private static ObservableList<GovernedRegion> allDataState = FXCollections.observableArrayList();
 
 	// CREATE Country
 	// Fügt / speichert der Liste ein neu erzeugtes Country Objekts hinzu (MR)
-	public static void createNewCountry(String name, FormOfGovernment fOfGov, int area) {
-		allData.add(new Country(name, fOfGov, area));
+	public static void createNewCountry(String name, double area, int population, FormOfGovernment formOfGovernment) {
+		allData.add(new Country(name, area, population, formOfGovernment));
 
 	}
 
 	// CREATE State
 	// Fügt / speichert der Liste ein neu erzeugtes State Objekts hinzu (MR)
-	public static void createNewState(String name, FormOfGovernment formOfGovernment, int area, Country myCountry) {
-		allData.add(new State(name, formOfGovernment, area, myCountry));
+	public static void createNewState(String name, double area, int population, FormOfGovernment formOfGovernment,
+			Country myCountry) {
+		allDataState.add(new State(name, area, population, formOfGovernment, myCountry));
 	}
 
 	// Getter für ObservableList<GovernedRegion> allData (MR)
@@ -60,4 +64,7 @@ public class Geo_Model {
 		}
 		return null;
 	}
+	
+	
+
 }

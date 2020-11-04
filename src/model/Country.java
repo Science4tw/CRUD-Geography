@@ -2,9 +2,6 @@ package model;
 
 import java.util.ArrayList;
 
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.StringProperty;
-
 /*
  * MINIMUM REQUIRMENTS: (MR)
  * Concrete class Country: An INDEPENDENT GovernedRegion. Additional
@@ -14,28 +11,28 @@ import javafx.beans.property.StringProperty;
 public class Country extends GovernedRegion {
 
 	// Konstruktor
-	public Country(String name, FormOfGovernment formOfGovernment, int area) {
-		super(name, formOfGovernment, area);
+	public Country(String name, double area, int population, FormOfGovernment formOfGovernment) {
+		super(name, area, population, formOfGovernment);
 	}
 
 	// X (MR)
-	private ArrayList<State> states;
+	private static ArrayList<State> myStates;
 
 	// Getter für states (MR)
 	public ArrayList<State> getStates() {
-		return states;
+		return this.myStates;
 	}
 
 	// Setter für states (MR)
 	public void setStates(ArrayList<State> states) {
-		this.states = states;
+		this.myStates = states;
 	}
 
 	// HasState - Ist ein State in der Liste vorhanden?
-	// Input:	String name
-	// Output:	true / false
+	// Input: String name
+	// Output: true / false
 	public boolean hasState(String name) {
-		for (State state : this.states) {
+		for (State state : this.myStates) {
 			if (state.getName().equals(name)) {
 				return true;
 			}
@@ -45,9 +42,9 @@ public class Country extends GovernedRegion {
 
 	// ADD State
 	// Beschreibung: Fügt der Liste mit State Objekten ein State Objekt hinzu
-	// INPUT:	State Objekt
-	// Ouput:	Keinen
+	// INPUT: State Objekt
+	// Ouput: Keinen
 	public void addState(State state) {
-		this.states.add(state);
+		this.myStates.add(state);
 	}
 }

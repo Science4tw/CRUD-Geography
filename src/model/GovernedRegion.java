@@ -1,4 +1,4 @@
-package model;
+   package model;
 
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.StringProperty;
@@ -14,15 +14,16 @@ public abstract class GovernedRegion {
 
 	// 1 (MR)
 	private String name;
+	private double area;
+	private int population;
 	private FormOfGovernment formOfGovernment;
-	private int area;
-//	private Integer population;
 
 	// Konstruktor
-	public GovernedRegion(String name, FormOfGovernment formOfGovernment, int area) {
+	public GovernedRegion(String name, double area, int population, FormOfGovernment formOfGovernment) {
 		this.name = name;
-		this.formOfGovernment = formOfGovernment;
+		this.population = population;
 		this.area = area;
+		this.formOfGovernment = formOfGovernment;
 
 	}
 
@@ -37,12 +38,12 @@ public abstract class GovernedRegion {
 	}
 
 	// Getter für area (MR)
-	public int getArea() {
+	public double getArea() {
 		return this.area;
 	}
 
 	// Setter für area (MR)
-	public void setArea(int area) {
+	public void setArea(double area) {
 		this.area = area;
 	}
 
@@ -54,6 +55,14 @@ public abstract class GovernedRegion {
 	// Setter für name (MR)
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public int getPopulation() {
+		return this.population;
+	}
+
+	public void setPopulation(int population) {
+		this.population = population;
 	}
 
 }

@@ -1,4 +1,4 @@
-	package view;
+	package testing;
 
 import controller.Geo_Controller;
 import javafx.collections.ObservableList;
@@ -29,7 +29,6 @@ public class CountryView extends GridPane {
 	// 1 Controls used for data processing (Data Entry)
 	private Label lblCountry;
 	private Label lblArea;
-	private Label lblPopulation;
 	private Label lblFormOfGov;
 
 	// 1
@@ -37,21 +36,29 @@ public class CountryView extends GridPane {
 	private TextField txtCountry = new TextField();
 	// Textfeld um die Fläche(area) des landes einzugeben
 	private TextField txtArea = new TextField();
-	// TextFeld für die Population des Landes einzugeben
-	private TextField txtPopulation = new TextField();
 	// ComboBox um die Regierungsform auszuwählen
 	protected ComboBox<FormOfGovernment> cmbFormOfGov = new ComboBox<FormOfGovernment>();
 
+	// 1 (Data Display) die TableView
+	protected TableView<GovernedRegion> tableView;
+	protected TableColumn<GovernedRegion, String> colCountry;
+	protected TableColumn<GovernedRegion, String> colArea;
+	protected TableColumn<GovernedRegion, String> colFormOfGov;
+
 	// 1 Buttons (Data Control)
-	protected Button btnSave = new Button("Save");
-	protected Button btnCancel = new Button("Cancel");
+	protected Button btnCreate = new Button("Create");
+	protected Button btnDelete = new Button("Delete");
 
 	// Konstruktor
 	public CountryView(Stage stage, Geo_Model model, Geo_Controller controller) {
 		this.stage = stage;
 		this.model = model;
-		this.add(createDataEntryPane(), 0, 0);
+//		this.add(createDataEntryPane(), 0, 0);
 		this.add(createControlPane(), 0, 1);
+
+		// Initialisieren der TableView
+		this.tableView = createTableView();
+		this.add(tableView, 0, 3);
 
 	}
 
@@ -60,10 +67,9 @@ public class CountryView extends GridPane {
 		GridPane pane = new GridPane();
 		pane.setId("dataEntry");
 		// Declare the individual controls in the GUI
-		lblCountry = new Label("Name des Landes");
-		lblArea = new Label("Fläche des Landes");
-		lblPopulation = new Label("Population des Landes");
-		lblFormOfGov = new Label("Regierungsform des Landes");
+		Label lblCountry = new Label("Name des Landes");
+		Label lblArea = new Label("Fläche des Landes");
+		Label lblFormOfGov = new Label("Regierungsform des Landes");
 		// Fill combos (hol mir die Items,alle hinzufügen von den values der Enums)
 		cmbFormOfGov.getItems().addAll(FormOfGovernment.values());
 		cmbFormOfGov.setValue(FormOfGovernment.DICTATORSHIP);
@@ -73,10 +79,8 @@ public class CountryView extends GridPane {
 		pane.add(getTxtCountry(), 1, 0);
 		pane.add(lblArea, 0, 1);
 		pane.add(getTxtArea(), 1, 1);
-		pane.add(lblPopulation, 0, 2);
-		pane.add(getTxtPopulation(), 1, 2);
-		pane.add(lblFormOfGov, 0, 3);
-		pane.add(cmbFormOfGov, 1, 3);
+		pane.add(lblFormOfGov, 0, 2);
+		pane.add(cmbFormOfGov, 1, 2);
 
 		return pane;
 	}
@@ -85,9 +89,40 @@ public class CountryView extends GridPane {
 	private Pane createControlPane() {
 		GridPane pane = new GridPane();
 		pane.setId("controlArea");
-		pane.add(btnSave, 0, 0);
-		pane.add(btnCancel, 1, 0);
+		pane.add(btnCreate, 0, 0);
+		pane.add(btnDelete, 1, 0);
 		return pane;
+	}
+
+	/*
+	 * 1, 2 & 3 Data Display Pane TableView
+	 */
+	private TableView<GovernedRegion> createTableView() {
+		this.tableView = new TableView<GovernedRegion>();
+		this.tableView.setEditable(true);
+
+		// Each column needs a title, and a source of data.
+		// For editable columns, each column needs to contain a TextField.
+
+		colCountry = new TableColumn<>("Country"); // Erstellen und Beschriftung der Spalte
+		colCountry.setCellFactory(TextFieldTableCell.forTableColumn()); // Ermöglicht Editierung in der TableView
+		colCountry.setCellValueFactory(new PropertyValueFactory<>("name")); // Insatnzieren ein Property und übergeben
+		tableView.getColumns().add(colCountry); // Fügen der TableView die Spalte hinzu
+
+		colFormOfGov = new TableColumn<>("Form of Government");
+//		colFormOfGov.setCellFactory(TextFieldTableCell.forTableColumn()); // Ermöglicht Editierung in der TableView
+		colFormOfGov.setCellValueFactory(new PropertyValueFactory<GovernedRegion, String>("formOfGovernment"));
+		tableView.getColumns().add(colFormOfGov);
+
+		colArea = new TableColumn<>("Area");
+//		colArea.setCellFactory(TextFieldTableCell.forTableColumn()); // Ermöglicht Editierung in der TableView
+		colArea.setCellValueFactory(new PropertyValueFactory<>("area"));
+		tableView.getColumns().add(colArea);
+
+		// Finally, attach the tableView to the ObservableList of data
+		tableView.setItems(model.getAllData());
+
+		return tableView;
 	}
 
 	/*
@@ -96,16 +131,7 @@ public class CountryView extends GridPane {
 	public void reset() {
 		this.txtCountry.setText("");
 		this.txtArea.setText("");
-		this.txtPopulation.setText("");
 		this.cmbFormOfGov.getSelectionModel().clearSelection(); // API
-	}
-	
-	public TextField getTxtPopulation() {
-		return txtPopulation;
-	}
-
-	public void setTxtPopulation(TextField txtPopulation) {
-		this.txtPopulation = txtPopulation;
 	}
 
 	// Getter
@@ -168,22 +194,63 @@ public class CountryView extends GridPane {
 		this.cmbFormOfGov = cmbFormOfGov;
 	}
 
-
-	public Button getBtnSave() {
-		return btnSave;
+	// Getter
+	public TableView<GovernedRegion> getTableView() {
+		return this.tableView;
 	}
 
-	public void setBtnSave(Button btnSave) {
-		this.btnSave = btnSave;
+	// Setter
+	public void setTableView(TableView<GovernedRegion> tableView) {
+		this.tableView = tableView;
 	}
 
-	public Button getBtnCancel() {
-		return btnCancel;
+	// Getter
+	public TableColumn<GovernedRegion, String> getColCountry() {
+		return colCountry;
 	}
 
-	public void setBtnCancel(Button btnCancel) {
-		this.btnCancel = btnCancel;
+	// Setter
+	public void setColCountry(TableColumn<GovernedRegion, String> colCountry) {
+		this.colCountry = colCountry;
 	}
 
+	// Getter
+	public TableColumn<GovernedRegion, String> getColArea() {
+		return colArea;
+	}
 
+	// Setter
+	public void setColArea(TableColumn<GovernedRegion, String> colArea) {
+		this.colArea = colArea;
+	}
+
+	// Getter
+	public TableColumn<GovernedRegion, String> getColFormOfGov() {
+		return colFormOfGov;
+	}
+
+	// Setter
+	public void setColFormOfGov(TableColumn<GovernedRegion, String> colFormOfGov) {
+		this.colFormOfGov = colFormOfGov;
+	}
+
+	// Getter
+	public Button getBtnCreate() {
+		return this.btnCreate;
+	}
+
+	// Setter
+	public void setBtnCreate(Button btnCreate) {
+		this.btnCreate = btnCreate;
+	}
+
+	// Getter
+	public Button getBtnDelete() {
+		return this.btnDelete;
+	}
+
+	// Setter
+	public void setBtnDelete(Button btnDelete) {
+		this.btnDelete = btnDelete;
+	}
 }

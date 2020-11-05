@@ -2,6 +2,8 @@ package mvc;
 
 import controller.App_Controller;
 import model.App_Model;
+import model.Country;
+import model.FormOfGovernment;
 import view.App_View;
 import splashScreen.Splash_Controller;
 import splashScreen.Splash_Model;
@@ -23,7 +25,7 @@ public class JavaFX_App_Template extends Application {
     private App_View view;
 
     private ServiceLocator serviceLocator; // resources, after initialization
-
+    
     public static void main(String[] args) {
         launch(args);
     }
@@ -69,6 +71,8 @@ public class JavaFX_App_Template extends Application {
         splashView = new Splash_View(primaryStage, splashModel);
         new Splash_Controller(this, splashModel, splashView);
         splashView.start();
+       
+
 
         // Display the splash screen and begin the initialization
         splashModel.initialize();

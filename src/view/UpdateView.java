@@ -167,11 +167,11 @@ public class UpdateView extends GridPane {
 		this.btnUpdateSave = btnSave;
 	}
 
-	public Button getBtnCancel() {
+	public Button getBtnUpdateCancel() {
 		return btnUpdateCancel;
 	}
 
-	public void setBtnCancel(Button btnCancel) {
+	public void setBtnUpdateCancel(Button btnCancel) {
 		this.btnUpdateCancel = btnCancel;
 	}
 

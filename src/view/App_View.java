@@ -29,6 +29,8 @@ public class App_View extends GridPane { // 1 extends BorderPane
 	private CountryView countryView;
 	private StateView stateView;
 	private UpdateView updateView;
+	
+	private UpdateViewState updateViewState;
 
 	// SZENEN
 	private Scene splashScene;
@@ -36,11 +38,18 @@ public class App_View extends GridPane { // 1 extends BorderPane
 	private Scene countryScene;
 	private Scene updateScene;
 	private Scene stateScene;
+	
+	private Scene updateSceneState;
 
-	// Controls
-	private Button btnCreateCountry = new Button("Create");
-	private Button btnDeleteCountry = new Button("Delete");
-	private Button btnUpdateCountry = new Button("Update");
+	// Controls Country
+	private Button btnCreateCountry;
+	private Button btnDeleteCountry;
+	private Button btnUpdateCountry;
+	
+	// Controls State
+	private Button btnCreateState;
+	private Button btnDeleteState;
+	private Button btnUpdateState;
 
 	// 1 (Data Display) die TableView für die Countries
 	protected TableView<GovernedRegion> tableView;
@@ -68,8 +77,11 @@ public class App_View extends GridPane { // 1 extends BorderPane
 		// VIEWS
 //		this.add(createCountryView(), 0, 0);
 
-		// Control Pane mit den Buttons Create, Delete und Update in der App_View als 
+		// Control Pane mit den Buttons Create, Delete und Update in der App_View für die Country View
 		this.add(createControlPane(), 0, 2);
+		
+		// Control Pane mit den Buttons Create, Delete und Update in der App_View für die State View
+		this.add(createControlPaneState(), 6, 2);
 
 		// DATA DISPLAY PANE Country View
 		// Initialisieren der TableView
@@ -122,15 +134,25 @@ public class App_View extends GridPane { // 1 extends BorderPane
 	// Methode um die Kontrollelemente zu erzeugen
 	public Pane createControlPane() {
 		GridPane pane = new GridPane();
-		btnCreateCountry = new Button("Create");
-		btnDeleteCountry = new Button("Delete");
-		btnUpdateCountry = new Button("Update");
+		btnCreateCountry = new Button("Create Country");
+		btnDeleteCountry = new Button("Delete Country");
+		btnUpdateCountry = new Button("Update Country");
 		pane.add(btnCreateCountry, 0, 0);
 		pane.add(btnDeleteCountry, 2, 0);
 		pane.add(btnUpdateCountry, 4, 0);
 		return pane;
 	}
 
+	public Pane createControlPaneState() {
+		GridPane pane = new GridPane();
+		btnCreateState = new Button("Create State");
+		btnDeleteState= new Button("Delete State");
+		btnUpdateState= new Button("Update State");
+		pane.add(btnCreateState, 0, 0);
+		pane.add(btnDeleteState, 2, 0);
+		pane.add(btnUpdateState, 4, 0);
+		return pane;
+	}
 	/*
 	 * 1, 2 & 3 Data Display Pane TableView für die COUNTRY Liste
 	 */
@@ -143,25 +165,25 @@ public class App_View extends GridPane { // 1 extends BorderPane
 
 		// Country Spalte
 		colCountry = new TableColumn<>("Country"); // Erstellen und Beschriftung der Spalte
-		colCountry.setMinWidth(200);
+		colCountry.setMinWidth(50);
 		colCountry.setCellValueFactory(new PropertyValueFactory<>("name")); // Insatnzieren ein Property und übergeben
 		tableView.getColumns().add(colCountry); // Fügen der TableView die Spalte hinzu
 
 		// Area Spalte
 		colArea = new TableColumn<>("Area");
-		colArea.setMinWidth(200);
+		colArea.setMinWidth(50);
 		colArea.setCellValueFactory(new PropertyValueFactory<>("area"));
 		tableView.getColumns().add(colArea);
 
 		// Population Spalte
 		colPopulation = new TableColumn<>("Population");
-		colPopulation.setMinWidth(200);
+		colPopulation.setMinWidth(50);
 		colPopulation.setCellValueFactory(new PropertyValueFactory<>("population"));
 		tableView.getColumns().add(colPopulation);
 
 		// Government Spalte
 		colFormOfGov = new TableColumn<>("Form of Government");
-		colFormOfGov.setMinWidth(200);
+		colFormOfGov.setMinWidth(50);
 		colFormOfGov.setCellValueFactory(new PropertyValueFactory<GovernedRegion, String>("formOfGovernment"));
 		tableView.getColumns().add(colFormOfGov);
 
@@ -183,25 +205,25 @@ public class App_View extends GridPane { // 1 extends BorderPane
 
 		// Country Spalte
 		colState = new TableColumn<>("State"); // Erstellen und Beschriftung der Spalte
-		colState.setMinWidth(200);
+		colState.setMinWidth(50);
 		colState.setCellValueFactory(new PropertyValueFactory<>("name")); // Insatnzieren ein Property und übergeben
 		stateTableView.getColumns().add(colState); // Fügen der TableView die Spalte hinzu
 
 		// Area Spalte
 		colStateArea = new TableColumn<>("Area State");
-		colStateArea.setMinWidth(200);
+		colStateArea.setMinWidth(50);
 		colStateArea.setCellValueFactory(new PropertyValueFactory<>("area"));
 		stateTableView.getColumns().add(colStateArea);
 
 		// Population Spalte
 		colStatePopulation = new TableColumn<>("Population State");
-		colStatePopulation.setMinWidth(200);
+		colStatePopulation.setMinWidth(50);
 		colStatePopulation.setCellValueFactory(new PropertyValueFactory<>("population"));
 		stateTableView.getColumns().add(colStatePopulation);
 
 		// Government Spalte
 		colStateFormOfGov = new TableColumn<>("Form of Government State");
-		colStateFormOfGov.setMinWidth(200);
+		colStateFormOfGov.setMinWidth(50);
 		colStateFormOfGov.setCellValueFactory(new PropertyValueFactory<GovernedRegion, String>("formOfGovernment"));
 		stateTableView.getColumns().add(colStateFormOfGov);
 
@@ -401,7 +423,99 @@ public class App_View extends GridPane { // 1 extends BorderPane
 		stage.hide();
 		// TODO Auto-generated method stub
 		
+	}
+
+	public Button getBtnCreateState() {
+		return btnCreateState;
+	}
+
+	public void setBtnCreateState(Button btnCreateState) {
+		this.btnCreateState = btnCreateState;
+	}
+
+	public Button getBtnDeleteState() {
+		return btnDeleteState;
+	}
+
+	public void setBtnDeleteState(Button btnDeleteState) {
+		this.btnDeleteState = btnDeleteState;
+	}
+
+	public Button getBtnUpdateState() {
+		return btnUpdateState;
+	}
+
+	public void setBtnUpdateState(Button btnUpdateState) {
+		this.btnUpdateState = btnUpdateState;
+	}
+
+	public TableColumn<GovernedRegion, Integer> getColPopulation() {
+		return colPopulation;
+	}
+
+	public void setColPopulation(TableColumn<GovernedRegion, Integer> colPopulation) {
+		this.colPopulation = colPopulation;
+	}
+
+	public TableView<GovernedRegion> getStateTableView() {
+		return stateTableView;
+	}
+
+	public void setStateTableView(TableView<GovernedRegion> stateTableView) {
+		this.stateTableView = stateTableView;
+	}
+
+	public TableColumn<GovernedRegion, String> getColState() {
+		return colState;
+	}
+
+	public void setColState(TableColumn<GovernedRegion, String> colState) {
+		this.colState = colState;
+	}
+
+	public TableColumn<GovernedRegion, Double> getColStateArea() {
+		return colStateArea;
+	}
+
+	public void setColStateArea(TableColumn<GovernedRegion, Double> colStateArea) {
+		this.colStateArea = colStateArea;
+	}
+
+	public TableColumn<GovernedRegion, Integer> getColStatePopulation() {
+		return colStatePopulation;
+	}
+
+	public void setColStatePopulation(TableColumn<GovernedRegion, Integer> colStatePopulation) {
+		this.colStatePopulation = colStatePopulation;
+	}
+
+	public TableColumn<GovernedRegion, String> getColStateFormOfGov() {
+		return colStateFormOfGov;
+	}
+
+	public void setColStateFormOfGov(TableColumn<GovernedRegion, String> colStateFormOfGov) {
+		this.colStateFormOfGov = colStateFormOfGov;
+	}
+
+	public UpdateViewState getUpdateViewState() {
+		return this.updateViewState;
+	}
+
+	public void setUpdateViewState(UpdateViewState updateViewState) {
+		this.updateViewState = updateViewState;
+	}
+
+	public Scene getUpdateSceneState() {
+		return updateSceneState;
+	}
+
+	public void setUpdateSceneState(Scene updateSceneState) {
+		this.updateSceneState = updateSceneState;
 	}	
 	
 	// **** VIEWS *****
+	
+	
+	
+	
 }

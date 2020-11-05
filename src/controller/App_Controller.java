@@ -6,6 +6,7 @@ import java.util.regex.Pattern;
 import javafx.beans.binding.Bindings;
 import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.scene.Scene;
 import model.FormOfGovernment;
 import model.App_Model;
@@ -27,32 +28,23 @@ public class App_Controller {
 		this.model = model;
 		this.view = view;
 
-		// CREATE COUNTRY - Event handler for the button in App_View
-		// Wenn der Create Button (btnCreate) gedrückt wird, ruft der Controller die
-		// Methode createNewCountry auf
-		view.getCountryView().getBtnSave().setOnAction(this::createNewCountry);
-
-		// DELETE COUNTRY in App_View
-		view.getBtnDeleteCountry().setOnAction(e -> { // Holt den Button und setzt in durch das Event unter Aktion
-			GovernedRegion selectedItem = view.getTableView().getSelectionModel().getSelectedItem(); // Holt das ausgewählt Item in der TableView
-			view.getTableView().getItems().remove(selectedItem);
-		});
+		// *** HANDLING COUNTRY ***
 		
-		// SZENEN Wechsel von App_View zu CountryView (CREATE)
+		// SZENEN Wechsel von App_View zu CountryView (CREATE COUNTRY)
 		// Wenn in der App_View der Create Button gedrückt wird,
-		// soll die Sczene gewechselt werden zu der CountryView	
+		// soll die Sczene gewechselt werden zu der CountryView
 		view.getBtnCreateCountry().setOnAction(event -> {
 			view.getStage().setScene(getCountryScene());
 		});
 
-		// SZENEN Wechsel von CountryView zu App_View (CREATE)
-		// Wenn in der CountryView der Cancel Button gedrückt wird,
-		// soll die Sczene gewechselt werden zu der AddCountryView	
-		view.getCountryView().getBtnCancel().setOnAction(event -> {
-			view.getStage().setScene(getMainScene());
+		// DELETE COUNTRY in App_View in der Country TableView
+		view.getBtnDeleteCountry().setOnAction(e -> { // Holt den Button und setzt in durch das Event unter Aktion
+			// Holt das ausgewählt Item in der TableView
+			GovernedRegion selectedItem = view.getTableView().getSelectionModel().getSelectedItem();
+			view.getTableView().getItems().remove(selectedItem);
 		});
-		
-		// Szenen Wechsel von App_View zu UpdateView (UPDATE)
+
+		// Szenen Wechsel von App_View zu UpdateView (UPDATE COUNTRY)
 		// und das in der TableView ausgewählte Objekt sollt mitgenommen werden
 		// und in die TextFelder der UpdateView eingefügt werden
 		view.getBtnUpdateCountry().setOnAction(event -> {
@@ -60,21 +52,61 @@ public class App_Controller {
 			String country = view.getTableView().getColumns().get(0).getCellObservableValue(0).getValue().toString();
 			String area = view.getTableView().getColumns().get(0).getCellObservableValue(1).getValue().toString();
 			String population = view.getTableView().getColumns().get(0).getCellObservableValue(2).getValue().toString();
-			String formOfGovernment = view.getTableView().getColumns().get(0).getCellObservableValue(3).getValue().toString();
+			String formOfGovernment = view.getTableView().getColumns().get(0).getCellObservableValue(3).getValue()
+					.toString();
 			// Die aus der TableView geholten Werte in die TextFelder einfügen
 			view.getUpdateView().getUpdateTxtCountry().setText(country);
 			view.getUpdateView().getUpdateTxtCountry().setText(area);
 			view.getUpdateView().getUpdateTxtCountry().setText(population);
 			view.getUpdateView().getUpdateTxtCountry().setText(formOfGovernment);
-			
 
 			view.getStage().setScene(getUpdateScene());
 		});
-		
-		// Szenen Wechsel von der UpdateView zur App_View
-		view.getUpdateView().getBtnCancel().setOnAction(event -> {
+
+		// *** COUNTRY VIEW ***
+		// BUTTON CANCEL
+		view.getCountryView().getBtnCancel().setOnAction(event -> {
 			view.getStage().setScene(getMainScene());
 		});
+		
+		// *** UPDATE VIEW ***
+		// SAVE COUNTRY - Event handler for the button in App_View
+		// Wenn der Create Button (btnCreate) gedrückt wird, ruft der Controller die
+		// Methode createNewCountry auf
+		view.getCountryView().getBtnSave().setOnAction(this::createNewCountry);
+
+		// (CANCEL UPDATEVIEW) SZENEN Wechsel von UpdateView zu App_View 
+		// Wenn in der UpdateView der Cancel Button gedrückt wird,
+		// soll die Sczene gewechselt werden zu der Geo_View
+		view.getUpdateView().getBtnUpdateCancel().setOnAction(event -> {
+			view.getStage().setScene(getMainScene());
+		});
+		
+
+		// ** HANDLING STATE ***
+		
+		// CANCEL STATEVIEW) SZENEN Wechsel von StateView zu App_View
+		view.getStateView().getBtnCancelState().setOnAction(event -> {
+			view.getStage().setScene(getMainScene());
+		});
+
+		// SZENEN Wechsel von App_View zu StateView (CREATE STATE)
+		// Wenn in der App_View der Create Button gedrückt wird,
+		// soll die Sczene gewechselt werden zu der CountryView
+		view.getBtnCreateState().setOnAction(event -> {
+			view.getStage().setScene(getStateScene());
+		});
+		
+		// DELETE STATE in App_View in der State TableView
+		view.getBtnDeleteState().setOnAction(e -> { // Holt den Button und setzt in durch das Event unter Aktion
+			GovernedRegion selectedItem = view.getStateTableView().getSelectionModel().getSelectedItem();
+			view.getStateTableView().getItems().remove(selectedItem);
+		});
+
+//		// Szenen Wechsel von der UpdateViewState zur App_View (STATE)
+//		view.getUpdateViewState().getBtnUpdateCancelState().setOnAction(event -> {
+//			view.getStage().setScene(getMainScene());
+//		});
 
 		// ADDITIONAL FUNCTIONALITY
 		/**
@@ -95,15 +127,29 @@ public class App_Controller {
 		 * 3 Wenn kein Zeile in der TableView angewählt ist "DEAKTIVIERE" den DELETE
 		 * Button (DISABLED)
 		 */
-		view.getBtnDeleteCountry().disableProperty().
-				bind(Bindings.isEmpty(view.getTableView().getSelectionModel().getSelectedItems()));
+		view.getBtnDeleteCountry().disableProperty()
+				.bind(Bindings.isEmpty(view.getTableView().getSelectionModel().getSelectedItems()));
 		/**
 		 * 3 Wenn kein Zeile in der TableView angewählt ist "DEAKTIVIERE" den UPDATE
 		 * Button (DISABLED)
 		 */
-		view.getBtnUpdateCountry().disableProperty().
-				bind(Bindings.isEmpty(view.getTableView().getSelectionModel().getSelectedItems()));
-		
+		view.getBtnUpdateCountry().disableProperty()
+				.bind(Bindings.isEmpty(view.getTableView().getSelectionModel().getSelectedItems()));
+
+		// ADDITIONAL FUNCTIONALITY
+		/**
+		 * 3 Wenn kein Zeile in der TableView der States angewählt ist "DEAKTIVIERE" den
+		 * DELETE Button der States (DISABLED)
+		 */
+		view.getBtnDeleteState().disableProperty()
+				.bind(Bindings.isEmpty(view.getStateTableView().getSelectionModel().getSelectedItems()));
+		/**
+		 * 3 Wenn kein Zeile in der TableView der States angewählt ist "DEAKTIVIERE" den
+		 * UPDATE Button der States (DISABLED)
+		 */
+		view.getBtnUpdateState().disableProperty()
+				.bind(Bindings.isEmpty(view.getStateTableView().getSelectionModel().getSelectedItems()));
+
 		// Event handler for the model's ObservableList requires a ListChangeListener.
 		// To make generics happy, we have to cast our lambda: what kind of data do we
 		// have?S
@@ -114,8 +160,6 @@ public class App_Controller {
 			}
 		});
 	}
-
-
 
 	// 3 Methoden, um Eingabe zu validieren mit ChangeListener
 	/**
@@ -196,16 +240,20 @@ public class App_Controller {
 
 	}
 
+	// Methode um die State Szene aus der App_View zu holen
+	private Scene getStateScene() {
+		return view.getStateScene();
+	}
+
 	// Methode um die Country Szene aus der App_View zu holen
 	private Scene getMainScene() {
 		return view.getMainScene();
 	}
-	
+
 	private Scene getUpdateScene() {
 		return view.getUpdateScene();
-	}	
-	
-	
+	}
+
 	// CREATE COUNTRY
 	// TODO: Exceptions(Text in Area Attribut löst Exception aus)
 	// INPUT: Event
@@ -234,11 +282,12 @@ public class App_Controller {
 
 	}
 
-	// DELETE COUNTRY
-	// Bebschreibung: X
-	// TODO: EXCEPTIONS
-	// INPUT: X
-	// OUTPUT: X
+	// CREATE STATE
+	private void createNewState(ActionEvent event) {
+		String name = view.getStateView().getTxtState().getText();
+		double area = Integer.parseInt(view.getStateView().getTxtAreaState().getText());
+		int popluation = Integer.parseInt(view.getStateView().getTxtPopulationState().getText());
+	}
 
 //	/**
 //	 * UPDATE TODO: 

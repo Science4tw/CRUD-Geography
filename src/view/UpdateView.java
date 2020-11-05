@@ -1,6 +1,6 @@
 package view;
 
-import controller.Geo_Controller;
+import controller.App_Controller;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -9,12 +9,12 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import model.FormOfGovernment;
-import model.Geo_Model;
+import model.App_Model;
 
 public class UpdateView extends GridPane {
 
-	private Geo_Model model;
-	private Geo_Controller controller;
+	private App_Model model;
+	private App_Controller controller;
 	private Stage stage;
 
 	// 1 Controls used for data processing (Data Entry)
@@ -38,7 +38,7 @@ public class UpdateView extends GridPane {
 	protected Button btnUpdateCancel = new Button("Cancel");
 	
 	// Konstruktor
-	public UpdateView(Stage stage, Geo_Model model, Geo_Controller controller) {
+	public UpdateView(Stage stage, App_Model model, App_Controller controller) {
 		this.stage = stage;
 		this.model = model;
 		this.add(createUpdateDataEntryPane(), 0, 0);
@@ -99,22 +99,22 @@ public class UpdateView extends GridPane {
 	}
 
 	// Getter
-	public Geo_Model getModel() {
+	public App_Model getModel() {
 		return model;
 	}
 
 	// Setter
-	public void setModel(Geo_Model model) {
+	public void setModel(App_Model model) {
 		this.model = model;
 	}
 
 	// Getter
-	public Geo_Controller getController() {
+	public App_Controller getController() {
 		return controller;
 	}
 
 	// Setter
-	public void setController(Geo_Controller controller) {
+	public void setController(App_Controller controller) {
 		this.controller = controller;
 	}
 

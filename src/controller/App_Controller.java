@@ -8,51 +8,51 @@ import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
 import javafx.scene.Scene;
 import model.FormOfGovernment;
-import model.Geo_Model;
+import model.App_Model;
 import model.GovernedRegion;
-import view.Geo_View;
+import view.App_View;
 
 // 0
-public class Geo_Controller {
+public class App_Controller {
 
-	private Geo_Model model;
-	private Geo_View view;
+	private App_Model model;
+	private App_View view;
 
 	// Speichert Wert für gültige Textfelder
 	private boolean countryValid = false;
 	private boolean areaValid = false;
 
 	// 0 Konstruktor
-	public Geo_Controller(Geo_Model model, Geo_View view) {
+	public App_Controller(App_Model model, App_View view) {
 		this.model = model;
 		this.view = view;
 
-		// CREATE COUNTRY - Event handler for the button in Geo_View
+		// CREATE COUNTRY - Event handler for the button in App_View
 		// Wenn der Create Button (btnCreate) gedrückt wird, ruft der Controller die
 		// Methode createNewCountry auf
 		view.getCountryView().getBtnSave().setOnAction(this::createNewCountry);
 
-		// DELETE COUNTRY in Geo_View
+		// DELETE COUNTRY in App_View
 		view.getBtnDeleteCountry().setOnAction(e -> { // Holt den Button und setzt in durch das Event unter Aktion
 			GovernedRegion selectedItem = view.getTableView().getSelectionModel().getSelectedItem(); // Holt das ausgewählt Item in der TableView
 			view.getTableView().getItems().remove(selectedItem);
 		});
 		
-		// SZENEN Wechsel von Geo_View zu CountryView (CREATE)
-		// Wenn in der Geo_View der Create Button gedrückt wird,
+		// SZENEN Wechsel von App_View zu CountryView (CREATE)
+		// Wenn in der App_View der Create Button gedrückt wird,
 		// soll die Sczene gewechselt werden zu der CountryView	
 		view.getBtnCreateCountry().setOnAction(event -> {
 			view.getStage().setScene(getCountryScene());
 		});
 
-		// SZENEN Wechsel von CountryView zu Geo_View (CREATE)
+		// SZENEN Wechsel von CountryView zu App_View (CREATE)
 		// Wenn in der CountryView der Cancel Button gedrückt wird,
 		// soll die Sczene gewechselt werden zu der AddCountryView	
 		view.getCountryView().getBtnCancel().setOnAction(event -> {
 			view.getStage().setScene(getMainScene());
 		});
 		
-		// Szenen Wechsel von Geo_View zu UpdateView (UPDATE)
+		// Szenen Wechsel von App_View zu UpdateView (UPDATE)
 		// und das in der TableView ausgewählte Objekt sollt mitgenommen werden
 		// und in die TextFelder der UpdateView eingefügt werden
 		view.getBtnUpdateCountry().setOnAction(event -> {
@@ -71,7 +71,7 @@ public class Geo_Controller {
 			view.getStage().setScene(getUpdateScene());
 		});
 		
-		// Szenen Wechsel von der UpdateView zur Geo_View
+		// Szenen Wechsel von der UpdateView zur App_View
 		view.getUpdateView().getBtnCancel().setOnAction(event -> {
 			view.getStage().setScene(getMainScene());
 		});
@@ -190,13 +190,13 @@ public class Geo_Controller {
 		view.getCountryView().getBtnSave().setDisable(!valid);
 	}
 
-	// Methode um die Country Szene aus der Geo_View zu holen
+	// Methode um die Country Szene aus der App_View zu holen
 	private Scene getCountryScene() {
 		return view.getCountryScene();
 
 	}
 
-	// Methode um die Country Szene aus der Geo_View zu holen
+	// Methode um die Country Szene aus der App_View zu holen
 	private Scene getMainScene() {
 		return view.getMainScene();
 	}

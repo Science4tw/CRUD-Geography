@@ -3,8 +3,8 @@ package mvc;
 import java.util.Locale;
 import java.util.logging.Logger;
 
-import MeinPackage.commonClasses.Configuration;
-import MeinPackage.commonClasses.Translator;
+import commonClasses.Configuration;
+import commonClasses.Translator;
 
 /**
  * Copyright 2015, FHNW, Prof. Dr. Brad Richards. All rights reserved. This code

@@ -5,10 +5,10 @@ import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import MeinPackage.ServiceLocator;
-import MeinPackage.abstractClasses.Model;
-import MeinPackage.commonClasses.Configuration;
-import MeinPackage.commonClasses.Translator;
+import mvc.ServiceLocator;
+import abstractClasses.Model;
+import commonClasses.Configuration;
+import commonClasses.Translator;
 import javafx.concurrent.Task;
 
 /**

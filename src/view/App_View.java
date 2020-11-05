@@ -1,6 +1,6 @@
 package view;
 
-import controller.Geo_Controller;
+import controller.App_Controller;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -12,17 +12,17 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import model.Geo_Model;
+import model.App_Model;
 import model.GovernedRegion;
 
 // 0
-public class Geo_View extends GridPane { // 1 extends BorderPane
+public class App_View extends GridPane { // 1 extends BorderPane
 
 	// 0
 	private Stage stage;
-	private Geo_Model model;
+	private App_Model model;
 	// 1 (abklären ob das so machbar ist)
-	private Geo_Controller controller;
+	private App_Controller controller;
 
 	// VIEWS
 	private SplashView splashView;
@@ -32,7 +32,7 @@ public class Geo_View extends GridPane { // 1 extends BorderPane
 
 	// SZENEN
 	private Scene splashScene;
-	private Scene mainScene; // -> Geo_View (GridPane)
+	private Scene mainScene; // -> App_View (GridPane)
 	private Scene countryScene;
 	private Scene updateScene;
 	private Scene stateScene;
@@ -61,14 +61,14 @@ public class Geo_View extends GridPane { // 1 extends BorderPane
 	private Label lblStatus;
 
 	// 0
-	public Geo_View(Stage primaryStage, Geo_Model model) {
+	public App_View(Stage primaryStage, App_Model model) {
 		this.stage = primaryStage;
 		this.model = model;
 
 		// VIEWS
 //		this.add(createCountryView(), 0, 0);
 
-		// Control Pane mit den Buttons Create, Delete und Update in der Geo_View als 
+		// Control Pane mit den Buttons Create, Delete und Update in der App_View als 
 		this.add(createControlPane(), 0, 2);
 
 		// DATA DISPLAY PANE Country View
@@ -97,11 +97,11 @@ public class Geo_View extends GridPane { // 1 extends BorderPane
 		stage.setResizable(true);
 	}
 
-	public Geo_Model getModel() {
+	public App_Model getModel() {
 		return model;
 	}
 
-	public void setModel(Geo_Model model) {
+	public void setModel(App_Model model) {
 		this.model = model;
 	}
 
@@ -373,11 +373,11 @@ public class Geo_View extends GridPane { // 1 extends BorderPane
 	public void setBtnUpdateCountry(Button btnUpdateCountry) {
 		this.btnUpdateCountry = btnUpdateCountry;
 	}
-	public Geo_Controller getController() {
+	public App_Controller getController() {
 		return controller;
 	}
 
-	public void setController(Geo_Controller controller) {
+	public void setController(App_Controller controller) {
 		this.controller = controller;
 	}
 
@@ -395,6 +395,12 @@ public class Geo_View extends GridPane { // 1 extends BorderPane
 
 	public void setUpdateScene(Scene updateScene) {
 		this.updateScene = updateScene;
+	}
+
+	public void stop() {
+		stage.hide();
+		// TODO Auto-generated method stub
+		
 	}	
 	
 	// **** VIEWS *****

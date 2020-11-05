@@ -19,7 +19,7 @@ import model.FormOfGovernment;
  */
 
 // 0
-public class Geo_Model {
+public class App_Model {
 
 	// 2 (MR)
 	private static ObservableList<GovernedRegion> allData = FXCollections.observableArrayList();
@@ -50,11 +50,11 @@ public class Geo_Model {
 	}
 
 	public static void setAllDataState(ObservableList<GovernedRegion> allDataState) {
-		Geo_Model.allDataState = allDataState;
+		App_Model.allDataState = allDataState;
 	}
 
 	public static void setAllData(ObservableList<GovernedRegion> allData) {
-		Geo_Model.allData = allData;
+		App_Model.allData = allData;
 	}
 
 	// Um nach dem Namen eines Countrys zu holen

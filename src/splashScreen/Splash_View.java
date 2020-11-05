@@ -1,7 +1,7 @@
 package splashScreen;
 
 
-import MeinPackage.abstractClasses.View;
+import abstractClasses.View;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;

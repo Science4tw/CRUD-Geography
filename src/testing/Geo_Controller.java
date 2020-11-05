@@ -10,19 +10,19 @@ import javafx.scene.control.TableView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import model.FormOfGovernment;
-import model.Geo_Model;
+import model.App_Model;
 import model.GovernedRegion;
-import view.Geo_View;
+import view.App_View;
 import view.CountryView;
 
 // 0
 public class Geo_Controller {
 
-	private Geo_Model model;
-	private Geo_View view;
+	private App_Model model;
+	private App_View view;
 
 	// 0 Konstruktor
-	public Geo_Controller(Geo_Model model, Geo_View view) {
+	public Geo_Controller(App_Model model, App_View view) {
 		this.model = model;
 		this.view = view;
 

@@ -1,10 +1,8 @@
 package splashScreen;
 
-import JavaFX_App_Template;
 import abstractClasses.Controller;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Worker;
+import mvc.JavaFX_App_Template;
 
 /**
  * Copyright 2015, FHNW, Prof. Dr. Brad Richards. All rights reserved. This code

@@ -1,6 +1,6 @@
 package testing;
 
-import controller.Geo_Controller;
+import controller.App_Controller;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
@@ -12,7 +12,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import model.Geo_Model;
+import model.App_Model;
 import model.GovernedRegion;
 
 // 0
@@ -20,9 +20,9 @@ public class Geo_View extends BorderPane { // 1 extends BorderPane
 
 	// 0
 	private Stage stage;
-	private Geo_Model model;
+	private App_Model model;
 	// 1 (abklären ob das so machbar ist)
-	private Geo_Controller controller;
+	private App_Controller controller;
 	
 	// 1 TABPane um die Tabs zu organisieren
 	private TabPane centerPane;
@@ -36,7 +36,7 @@ public class Geo_View extends BorderPane { // 1 extends BorderPane
 	private Label lblStatus;
 	
 	// 0
-	public Geo_View(Stage primaryStage, Geo_Model model) {
+	public Geo_View(Stage primaryStage, App_Model model) {
 		this.stage = primaryStage;
 		this.model = model;
 		

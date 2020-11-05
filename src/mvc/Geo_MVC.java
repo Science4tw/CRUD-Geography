@@ -1,13 +1,13 @@
 package mvc;
 
-import controller.Geo_Controller;
+import controller.App_Controller;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
 import model.Country;
 import model.FormOfGovernment;
-import model.Geo_Model;
-import view.Geo_View;
+import model.App_Model;
+import view.App_View;
 
 //Stufe 0 = Basis MVC Struktur
 //Stufe 1 = Die View
@@ -30,9 +30,9 @@ public class Geo_MVC extends Application {
 	public Country frankreich = new Country("frankreich", 0, 0, DEMOCRACY);
 	
 	// 0
-	private Geo_Model model;
-	private Geo_View view;
-	private Geo_Controller controller;
+	private App_Model model;
+	private App_View view;
+	private App_Controller controller;
 
 	// 0
 	public static void main(String[] args) {
@@ -43,9 +43,9 @@ public class Geo_MVC extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		// Initialize the three MVC components
-		this.model = new Geo_Model();
-		this.view = new Geo_View(primaryStage, model);
-		this.controller = new Geo_Controller(model, view);
+		this.model = new App_Model();
+		this.view = new App_View(primaryStage, model);
+		this.controller = new App_Controller(model, view);
 
 		// Country TEST
 		model.createNewCountry(Schweiz, 10, 10, DEMOCRACY);

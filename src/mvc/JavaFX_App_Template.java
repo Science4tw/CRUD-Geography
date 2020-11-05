@@ -1,11 +1,11 @@
 package mvc;
 
-import MeinPackage.appClasses.App_Controller;
-import MeinPackage.appClasses.App_Model;
-import MeinPackage.appClasses.App_View;
-import MeinPackage.splashScreen.Splash_Controller;
-import MeinPackage.splashScreen.Splash_Model;
-import MeinPackage.splashScreen.Splash_View;
+import controller.App_Controller;
+import model.App_Model;
+import view.App_View;
+import splashScreen.Splash_Controller;
+import splashScreen.Splash_Model;
+import splashScreen.Splash_View;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.stage.Stage;

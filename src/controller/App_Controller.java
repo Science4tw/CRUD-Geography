@@ -3,6 +3,7 @@ package controller;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import abstractClasses.Controller;
 import javafx.beans.binding.Bindings;
 import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
@@ -107,6 +108,13 @@ public class App_Controller {
 //		view.getUpdateViewState().getBtnUpdateCancelState().setOnAction(event -> {
 //			view.getStage().setScene(getMainScene());
 //		});
+		
+		
+		// SAVE COUNTRY - Event handler for the button in App_View
+				// Wenn der Create Button (btnCreate) gedrückt wird, ruft der Controller die
+				// Methode createNewCountry auf
+				view.getStateView().getBtnCreateState().setOnAction(this::createNewState);
+
 
 		// ADDITIONAL FUNCTIONALITY
 		/**
@@ -281,12 +289,24 @@ public class App_Controller {
 		}
 
 	}
-
+	// TODO: "model.createNewState(name, area, population, formOfGovernment, null);" korrekt anpassen (My Country)
+	
 	// CREATE STATE
 	private void createNewState(ActionEvent event) {
 		String name = view.getStateView().getTxtState().getText();
 		double area = Integer.parseInt(view.getStateView().getTxtAreaState().getText());
-		int popluation = Integer.parseInt(view.getStateView().getTxtPopulationState().getText());
+		int population = Integer.parseInt(view.getStateView().getTxtPopulationState().getText());
+		FormOfGovernment formOfGovernment = view.getStateView().getCmbFormOfGovState().getValue();
+		// 4. Überprüfen das Kontrollelemente nicht leer sind
+		if (name != null && area != 0 && formOfGovernment != null) {
+			// 5
+			model.createNewState(name, area, population, formOfGovernment, null);
+			view.setStatus("State Objekt hinzugefügt"); // Aktualisiert Status
+			view.getStateView().reset(); // Setzt die Eingaben in den Kontrollelementen zurück
+		} else {
+			// Eigentlich unnötig, Create Button ist disabled wenn Felder leer sind
+			view.setStatus("State Objekt nicht hinzugefügt");
+		}
 	}
 
 //	/**

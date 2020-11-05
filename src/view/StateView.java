@@ -31,6 +31,9 @@ public class StateView extends GridPane {
 	// Textfeld um die Fläche(area) des landes einzugeben
 	private TextField txtAreaState = new TextField();
 	private TextField txtPopulationState = new TextField();
+	// ComboBox um die Regierungsform auszuwählen
+	protected ComboBox<FormOfGovernment> cmbFormOfGovState = new ComboBox<FormOfGovernment>();
+	
 	// ComboBox um das zugehörige Land auszuwählen
 	// 1 Buttons (Data Control)
 	protected Button btnCreate = new Button("Create");
@@ -68,6 +71,10 @@ public class StateView extends GridPane {
 		lblFormOfGovState = new Label("Regierungsform des Landes");
 		lblMyCountry = new Label("Land des States");
 
+		// Fill combos (hol mir die Items,alle hinzufügen von den values der Enums)
+		cmbFormOfGovState.getItems().addAll(FormOfGovernment.values());
+		cmbFormOfGovState.setValue(FormOfGovernment.DICTATORSHIP);		
+		
 		// Organize the layout, add in the controls (col, row)
 		// pane.add(child, columnIndex, rowIndex);
 		pane.add(lblState, 0, 0);
@@ -80,6 +87,8 @@ public class StateView extends GridPane {
 		pane.add(getTxtPopulationState(), 1, 2);
 
 		pane.add(lblFormOfGovState, 0, 3);
+		pane.add(cmbFormOfGovState, 1, 3);
+		
 		pane.add(lblMyCountry, 0, 4);
 
 		return pane;
@@ -213,6 +222,14 @@ public class StateView extends GridPane {
 
 	public void setTxtPopulationState(TextField txtPopulationState) {
 		this.txtPopulationState = txtPopulationState;
+	}
+
+	public ComboBox<FormOfGovernment> getCmbFormOfGovState() {
+		return cmbFormOfGovState;
+	}
+
+	public void setCmbFormOfGovState(ComboBox<FormOfGovernment> cmbFormOfGovState) {
+		this.cmbFormOfGovState = cmbFormOfGovState;
 	}
 
 }

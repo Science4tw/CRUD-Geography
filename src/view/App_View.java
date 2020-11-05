@@ -1,10 +1,20 @@
 package view;
 
+import java.util.Locale;
+import java.util.logging.Logger;
+
+import abstractClasses.View;
+import commonClasses.Translator;
+import mvc.ServiceLocator;
 import controller.App_Controller;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -65,7 +75,11 @@ public class App_View extends GridPane { // 1 extends BorderPane
 	protected TableColumn<GovernedRegion, Integer> colStatePopulation;
 	protected TableColumn<GovernedRegion, String> colStateFormOfGov;
 
-
+	// *** MENUS ***
+	protected Menu menuFile;
+	protected Menu menuFileLanguage;
+	protected Menu menuHelp;
+	
 	// 1 & 2 Aktueller Status Label
 	private Label lblStatus;
 
@@ -73,10 +87,15 @@ public class App_View extends GridPane { // 1 extends BorderPane
 	public App_View(Stage primaryStage, App_Model model) {
 		this.stage = primaryStage;
 		this.model = model;
-
+		ServiceLocator.getServiceLocator().getLogger().info("Application view initialized");
+		
 		// VIEWS
 //		this.add(createCountryView(), 0, 0);
 
+		// MENU Bereich initialisieren
+		this.add(createMenuPane(), 0, 1);
+		
+		
 		// Control Pane mit den Buttons Create, Delete und Update in der App_View für die Country View
 		this.add(createControlPane(), 0, 2);
 		
@@ -258,6 +277,7 @@ public class App_View extends GridPane { // 1 extends BorderPane
 		return pane;
 	}
 
+	
 	// Methode um den Status zu aktualiseren
 	public void setStatus(String message) {
 		this.lblStatus.setText(message); // status = Label
@@ -511,11 +531,62 @@ public class App_View extends GridPane { // 1 extends BorderPane
 
 	public void setUpdateSceneState(Scene updateSceneState) {
 		this.updateSceneState = updateSceneState;
-	}	
+	}
+
+//	@Override
+//	protected Scene create_GUI() {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}	
 	
 	// **** VIEWS *****
 	
+//	@Override
+	protected Pane createMenuPane() {
+	    ServiceLocator sl = ServiceLocator.getServiceLocator();  
+	    Logger logger = sl.getLogger();
+	    
+	    MenuBar menuBar = new MenuBar();
+	    menuFile = new Menu();
+	    menuFileLanguage = new Menu();
+	    menuFile.getItems().add(menuFileLanguage);
+	    
+       for (Locale locale : sl.getLocales()) {
+           MenuItem language = new MenuItem(locale.getLanguage());
+           menuFileLanguage.getItems().add(language);
+           language.setOnAction( event -> {
+				sl.getConfiguration().setLocalOption("Language", locale.getLanguage());
+                sl.setTranslator(new Translator(locale.getLanguage()));
+                updateTexts();
+            });
+        }
+	    
+        menuHelp = new Menu();
+	    menuBar.getMenus().addAll(menuFile, menuHelp);
+		
+		GridPane root = new GridPane();
+		root.add(menuBar, 0, 0);
+		
+        
+        updateTexts();
+		
+//        Scene scene = new Scene(root);
+//        scene.getStylesheets().add(
+//                getClass().getResource("app.css").toExternalForm());
+        return root;
+	}
 	
-	
-	
+	   protected void updateTexts() {
+	       Translator t = ServiceLocator.getServiceLocator().getTranslator();
+	        
+	        // The menu entries
+	       menuFile.setText(t.getString("program.menu.file"));
+	       menuFileLanguage.setText(t.getString("program.menu.file.language"));
+           menuHelp.setText(t.getString("program.menu.help"));
+	        
+	        // Other controls
+           
+           
+           stage.setTitle(t.getString("program.name"));
+	    }	
 }

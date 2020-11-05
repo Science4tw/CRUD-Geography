@@ -3,6 +3,7 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
+import abstractClasses.Model;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.StringProperty;
@@ -19,7 +20,7 @@ import model.FormOfGovernment;
  */
 
 // 0
-public class App_Model {
+public class App_Model extends Model {
 
 	// 2 (MR)
 	private static ObservableList<GovernedRegion> allData = FXCollections.observableArrayList();

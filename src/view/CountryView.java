@@ -71,10 +71,13 @@ public class CountryView extends GridPane {
 		// pane.add(child, columnIndex, rowIndex);
 		pane.add(lblCountry, 0, 0);
 		pane.add(getTxtCountry(), 1, 0);
+		
 		pane.add(lblArea, 0, 1);
 		pane.add(getTxtArea(), 1, 1);
+		
 		pane.add(lblPopulation, 0, 2);
 		pane.add(getTxtPopulation(), 1, 2);
+		
 		pane.add(lblFormOfGov, 0, 3);
 		pane.add(cmbFormOfGov, 1, 3);
 

@@ -1,6 +1,8 @@
 package abstractClasses;
 
 import javafx.scene.Scene;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 /**
@@ -10,7 +12,7 @@ import javafx.stage.Stage;
  * 
  * @author Brad Richards
  */
-public abstract class View<M extends Model> {
+public abstract class View<M extends Model> extends GridPane {
     protected Stage stage;
     protected Scene scene;
     protected M model;
@@ -28,8 +30,9 @@ public abstract class View<M extends Model> {
         scene = create_GUI(); // Create all controls within "root"
         stage.setScene(scene);
     }
-
-    protected abstract Scene create_GUI();
+    // createMenuPane heisst bei uns die Methode und
+    // auch nicht die "Haupt" Szene, sondern als Pane implementiert
+    protected abstract Scene create_GUI(); 
 
     /**
      * Display the view

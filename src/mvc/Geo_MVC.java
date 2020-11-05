@@ -4,6 +4,7 @@ import controller.Geo_Controller;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
+import model.Country;
 import model.FormOfGovernment;
 import model.Geo_Model;
 import view.Geo_View;
@@ -14,8 +15,19 @@ import view.Geo_View;
 // 0
 public class Geo_MVC extends Application {
 
-	private static final FormOfGovernment DEMOCRACY = null;
-	private static final String Schweiz = "Schweiz";
+	// Country TEST
+	public FormOfGovernment DEMOCRACY = null;
+	public String Schweiz = "Schweiz";
+	
+	// State TEST
+	public String bern = "Bern";
+	public String genf = "Genf";
+	public String basel = "Basel";
+	public String zuerich = "Zuerich";
+	
+	public Country schweiz = new Country("Schweiz", 0, 0, DEMOCRACY);
+	public Country deutschland = new Country("deutschland", 0, 0, DEMOCRACY);
+	public Country frankreich = new Country("frankreich", 0, 0, DEMOCRACY);
 	
 	// 0
 	private Geo_Model model;
@@ -35,6 +47,7 @@ public class Geo_MVC extends Application {
 		this.view = new Geo_View(primaryStage, model);
 		this.controller = new Geo_Controller(model, view);
 
+		// Country TEST
 		model.createNewCountry(Schweiz, 10, 10, DEMOCRACY);
 		model.createNewCountry(Schweiz, 10, 10, DEMOCRACY);
 		model.createNewCountry(Schweiz, 10, 10, DEMOCRACY);
@@ -43,23 +56,19 @@ public class Geo_MVC extends Application {
 		model.createNewCountry(Schweiz, 10, 10, DEMOCRACY);
 		model.createNewCountry(Schweiz, 10, 10, DEMOCRACY);
 		model.createNewCountry(Schweiz, 10, 10, DEMOCRACY);
-		model.createNewCountry(Schweiz, 10, 10, DEMOCRACY);
-		model.createNewCountry(Schweiz, 10, 10, DEMOCRACY);
-		model.createNewCountry(Schweiz, 10, 10, DEMOCRACY);
-		model.createNewCountry(Schweiz, 10, 10, DEMOCRACY);
-		model.createNewCountry(Schweiz, 10, 10, DEMOCRACY);
-		model.createNewCountry(Schweiz, 10, 10, DEMOCRACY);
-		model.createNewCountry(Schweiz, 10, 10, DEMOCRACY);
-		model.createNewCountry(Schweiz, 10, 10, DEMOCRACY);
-		model.createNewCountry(Schweiz, 10, 10, DEMOCRACY);
-		model.createNewCountry(Schweiz, 10, 10, DEMOCRACY);
-		model.createNewCountry(Schweiz, 10, 10, DEMOCRACY);
-		model.createNewCountry(Schweiz, 10, 10, DEMOCRACY);
-		model.createNewCountry(Schweiz, 10, 10, DEMOCRACY);
-		model.createNewCountry(Schweiz, 10, 10, DEMOCRACY);
-		model.createNewCountry(Schweiz, 10, 10, DEMOCRACY);
-		model.createNewCountry(Schweiz, 10, 10, DEMOCRACY);
-		model.createNewCountry(Schweiz, 10, 10, DEMOCRACY);
+		
+		// State TEST
+		model.createNewState(bern, 1, 1, DEMOCRACY, schweiz);
+		model.createNewState(basel, 1, 1, DEMOCRACY, schweiz);
+		model.createNewState(zuerich, 1, 1, DEMOCRACY, schweiz);
+		
+		model.createNewState("Bayern", 1, 1, DEMOCRACY, deutschland);
+		model.createNewState("Hessen", 1, 1, DEMOCRACY, deutschland);
+		model.createNewState("Brandenburg", 1, 1, DEMOCRACY, deutschland);
+		
+		model.createNewState("Paris", 1, 1, DEMOCRACY, frankreich);
+		model.createNewState("Lyon", 1, 1, DEMOCRACY, frankreich);
+		model.createNewState("Marseille", 1, 1, DEMOCRACY, frankreich);
 
 		// Zeigt GUI an sobald alles initialisiert ist
 		view.start();

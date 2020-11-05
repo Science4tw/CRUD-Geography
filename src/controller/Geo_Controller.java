@@ -33,22 +33,46 @@ public class Geo_Controller {
 		view.getCountryView().getBtnSave().setOnAction(this::createNewCountry);
 
 		// DELETE COUNTRY in Geo_View
-		view.getBtnDeleteCountry().setOnAction(e -> {
-			GovernedRegion selectedItem = view.getTableView().getSelectionModel().getSelectedItem();
+		view.getBtnDeleteCountry().setOnAction(e -> { // Holt den Button und setzt in durch das Event unter Aktion
+			GovernedRegion selectedItem = view.getTableView().getSelectionModel().getSelectedItem(); // Holt das ausgewählt Item in der TableView
 			view.getTableView().getItems().remove(selectedItem);
 		});
 		
-		// SZENEN Wechsel von Geo_View zu CountryView
+		// SZENEN Wechsel von Geo_View zu CountryView (CREATE)
 		// Wenn in der Geo_View der Create Button gedrückt wird,
 		// soll die Sczene gewechselt werden zu der CountryView	
 		view.getBtnCreateCountry().setOnAction(event -> {
 			view.getStage().setScene(getCountryScene());
 		});
 
-		// SZENEN Wechsel von CountryView zu Geo_View 
+		// SZENEN Wechsel von CountryView zu Geo_View (CREATE)
 		// Wenn in der CountryView der Cancel Button gedrückt wird,
 		// soll die Sczene gewechselt werden zu der AddCountryView	
 		view.getCountryView().getBtnCancel().setOnAction(event -> {
+			view.getStage().setScene(getMainScene());
+		});
+		
+		// Szenen Wechsel von Geo_View zu UpdateView (UPDATE)
+		// und das in der TableView ausgewählte Objekt sollt mitgenommen werden
+		// und in die TextFelder der UpdateView eingefügt werden
+		view.getBtnUpdateCountry().setOnAction(event -> {
+//			GovernedRegion selectedItem = view.getTableView().getSelectionModel().getSelectedItem();
+			String country = view.getTableView().getColumns().get(0).getCellObservableValue(0).getValue().toString();
+			String area = view.getTableView().getColumns().get(0).getCellObservableValue(1).getValue().toString();
+			String population = view.getTableView().getColumns().get(0).getCellObservableValue(2).getValue().toString();
+			String formOfGovernment = view.getTableView().getColumns().get(0).getCellObservableValue(3).getValue().toString();
+			// Die aus der TableView geholten Werte in die TextFelder einfügen
+			view.getUpdateView().getUpdateTxtCountry().setText(country);
+			view.getUpdateView().getUpdateTxtCountry().setText(area);
+			view.getUpdateView().getUpdateTxtCountry().setText(population);
+			view.getUpdateView().getUpdateTxtCountry().setText(formOfGovernment);
+			
+
+			view.getStage().setScene(getUpdateScene());
+		});
+		
+		// Szenen Wechsel von der UpdateView zur Geo_View
+		view.getUpdateView().getBtnCancel().setOnAction(event -> {
 			view.getStage().setScene(getMainScene());
 		});
 
@@ -71,9 +95,15 @@ public class Geo_Controller {
 		 * 3 Wenn kein Zeile in der TableView angewählt ist "DEAKTIVIERE" den DELETE
 		 * Button (DISABLED)
 		 */
-		view.getBtnDeleteCountry().disableProperty()
-				.bind(Bindings.isEmpty(view.getTableView().getSelectionModel().getSelectedItems()));
-
+		view.getBtnDeleteCountry().disableProperty().
+				bind(Bindings.isEmpty(view.getTableView().getSelectionModel().getSelectedItems()));
+		/**
+		 * 3 Wenn kein Zeile in der TableView angewählt ist "DEAKTIVIERE" den UPDATE
+		 * Button (DISABLED)
+		 */
+		view.getBtnUpdateCountry().disableProperty().
+				bind(Bindings.isEmpty(view.getTableView().getSelectionModel().getSelectedItems()));
+		
 		// Event handler for the model's ObservableList requires a ListChangeListener.
 		// To make generics happy, we have to cast our lambda: what kind of data do we
 		// have?S
@@ -84,6 +114,8 @@ public class Geo_Controller {
 			}
 		});
 	}
+
+
 
 	// 3 Methoden, um Eingabe zu validieren mit ChangeListener
 	/**
@@ -169,7 +201,9 @@ public class Geo_Controller {
 		return view.getMainScene();
 	}
 	
-	
+	private Scene getUpdateScene() {
+		return view.getUpdateScene();
+	}	
 	
 	
 	// CREATE COUNTRY

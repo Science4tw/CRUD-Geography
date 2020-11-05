@@ -28,11 +28,13 @@ public class Geo_View extends GridPane { // 1 extends BorderPane
 	private SplashView splashView;
 	private CountryView countryView;
 	private StateView stateView;
+	private UpdateView updateView;
 
 	// SZENEN
 	private Scene splashScene;
 	private Scene mainScene; // -> Geo_View (GridPane)
 	private Scene countryScene;
+	private Scene updateScene;
 	private Scene stateScene;
 
 	// Controls
@@ -40,12 +42,20 @@ public class Geo_View extends GridPane { // 1 extends BorderPane
 	private Button btnDeleteCountry = new Button("Delete");
 	private Button btnUpdateCountry = new Button("Update");
 
-	// 1 (Data Display) die TableView
+	// 1 (Data Display) die TableView für die Countries
 	protected TableView<GovernedRegion> tableView;
 	protected TableColumn<GovernedRegion, String> colCountry;
 	protected TableColumn<GovernedRegion, Double> colArea;
 	protected TableColumn<GovernedRegion, Integer> colPopulation;
 	protected TableColumn<GovernedRegion, String> colFormOfGov;
+	
+	// 1 (Data Display) die TableView für die States
+	protected TableView<GovernedRegion> stateTableView;
+	protected TableColumn<GovernedRegion, String> colState;
+	protected TableColumn<GovernedRegion, Double> colStateArea;
+	protected TableColumn<GovernedRegion, Integer> colStatePopulation;
+	protected TableColumn<GovernedRegion, String> colStateFormOfGov;
+
 
 	// 1 & 2 Aktueller Status Label
 	private Label lblStatus;
@@ -58,18 +68,22 @@ public class Geo_View extends GridPane { // 1 extends BorderPane
 		// VIEWS
 //		this.add(createCountryView(), 0, 0);
 
-		// Control Pane
+		// Control Pane mit den Buttons Create, Delete und Update in der Geo_View als 
 		this.add(createControlPane(), 0, 2);
 
-		// DATA DISPLAY PANE
+		// DATA DISPLAY PANE Country View
 		// Initialisieren der TableView
 		this.tableView = createTableView();
 		this.add(tableView, 0, 3);
+		
+		this.stateTableView = createStateTableView();
+		this.add(stateTableView, 6, 3);
 
 		// SZENEN
 		mainScene = new Scene(this);
 		countryScene = new Scene(createCountryView(), 300,300);
 		stateScene = new Scene(createStateView(), 300,300);
+		updateScene = new Scene(createUpdateView(), 300, 300);
 
 		// 1 Aktueller Status
 		this.lblStatus = new Label("Everything okay");
@@ -118,11 +132,11 @@ public class Geo_View extends GridPane { // 1 extends BorderPane
 	}
 
 	/*
-	 * 1, 2 & 3 Data Display Pane TableView
+	 * 1, 2 & 3 Data Display Pane TableView für die COUNTRY Liste
 	 */
 	private TableView<GovernedRegion> createTableView() {
 		this.tableView = new TableView<GovernedRegion>();
-		this.tableView.setEditable(true);
+		this.tableView.setEditable(false);
 
 		// Each column needs a title, and a source of data.
 		// For editable columns, each column needs to contain a TextField.
@@ -157,6 +171,45 @@ public class Geo_View extends GridPane { // 1 extends BorderPane
 		return tableView;
 	}
 
+	/*
+	 * 1, 2 & 3 Data Display Pane TableView für die Country Liste
+	 */
+	private TableView<GovernedRegion> createStateTableView() {
+		this.stateTableView = new TableView<GovernedRegion>();
+		this.stateTableView.setEditable(false);
+
+		// Each column needs a title, and a source of data.
+		// For editable columns, each column needs to contain a TextField.
+
+		// Country Spalte
+		colState = new TableColumn<>("State"); // Erstellen und Beschriftung der Spalte
+		colState.setMinWidth(200);
+		colState.setCellValueFactory(new PropertyValueFactory<>("name")); // Insatnzieren ein Property und übergeben
+		stateTableView.getColumns().add(colState); // Fügen der TableView die Spalte hinzu
+
+		// Area Spalte
+		colStateArea = new TableColumn<>("Area State");
+		colStateArea.setMinWidth(200);
+		colStateArea.setCellValueFactory(new PropertyValueFactory<>("area"));
+		stateTableView.getColumns().add(colStateArea);
+
+		// Population Spalte
+		colStatePopulation = new TableColumn<>("Population State");
+		colStatePopulation.setMinWidth(200);
+		colStatePopulation.setCellValueFactory(new PropertyValueFactory<>("population"));
+		stateTableView.getColumns().add(colStatePopulation);
+
+		// Government Spalte
+		colStateFormOfGov = new TableColumn<>("Form of Government State");
+		colStateFormOfGov.setMinWidth(200);
+		colStateFormOfGov.setCellValueFactory(new PropertyValueFactory<GovernedRegion, String>("formOfGovernment"));
+		stateTableView.getColumns().add(colStateFormOfGov);
+
+		// Finally, attach the tableView to the ObservableList of data
+		stateTableView.setItems(model.getAllDataState());
+
+		return stateTableView;
+	}
 	// Methode die Country View zu erzeugen
 	public Pane createCountryView() {
 		Pane pane = new Pane();
@@ -173,6 +226,14 @@ public class Geo_View extends GridPane { // 1 extends BorderPane
 		pane.getChildren().add(this.getStateView());
 		return pane;
 
+	}
+	
+	// Methode um die MainView zu erzeugen
+	public Pane createUpdateView() {
+		Pane pane = new Pane();
+		this.setUpdateView(new UpdateView(stage, model, controller));
+		pane.getChildren().add(this.getUpdateView());
+		return pane;
 	}
 
 	// Methode um den Status zu aktualiseren
@@ -200,7 +261,15 @@ public class Geo_View extends GridPane { // 1 extends BorderPane
 	public void setStateView(StateView stateView) {
 		this.stateView = stateView;
 	}
-
+	// Getter für die UpdateView
+	public UpdateView getUpdateView() {
+		return this.updateView;
+	}
+	
+	// Setter für die UpdateView
+	public void setUpdateView(UpdateView updateView) {
+		this.updateView = updateView;
+	}
 	// Getter
 	public TableView<GovernedRegion> getTableView() {
 		return this.tableView;
@@ -304,5 +373,29 @@ public class Geo_View extends GridPane { // 1 extends BorderPane
 	public void setBtnUpdateCountry(Button btnUpdateCountry) {
 		this.btnUpdateCountry = btnUpdateCountry;
 	}
+	public Geo_Controller getController() {
+		return controller;
+	}
 
+	public void setController(Geo_Controller controller) {
+		this.controller = controller;
+	}
+
+	// *****   *****
+	
+	// *****   *****
+	
+	// *****   *****
+	
+	// **** SZENEN *****
+	// (UPDATE)
+	public Scene getUpdateScene() {
+		return updateScene;
+	}
+
+	public void setUpdateScene(Scene updateScene) {
+		this.updateScene = updateScene;
+	}	
+	
+	// **** VIEWS *****
 }

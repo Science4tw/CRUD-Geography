@@ -45,6 +45,18 @@ public class Geo_Model {
 		return this.allData;
 	}
 
+	public static ObservableList<GovernedRegion> getAllDataState() {
+		return allDataState;
+	}
+
+	public static void setAllDataState(ObservableList<GovernedRegion> allDataState) {
+		Geo_Model.allDataState = allDataState;
+	}
+
+	public static void setAllData(ObservableList<GovernedRegion> allData) {
+		Geo_Model.allData = allData;
+	}
+
 	// Um nach dem Namen eines Countrys zu holen
 	public static Country getCountryByName(String name) {
 		for (GovernedRegion govReg : allData) {
@@ -64,6 +76,8 @@ public class Geo_Model {
 		}
 		return null;
 	}
+
+
 	
 	
 

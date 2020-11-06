@@ -1,8 +1,9 @@
-	package view;
+package view;
 
 import controller.App_Controller;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBase;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -187,6 +188,7 @@ public class CountryView extends GridPane {
 	public void setBtnCancel(Button btnCancel) {
 		this.btnCancel = btnCancel;
 	}
+
 
 
 }

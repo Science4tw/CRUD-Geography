@@ -24,6 +24,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import model.App_Model;
 import model.GovernedRegion;
+import model.State;
 
 // 0
 public class App_View extends GridPane { // 1 extends BorderPane
@@ -37,9 +38,9 @@ public class App_View extends GridPane { // 1 extends BorderPane
 	// VIEWS
 	private SplashView splashView;
 	private CountryView countryView;
-	private StateView stateView;
 	private UpdateView updateView;
 	
+	private StateView stateView;
 	private UpdateViewState updateViewState;
 
 	// SZENEN
@@ -47,8 +48,8 @@ public class App_View extends GridPane { // 1 extends BorderPane
 	private Scene mainScene; // -> App_View (GridPane)
 	private Scene countryScene;
 	private Scene updateScene;
-	private Scene stateScene;
 	
+	private Scene stateScene;
 	private Scene updateSceneState;
 
 	// Controls Country
@@ -73,7 +74,12 @@ public class App_View extends GridPane { // 1 extends BorderPane
 	protected TableColumn<GovernedRegion, String> colState;
 	protected TableColumn<GovernedRegion, Double> colStateArea;
 	protected TableColumn<GovernedRegion, Integer> colStatePopulation;
-	protected TableColumn<GovernedRegion, String> colStateFormOfGov;
+//	protected TableColumn<GovernedRegion, String> colStateFormOfGov;
+	
+	
+	// MyStates VIEW
+	protected TableView<State> myStatesTableView;
+	protected TableColumn<State, String> colMyStates;
 
 	// *** MENUS ***
 	protected Menu menuFile;
@@ -94,31 +100,36 @@ public class App_View extends GridPane { // 1 extends BorderPane
 
 		// MENU Bereich initialisieren
 		this.add(createMenuPane(), 0, 1);
-		
-		
+				
 		// Control Pane mit den Buttons Create, Delete und Update in der App_View für die Country View
 		this.add(createControlPane(), 0, 2);
 		
 		// Control Pane mit den Buttons Create, Delete und Update in der App_View für die State View
-		this.add(createControlPaneState(), 6, 2);
+		this.add(createControlPaneState(), 0, 5);
 
-		// DATA DISPLAY PANE Country View
+		// DATA DISPLAY PANE Country TableView
 		// Initialisieren der TableView
 		this.tableView = createTableView();
 		this.add(tableView, 0, 3);
 		
+		this.myStatesTableView = createMyStatesTablewView();
+		this.add(myStatesTableView, 2, 3);
+	
+		// DATA DISPLAY PANE STATE TableView
+		// Initialisieren der TableView
 		this.stateTableView = createStateTableView();
-		this.add(stateTableView, 6, 3);
+		this.add(stateTableView, 0, 6);
 
 		// SZENEN
 		mainScene = new Scene(this);
-		countryScene = new Scene(createCountryView(), 300,300);
-		stateScene = new Scene(createStateView(), 300,300);
-		updateScene = new Scene(createUpdateView(), 300, 300);
+		countryScene = new Scene(createCountryView(), 350,350);
+		stateScene = new Scene(createStateView(), 350,350);
+		updateScene = new Scene(createUpdateView(), 350, 350);
+		updateSceneState = new Scene(createUpdateViewState(), 350, 350);
 
 		// 1 Aktueller Status
 		this.lblStatus = new Label("Everything okay");
-		this.add(this.lblStatus, 0, 10);
+		this.add(this.lblStatus, 0, 4);
 
 		// 1 Create the scene using our layout; then display it
 //		mainScene = new Scene(this);
@@ -172,6 +183,21 @@ public class App_View extends GridPane { // 1 extends BorderPane
 		pane.add(btnUpdateState, 4, 0);
 		return pane;
 	}
+
+	private TableView<State> createMyStatesTablewView(){
+		this.myStatesTableView = new TableView<State>();
+		this.myStatesTableView.setEditable(false);
+		
+		colMyStates = new TableColumn<>("My States");
+		colMyStates.setMinWidth(50);
+		colMyStates.setCellValueFactory(new PropertyValueFactory<>("myStates"));
+		myStatesTableView.getColumns().add(colMyStates);
+		
+		// Finally, attach the tableView to the ObservableList of data
+		myStatesTableView.setItems(model.getStates());
+
+		return myStatesTableView;
+	}
 	/*
 	 * 1, 2 & 3 Data Display Pane TableView für die COUNTRY Liste
 	 */
@@ -218,6 +244,7 @@ public class App_View extends GridPane { // 1 extends BorderPane
 	private TableView<GovernedRegion> createStateTableView() {
 		this.stateTableView = new TableView<GovernedRegion>();
 		this.stateTableView.setEditable(false);
+//		this.stateTableView.set
 
 		// Each column needs a title, and a source of data.
 		// For editable columns, each column needs to contain a TextField.
@@ -240,11 +267,11 @@ public class App_View extends GridPane { // 1 extends BorderPane
 		colStatePopulation.setCellValueFactory(new PropertyValueFactory<>("population"));
 		stateTableView.getColumns().add(colStatePopulation);
 
-		// Government Spalte
-		colStateFormOfGov = new TableColumn<>("Form of Government State");
-		colStateFormOfGov.setMinWidth(50);
-		colStateFormOfGov.setCellValueFactory(new PropertyValueFactory<GovernedRegion, String>("formOfGovernment"));
-		stateTableView.getColumns().add(colStateFormOfGov);
+//		// Government Spalte
+//		colStateFormOfGov = new TableColumn<>("Form of Government State");
+//		colStateFormOfGov.setMinWidth(50);
+//		colStateFormOfGov.setCellValueFactory(new PropertyValueFactory<GovernedRegion, String>("formOfGovernment"));
+//		stateTableView.getColumns().add(colStateFormOfGov);
 
 		// Finally, attach the tableView to the ObservableList of data
 		stateTableView.setItems(model.getAllDataState());
@@ -269,11 +296,19 @@ public class App_View extends GridPane { // 1 extends BorderPane
 
 	}
 	
-	// Methode um die MainView zu erzeugen
+	// Methode um die UpdateView zu erzeugen
 	public Pane createUpdateView() {
 		Pane pane = new Pane();
 		this.setUpdateView(new UpdateView(stage, model, controller));
 		pane.getChildren().add(this.getUpdateView());
+		return pane;
+	}
+	
+	// Methode um die UpdateViewState zu erzeugen
+	public Pane createUpdateViewState() {
+		Pane pane = new Pane();
+		this.setUpdateViewState(new UpdateViewState(stage,model,controller));
+		pane.getChildren().add(this.getUpdateViewState());
 		return pane;
 	}
 
@@ -509,13 +544,13 @@ public class App_View extends GridPane { // 1 extends BorderPane
 		this.colStatePopulation = colStatePopulation;
 	}
 
-	public TableColumn<GovernedRegion, String> getColStateFormOfGov() {
-		return colStateFormOfGov;
-	}
-
-	public void setColStateFormOfGov(TableColumn<GovernedRegion, String> colStateFormOfGov) {
-		this.colStateFormOfGov = colStateFormOfGov;
-	}
+//	public TableColumn<GovernedRegion, String> getColStateFormOfGov() {
+//		return colStateFormOfGov;
+//	}
+//
+//	public void setColStateFormOfGov(TableColumn<GovernedRegion, String> colStateFormOfGov) {
+//		this.colStateFormOfGov = colStateFormOfGov;
+//	}
 
 	public UpdateViewState getUpdateViewState() {
 		return this.updateViewState;

@@ -5,10 +5,16 @@ import java.util.regex.Pattern;
 
 import abstractClasses.Controller;
 import javafx.beans.binding.Bindings;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.scene.Scene;
+import javafx.scene.control.TablePosition;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TableView.TableViewSelectionModel;
 import model.FormOfGovernment;
 import model.App_Model;
 import model.GovernedRegion;
@@ -30,7 +36,8 @@ public class App_Controller {
 		this.view = view;
 
 		// *** HANDLING COUNTRY ***
-		
+
+		// *** SZENEN WECHSEL ***
 		// SZENEN Wechsel von App_View zu CountryView (CREATE COUNTRY)
 		// Wenn in der App_View der Create Button gedrückt wird,
 		// soll die Sczene gewechselt werden zu der CountryView
@@ -38,6 +45,41 @@ public class App_Controller {
 			view.getStage().setScene(getCountryScene());
 		});
 
+		// (CANCEL UPDATEVIEW) SZENEN Wechsel von UpdateView zu App_View
+		// Wenn in der UpdateView der Cancel Button gedrückt wird,
+		// soll die Sczene gewechselt werden zu der Geo_View
+		view.getUpdateView().getBtnUpdateCancel().setOnAction(event -> {
+			view.getStage().setScene(getMainScene());
+		});
+		
+		// *** COUNTRY VIEW ***
+		// BUTTON CANCEL
+		view.getCountryView().getBtnCancel().setOnAction(event -> {
+			view.getStage().setScene(getMainScene());
+		});
+		
+		// SZENEN WECHSEL: GOTO -> UPDATEVIEW from App_View
+		// BUTTON: UPDATE COUNTRY
+		view.getBtnUpdateCountry().setOnAction(event -> {
+			view.getStage().setScene(getUpdateScene());
+		});
+
+		// *** STATE ***
+		
+		// SZENEN WECHSEL: GOTO -> StateView from App_View
+		// BUTTON: UPDATE State
+		view.getBtnUpdateState().setOnAction(event -> {
+			view.getStage().setScene(getUpdateSceneState());
+		});
+		
+		// SZENEN WECHSEL: GOTO -> App_View from UpdateViewState
+		// BUTTON: UPDATE State
+		view.getUpdateViewState().getBtnUpdateCancelState().setOnAction(event -> {
+			view.getStage().setScene(getMainScene());
+		});
+		
+		// *** DELETE ***
+		
 		// DELETE COUNTRY in App_View in der Country TableView
 		view.getBtnDeleteCountry().setOnAction(e -> { // Holt den Button und setzt in durch das Event unter Aktion
 			// Holt das ausgewählt Item in der TableView
@@ -45,47 +87,34 @@ public class App_Controller {
 			view.getTableView().getItems().remove(selectedItem);
 		});
 
-		// Szenen Wechsel von App_View zu UpdateView (UPDATE COUNTRY)
-		// und das in der TableView ausgewählte Objekt sollt mitgenommen werden
+		// UPDATE COUNTRY
+		// Das in der TableView ausgewählte Objekt sollt mitgenommen werden
 		// und in die TextFelder der UpdateView eingefügt werden
-		view.getBtnUpdateCountry().setOnAction(event -> {
-//			GovernedRegion selectedItem = view.getTableView().getSelectionModel().getSelectedItem();
-			String country = view.getTableView().getColumns().get(0).getCellObservableValue(0).getValue().toString();
-			String area = view.getTableView().getColumns().get(0).getCellObservableValue(1).getValue().toString();
-			String population = view.getTableView().getColumns().get(0).getCellObservableValue(2).getValue().toString();
-			String formOfGovernment = view.getTableView().getColumns().get(0).getCellObservableValue(3).getValue()
-					.toString();
-			// Die aus der TableView geholten Werte in die TextFelder einfügen
-			view.getUpdateView().getUpdateTxtCountry().setText(country);
-			view.getUpdateView().getUpdateTxtCountry().setText(area);
-			view.getUpdateView().getUpdateTxtCountry().setText(population);
-			view.getUpdateView().getUpdateTxtCountry().setText(formOfGovernment);
+		view.getTableView().getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
+		    @Override
+		    public void changed(ObservableValue observableValue, Object oldValue, Object newValue) {
+		        //Check whether item is selected and set value of selected item to Label
+		        if(view.getTableView().getSelectionModel().getSelectedItem() != null) 
+		        {    
+		        	TableViewSelectionModel selectionModel = getTableView().getSelectionModel();
+		            ObservableList selectedCells = selectionModel.getSelectedCells();
+		            TablePosition tablePosition = (TablePosition) selectedCells.get(0);
+		            Object val = tablePosition.getTableColumn().getCellData(newValue);
+		            System.out.println("Selected Value" + val);
+		        }
+		    }});
 
-			view.getStage().setScene(getUpdateScene());
-		});
 
 		// *** COUNTRY VIEW ***
-		// BUTTON CANCEL
-		view.getCountryView().getBtnCancel().setOnAction(event -> {
-			view.getStage().setScene(getMainScene());
-		});
-		
-		// *** UPDATE VIEW ***
-		// SAVE COUNTRY - Event handler for the button in App_View
+		// SAVE (CREATE) COUNTRY - Event handler for the button in App_View
 		// Wenn der Create Button (btnCreate) gedrückt wird, ruft der Controller die
 		// Methode createNewCountry auf
 		view.getCountryView().getBtnSave().setOnAction(this::createNewCountry);
 
-		// (CANCEL UPDATEVIEW) SZENEN Wechsel von UpdateView zu App_View 
-		// Wenn in der UpdateView der Cancel Button gedrückt wird,
-		// soll die Sczene gewechselt werden zu der Geo_View
-		view.getUpdateView().getBtnUpdateCancel().setOnAction(event -> {
-			view.getStage().setScene(getMainScene());
-		});
-		
+
 
 		// ** HANDLING STATE ***
-		
+
 		// CANCEL STATEVIEW) SZENEN Wechsel von StateView zu App_View
 		view.getStateView().getBtnCancelState().setOnAction(event -> {
 			view.getStage().setScene(getMainScene());
@@ -97,7 +126,7 @@ public class App_Controller {
 		view.getBtnCreateState().setOnAction(event -> {
 			view.getStage().setScene(getStateScene());
 		});
-		
+
 		// DELETE STATE in App_View in der State TableView
 		view.getBtnDeleteState().setOnAction(e -> { // Holt den Button und setzt in durch das Event unter Aktion
 			GovernedRegion selectedItem = view.getStateTableView().getSelectionModel().getSelectedItem();
@@ -108,13 +137,11 @@ public class App_Controller {
 //		view.getUpdateViewState().getBtnUpdateCancelState().setOnAction(event -> {
 //			view.getStage().setScene(getMainScene());
 //		});
-		
-		
-		// SAVE COUNTRY - Event handler for the button in App_View
-				// Wenn der Create Button (btnCreate) gedrückt wird, ruft der Controller die
-				// Methode createNewCountry auf
-				view.getStateView().getBtnCreateState().setOnAction(this::createNewState);
 
+		// SAVE COUNTRY - Event handler for the button in App_View
+		// Wenn der Create Button (btnCreate) gedrückt wird, ruft der Controller die
+		// Methode createNewCountry auf
+		view.getStateView().getBtnCreateState().setOnAction(this::createNewState);
 
 		// ADDITIONAL FUNCTIONALITY
 		/**
@@ -167,6 +194,15 @@ public class App_Controller {
 				view.getTableView().scrollTo(c.getFrom());
 			}
 		});
+	}
+
+	private Scene getUpdateSceneState() {
+		// TODO Auto-generated method stub
+		return view.getUpdateSceneState();
+	}
+
+	protected TableView<GovernedRegion> getTableView() {
+		return view.getTableView();
 	}
 
 	// 3 Methoden, um Eingabe zu validieren mit ChangeListener
@@ -289,8 +325,45 @@ public class App_Controller {
 		}
 
 	}
-	// TODO: "model.createNewState(name, area, population, formOfGovernment, null);" korrekt anpassen (My Country)
-	
+
+	/**
+	 * UPDATE COUNTRY Beschreibung: Das in der TableView ausgewählte Objekt sollt
+	 * mitgenommen werden und in die TextFelder der UpdateView eingefügt werden
+	 * 
+	 * @param event
+	 */
+	private void updateCountry(ActionEvent event) {
+
+		String country = view.getTableView().getColumns().get(0).getCellObservableValue(0).getValue().toString();
+
+		view.getUpdateView().getUpdateTxtCountry().setText(country);
+		
+		
+		
+		
+		
+		
+		
+//		GovernedRegion selectedItem = view.getTableView().getSelectionModel().getSelectedItem();
+		
+		
+//		String area = view.getTableView().getColumns().get(0).getCellObservableValue(1).getValue().toString();
+//		String population = view.getTableView().getColumns().get(0).getCellObservableValue(2).getValue().toString();
+//		String formOfGovernment = view.getTableView().getColumns().get(0).getCellObservableValue(3).getValue()
+//				.toString();
+		
+		
+		// Die aus der TableView geholten Werte in die TextFelder einfügen		
+//		view.getUpdateView().getUpdateTxtCountry().setText(area);
+//		view.getUpdateView().getUpdateTxtCountry().setText(population);
+//		view.getUpdateView().getUpdateTxtCountry().setText(formOfGovernment);
+
+		view.getStage().setScene(getUpdateScene());
+	}
+
+	// TODO: "model.createNewState(name, area, population, formOfGovernment, null);"
+	// korrekt anpassen (My Country)
+
 	// CREATE STATE
 	private void createNewState(ActionEvent event) {
 		String name = view.getStateView().getTxtState().getText();
@@ -309,15 +382,13 @@ public class App_Controller {
 		}
 	}
 
-//	/**
-//	 * UPDATE TODO: 
-//	 * Die Methode soll das GUI updaten(die TableView) 
-//	 * INPUT: 
-//	 * OUTPUT:
-//	 */
+	/**
+	 * UPDATE Country und State TableView.
+	 */
 	public void updateView() {
 		// Finally, attach the tableView to the ObservableList of data
 		view.getTableView().setItems(model.getAllData());
+		view.getStateTableView().setItems(model.getAllDataState());
 
 	}
 

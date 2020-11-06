@@ -10,6 +10,8 @@ import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.FormOfGovernment;
+import model.State;
+import model.Country;
 
 /*
  *MINIMUM REQUIRMENTS: (MR)
@@ -26,6 +28,7 @@ public class App_Model extends Model {
 	private static ObservableList<GovernedRegion> allData = FXCollections.observableArrayList();
 	
 	private static ObservableList<GovernedRegion> allDataState = FXCollections.observableArrayList();
+	
 
 	// CREATE Country
 	// Fügt / speichert der Liste ein neu erzeugtes Country Objekts hinzu (MR)
@@ -50,6 +53,10 @@ public class App_Model extends Model {
 		return allDataState;
 	}
 
+//	public ObservableList<GovernedRegion> getStates(){
+//		return getStates();
+//	}
+//	
 	public static void setAllDataState(ObservableList<GovernedRegion> allDataState) {
 		App_Model.allDataState = allDataState;
 	}
@@ -76,6 +83,10 @@ public class App_Model extends Model {
 			}
 		}
 		return null;
+	}
+
+	public ObservableList<State> getStates() {
+		return Country.getStates();
 	}
 
 

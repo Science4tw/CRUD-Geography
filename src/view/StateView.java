@@ -55,8 +55,9 @@ public class StateView extends GridPane {
 	 * Methode um die TextFelder und Choicebox zu leeren
 	 */
 	public void reset() {
-		this.lblState.setText("");
-		this.lblAreaState.setText("");
+		this.txtState.setText("");
+		this.txtAreaState.setText("");
+		this.txtPopulationState.setText("");
 		this.cmbmyCountry.getSelectionModel().clearSelection(); // API
 	}
 

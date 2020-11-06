@@ -2,6 +2,9 @@ package model;
 
 import java.util.ArrayList;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 /*
  * MINIMUM REQUIRMENTS: (MR)
  * Concrete class Country: An INDEPENDENT GovernedRegion. Additional
@@ -10,21 +13,22 @@ import java.util.ArrayList;
 
 public class Country extends GovernedRegion {
 
+	// X (MR)
+	private static ObservableList<State> myStates = FXCollections.observableArrayList();
+
 	// Konstruktor
 	public Country(String name, double area, int population, FormOfGovernment formOfGovernment) {
 		super(name, area, population, formOfGovernment);
+		this.myStates = myStates;
 	}
 
-	// X (MR)
-	private static ArrayList<State> myStates;
-
 	// Getter für states (MR)
-	public ArrayList<State> getStates() {
-		return this.myStates;
+	public static ObservableList<State> getStates() {
+		return myStates;
 	}
 
 	// Setter für states (MR)
-	public void setStates(ArrayList<State> states) {
+	public void setStates(ObservableList<State> states) {
 		this.myStates = states;
 	}
 
@@ -38,6 +42,14 @@ public class Country extends GovernedRegion {
 			}
 		}
 		return false;
+	}
+
+	public ObservableList<State> getMyStates() {
+		return myStates;
+	}
+
+	public void setMyStates(ObservableList<State> myStates) {
+		this.myStates = myStates;
 	}
 
 	// ADD State

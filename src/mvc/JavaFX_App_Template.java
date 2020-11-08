@@ -1,15 +1,19 @@
 package mvc;
 
+import java.util.ArrayList;
+
 import controller.App_Controller;
 import model.App_Model;
 import model.Country;
 import model.FormOfGovernment;
+import model.State;
 import view.App_View;
 import splashScreen.Splash_Controller;
 import splashScreen.Splash_Model;
 import splashScreen.Splash_View;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.collections.ObservableList;
 import javafx.stage.Stage;
 
 /**
@@ -37,9 +41,9 @@ public class JavaFX_App_Template extends Application {
  	public String basel = "Basel";
  	public String zuerich = "Zuerich";
  	 
- 	public Country schweiz = new Country("Schweiz", 0, 0, DEMOCRACY);
- 	public Country deutschland = new Country("deutschland", 0, 0, DEMOCRACY);
- 	public Country frankreich = new Country("frankreich", 0, 0, DEMOCRACY);
+ 	public Country schweiz = new Country("Schweiz", 0, 0, DEMOCRACY, null);
+ 	public Country deutschland = new Country("deutschland", 0, 0, DEMOCRACY, null);
+ 	public Country frankreich = new Country("frankreich", 0, 0, DEMOCRACY, null);
  	
     public static void main(String[] args) {
         launch(args);
@@ -123,8 +127,8 @@ public class JavaFX_App_Template extends Application {
         splashView = null;
         // Country TEST
         
- 		model.createNewCountry(Schweiz, 10, 10, DEMOCRACY);
- 		model.createNewCountry(Schweiz, 10, 10, DEMOCRACY);
+ 		model.createNewCountry(Schweiz, 10, 10, DEMOCRACY, null);
+ 		model.createNewCountry(Schweiz, 10, 10, DEMOCRACY, null);
  		
  		// State TEST
  		model.createNewState(bern, 1, 1, DEMOCRACY, schweiz);

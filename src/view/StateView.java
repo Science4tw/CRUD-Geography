@@ -10,6 +10,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import model.Country;
 import model.FormOfGovernment;
+import model.GovernedRegion;
 import model.App_Model;
 
 public class StateView extends GridPane {
@@ -34,11 +35,14 @@ public class StateView extends GridPane {
 	// ComboBox um die Regierungsform auszuwählen
 	protected ComboBox<FormOfGovernment> cmbFormOfGovState = new ComboBox<FormOfGovernment>();
 	
+	// ComboBox um das Land auszuwählen, wo der State hinzugehört
+	protected ComboBox<GovernedRegion> cmbMyCountry = new ComboBox<GovernedRegion>();
+	
 	// ComboBox um das zugehörige Land auszuwählen
 	// 1 Buttons (Data Control)
 	protected Button btnCreate = new Button("Create");
 	protected Button btnDelete = new Button("Delete");
-	protected ComboBox<Country> cmbmyCountry = new ComboBox<Country>();
+
 
 	// 1 Buttons (Data Control)
 	protected Button btnCreateState = new Button("Save State");
@@ -58,7 +62,7 @@ public class StateView extends GridPane {
 		this.txtState.setText("");
 		this.txtAreaState.setText("");
 		this.txtPopulationState.setText("");
-		this.cmbmyCountry.getSelectionModel().clearSelection(); // API
+		this.cmbMyCountry.getSelectionModel().clearSelection(); // API
 	}
 
 	// 1 Data Entry Pane
@@ -71,6 +75,29 @@ public class StateView extends GridPane {
 		lblPopulationState = new Label("Population State");
 		lblFormOfGovState = new Label("Regierungsform des Landes");
 		lblMyCountry = new Label("Land des States");
+		
+		
+		
+		
+
+		
+		
+		
+//		// Aus der TablewView soll die erste Spalte als Auswahlmöglichkeit angeboten werden		
+//		
+//		for (GovernedRegion governedRegion: model.getGovernedRegions()) {
+//			cmbMyCountry.getItems().add(governedRegion.getName());
+//		}
+		
+		cmbMyCountry.setItems(model.getGovernedRegions());
+//		cmbMyCountry.setModel(new DefaultComboBoxModel<GovernedRegion>(model.getGovernedRegions().toArray(new Country[0])));		
+//		cmbMyCountry.setValue(null);
+		
+		
+		
+		
+		
+		
 
 		// Fill combos (hol mir die Items,alle hinzufügen von den values der Enums)
 		cmbFormOfGovState.getItems().addAll(FormOfGovernment.values());
@@ -91,9 +118,11 @@ public class StateView extends GridPane {
 		pane.add(cmbFormOfGovState, 1, 3);
 		
 		pane.add(lblMyCountry, 0, 4);
+		pane.add(cmbMyCountry, 1, 4);
 
 		return pane;
 	}
+
 
 	// 1 Data Control Pane
 	private Pane createControlPane() {
@@ -193,12 +222,12 @@ public class StateView extends GridPane {
 		this.btnDelete = btnDelete;
 	}
 
-	public ComboBox<Country> getCmbmyCountry() {
-		return cmbmyCountry;
+	public ComboBox<GovernedRegion> getCmbmyCountry() {
+		return cmbMyCountry;
 	}
 
-	public void setCmbmyCountry(ComboBox<Country> cmbmyCountry) {
-		this.cmbmyCountry = cmbmyCountry;
+	public void setCmbmyCountry(ComboBox<GovernedRegion> cmbmyCountry) {
+		this.cmbMyCountry = cmbmyCountry;
 	}
 
 	public Button getBtnCreateState() {

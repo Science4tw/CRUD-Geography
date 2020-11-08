@@ -25,15 +25,20 @@ import model.Country;
 public class App_Model extends Model {
 
 	// 2 (MR)
-	private static ObservableList<GovernedRegion> allData = FXCollections.observableArrayList();
+	private static ObservableList<GovernedRegion> governedRegions = FXCollections.observableArrayList();
 	
-	private static ObservableList<GovernedRegion> allDataState = FXCollections.observableArrayList();
+	private static ObservableList<State> states = FXCollections.observableArrayList();
 	
+	
+	// Konstruktor
+	public App_Model () {
+		
+	}
 
 	// CREATE Country
 	// Fügt / speichert der Liste ein neu erzeugtes Country Objekts hinzu (MR)
-	public static void createNewCountry(String name, double area, int population, FormOfGovernment formOfGovernment) {
-		allData.add(new Country(name, area, population, formOfGovernment));
+	public static void createNewCountry(String name, double area, int population, FormOfGovernment formOfGovernment, ObservableList<State> myStates) {
+		governedRegions.add(new Country(name, area, population, formOfGovernment, myStates));
 
 	}
 
@@ -41,35 +46,38 @@ public class App_Model extends Model {
 	// Fügt / speichert der Liste ein neu erzeugtes State Objekts hinzu (MR)
 	public static void createNewState(String name, double area, int population, FormOfGovernment formOfGovernment,
 			Country myCountry) {
-		allDataState.add(new State(name, area, population, formOfGovernment, myCountry));
+		states.add(new State(name, area, population, formOfGovernment, myCountry));
+	}
+	
+	// UPDATE COUNTRY
+	
+
+	// Getter für ObservableList<GovernedRegion> governedRegions (MR)
+	public ObservableList<GovernedRegion> getGovernedRegions() {
+		return governedRegions;
 	}
 
-	// Getter für ObservableList<GovernedRegion> allData (MR)
-	public ObservableList<GovernedRegion> getAllData() {
-		return this.allData;
-	}
-
-	public static ObservableList<GovernedRegion> getAllDataState() {
-		return allDataState;
+	public static ObservableList<State> getStates() {
+		return states;
 	}
 
 //	public ObservableList<GovernedRegion> getStates(){
 //		return getStates();
 //	}
 //	
-	public static void setAllDataState(ObservableList<GovernedRegion> allDataState) {
-		App_Model.allDataState = allDataState;
+	public static void setstates(ObservableList<State> states) {
+		App_Model.states = states;
 	}
 
-	public static void setAllData(ObservableList<GovernedRegion> allData) {
-		App_Model.allData = allData;
+	public static void setgovernedRegions(ObservableList<GovernedRegion> governedRegions) {
+		App_Model.governedRegions = governedRegions;
 	}
 
 	// Um nach dem Namen eines Countrys zu holen
 	public static Country getCountryByName(String name) {
-		for (GovernedRegion govReg : allData) {
-			if (govReg instanceof Country && govReg.getName() != null && govReg.getName().equals(name)) {
-				return (Country) govReg;
+		for (GovernedRegion governedRegion : governedRegions) {
+			if (governedRegion instanceof Country && governedRegion.getName() != null && governedRegion.getName().equals(name)) {
+				return (Country) governedRegion;
 			}
 		}
 		return null;
@@ -77,16 +85,23 @@ public class App_Model extends Model {
 
 	// Um nach dem Namen eines States zu holen
 	public static State getStateByName(StringProperty name) {
-		for (GovernedRegion govReg : allData) {
-			if (govReg instanceof State && govReg.getName() != null && govReg.getName().equals(name)) {
-				return (State) govReg;
+		for (State state : states) {
+			if (state instanceof State && state.getName() != null && state.getName().equals(name)) {
+				return (State) state;
 			}
 		}
 		return null;
 	}
 
-	public ObservableList<State> getStates() {
-		return Country.getStates();
+	public ObservableList<State> getMyStates() {
+		// TODO Auto-generated method stub
+		return states;
+	}
+
+	// UPDATE COUNTRY
+	public void updateCountry() {
+		// TODO Auto-generated method stub
+		
 	}
 
 

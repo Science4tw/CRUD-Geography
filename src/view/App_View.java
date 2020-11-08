@@ -23,6 +23,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import model.App_Model;
+import model.Country;
 import model.GovernedRegion;
 import model.State;
 
@@ -38,7 +39,7 @@ public class App_View extends GridPane { // 1 extends BorderPane
 	// VIEWS
 	private SplashView splashView;
 	private CountryView countryView;
-	private UpdateView updateView;
+	private UpdateViewCountry updateViewCountry;
 	
 	private StateView stateView;
 	private UpdateViewState updateViewState;
@@ -70,13 +71,14 @@ public class App_View extends GridPane { // 1 extends BorderPane
 	protected TableColumn<GovernedRegion, String> colFormOfGov;
 	
 	// 1 (Data Display) die TableView für die States
-	protected TableView<GovernedRegion> stateTableView;
-	protected TableColumn<GovernedRegion, String> colState;
-	protected TableColumn<GovernedRegion, Double> colStateArea;
-	protected TableColumn<GovernedRegion, Integer> colStatePopulation;
+	protected TableView<State> stateTableView;
+	protected TableColumn<State, String> colState;
+	protected TableColumn<State, Double> colStateArea;
+	protected TableColumn<State, Integer> colStatePopulation;
 //	protected TableColumn<GovernedRegion, String> colStateFormOfGov;
+	protected TableColumn<State, Country> colMyCountry;
 	
-	
+
 	// MyStates VIEW
 	protected TableView<State> myStatesTableView;
 	protected TableColumn<State, String> colMyStates;
@@ -190,11 +192,11 @@ public class App_View extends GridPane { // 1 extends BorderPane
 		
 		colMyStates = new TableColumn<>("My States");
 		colMyStates.setMinWidth(50);
-		colMyStates.setCellValueFactory(new PropertyValueFactory<>("myStates"));
+//		colMyStates.setCellValueFactory(new PropertyValueFactory<>("myStates"));
 		myStatesTableView.getColumns().add(colMyStates);
 		
 		// Finally, attach the tableView to the ObservableList of data
-		myStatesTableView.setItems(model.getStates());
+		myStatesTableView.setItems(model.getMyStates());
 
 		return myStatesTableView;
 	}
@@ -233,7 +235,7 @@ public class App_View extends GridPane { // 1 extends BorderPane
 		tableView.getColumns().add(colFormOfGov);
 
 		// Finally, attach the tableView to the ObservableList of data
-		tableView.setItems(model.getAllData());
+		tableView.setItems(model.getGovernedRegions());
 
 		return tableView;
 	}
@@ -241,8 +243,8 @@ public class App_View extends GridPane { // 1 extends BorderPane
 	/*
 	 * 1, 2 & 3 Data Display Pane TableView für die Country Liste
 	 */
-	private TableView<GovernedRegion> createStateTableView() {
-		this.stateTableView = new TableView<GovernedRegion>();
+	private TableView<State> createStateTableView() {
+		this.stateTableView = new TableView<State>();
 		this.stateTableView.setEditable(false);
 //		this.stateTableView.set
 
@@ -272,9 +274,14 @@ public class App_View extends GridPane { // 1 extends BorderPane
 //		colStateFormOfGov.setMinWidth(50);
 //		colStateFormOfGov.setCellValueFactory(new PropertyValueFactory<GovernedRegion, String>("formOfGovernment"));
 //		stateTableView.getColumns().add(colStateFormOfGov);
+		
+		colMyCountry = new TableColumn<>("My Country");
+		colMyCountry.setMinWidth(50);
+		colMyCountry.setCellValueFactory(new PropertyValueFactory<>("myCountry"));
+		stateTableView.getColumns().add(colMyCountry);
 
 		// Finally, attach the tableView to the ObservableList of data
-		stateTableView.setItems(model.getAllDataState());
+		stateTableView.setItems(model.getStates());
 
 		return stateTableView;
 	}
@@ -299,8 +306,8 @@ public class App_View extends GridPane { // 1 extends BorderPane
 	// Methode um die UpdateView zu erzeugen
 	public Pane createUpdateView() {
 		Pane pane = new Pane();
-		this.setUpdateView(new UpdateView(stage, model, controller));
-		pane.getChildren().add(this.getUpdateView());
+		this.setUpdateView(new UpdateViewCountry(stage, model, controller));
+		pane.getChildren().add(this.getUpdateViewCountry());
 		return pane;
 	}
 	
@@ -339,13 +346,13 @@ public class App_View extends GridPane { // 1 extends BorderPane
 		this.stateView = stateView;
 	}
 	// Getter für die UpdateView
-	public UpdateView getUpdateView() {
-		return this.updateView;
+	public UpdateViewCountry getUpdateView() {
+		return this.updateViewCountry;
 	}
 	
 	// Setter für die UpdateView
-	public void setUpdateView(UpdateView updateView) {
-		this.updateView = updateView;
+	public void setUpdateView(UpdateViewCountry updateViewCountry) {
+		this.updateViewCountry = updateViewCountry;
 	}
 	// Getter
 	public TableView<GovernedRegion> getTableView() {
@@ -504,43 +511,40 @@ public class App_View extends GridPane { // 1 extends BorderPane
 		this.btnUpdateState = btnUpdateState;
 	}
 
-	public TableColumn<GovernedRegion, Integer> getColPopulation() {
-		return colPopulation;
-	}
 
 	public void setColPopulation(TableColumn<GovernedRegion, Integer> colPopulation) {
 		this.colPopulation = colPopulation;
 	}
 
-	public TableView<GovernedRegion> getStateTableView() {
+	public TableView<State> getStateTableView() {
 		return stateTableView;
 	}
 
-	public void setStateTableView(TableView<GovernedRegion> stateTableView) {
+	public void setStateTableView(TableView<State> stateTableView) {
 		this.stateTableView = stateTableView;
 	}
 
-	public TableColumn<GovernedRegion, String> getColState() {
+	public TableColumn<State, String> getColState() {
 		return colState;
 	}
 
-	public void setColState(TableColumn<GovernedRegion, String> colState) {
+	public void setColState(TableColumn<State, String> colState) {
 		this.colState = colState;
 	}
 
-	public TableColumn<GovernedRegion, Double> getColStateArea() {
+	public TableColumn<State, Double> getColStateArea() {
 		return colStateArea;
 	}
 
-	public void setColStateArea(TableColumn<GovernedRegion, Double> colStateArea) {
+	public void setColStateArea(TableColumn<State, Double> colStateArea) {
 		this.colStateArea = colStateArea;
 	}
 
-	public TableColumn<GovernedRegion, Integer> getColStatePopulation() {
+	public TableColumn<State, Integer> getColStatePopulation() {
 		return colStatePopulation;
 	}
 
-	public void setColStatePopulation(TableColumn<GovernedRegion, Integer> colStatePopulation) {
+	public void setColStatePopulation(TableColumn<State, Integer> colStatePopulation) {
 		this.colStatePopulation = colStatePopulation;
 	}
 
@@ -623,5 +627,28 @@ public class App_View extends GridPane { // 1 extends BorderPane
            
            
            stage.setTitle(t.getString("program.name"));
-	    }	
+	    }
+
+	public UpdateViewCountry getUpdateViewCountry() {
+		return updateViewCountry;
+	}
+
+	public void setUpdateViewCountry(UpdateViewCountry updateViewCountry) {
+		this.updateViewCountry = updateViewCountry;
+	}
+
+	public TableColumn<State, String> getColMyStates() {
+		return colMyStates;
+	}
+
+	public void setColMyStates(TableColumn<State, String> colMyStates) {
+		this.colMyStates = colMyStates;
+	}
+
+	public TableColumn<GovernedRegion, Integer> getColPopulation() {
+		return colPopulation;
+	}	
+
+
+	   
 }

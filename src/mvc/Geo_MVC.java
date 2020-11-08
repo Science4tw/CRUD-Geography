@@ -25,9 +25,9 @@ public class Geo_MVC extends Application {
 	public String basel = "Basel";
 	public String zuerich = "Zuerich";
 	
-	public Country schweiz = new Country("Schweiz", 0, 0, DEMOCRACY);
-	public Country deutschland = new Country("deutschland", 0, 0, DEMOCRACY);
-	public Country frankreich = new Country("frankreich", 0, 0, DEMOCRACY);
+	public Country schweiz = new Country("Schweiz", 0, 0, DEMOCRACY, null);
+	public Country deutschland = new Country("deutschland", 0, 0, DEMOCRACY, null);
+	public Country frankreich = new Country("frankreich", 0, 0, DEMOCRACY, null);
 	
 	// 0
 	private App_Model model;
@@ -48,14 +48,8 @@ public class Geo_MVC extends Application {
 		this.controller = new App_Controller(model, view);
 
 		// Country TEST
-		model.createNewCountry(Schweiz, 10, 10, DEMOCRACY);
-		model.createNewCountry(Schweiz, 10, 10, DEMOCRACY);
-		model.createNewCountry(Schweiz, 10, 10, DEMOCRACY);
-		model.createNewCountry(Schweiz, 10, 10, DEMOCRACY);
-		model.createNewCountry(Schweiz, 10, 10, DEMOCRACY);
-		model.createNewCountry(Schweiz, 10, 10, DEMOCRACY);
-		model.createNewCountry(Schweiz, 10, 10, DEMOCRACY);
-		model.createNewCountry(Schweiz, 10, 10, DEMOCRACY);
+		model.createNewCountry(Schweiz, 10, 10, DEMOCRACY, null);
+ 		model.createNewCountry(Schweiz, 10, 10, DEMOCRACY, null);
 		
 		// State TEST
 		model.createNewState(bern, 1, 1, DEMOCRACY, schweiz);

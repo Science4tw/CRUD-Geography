@@ -17,7 +17,7 @@ public class Country extends GovernedRegion {
 	private static ObservableList<State> myStates = FXCollections.observableArrayList();
 
 	// Konstruktor
-	public Country(String name, double area, int population, FormOfGovernment formOfGovernment) {
+	public Country(String name, double area, int population, FormOfGovernment formOfGovernment, ObservableList<State> myStates) {
 		super(name, area, population, formOfGovernment);
 		this.myStates = myStates;
 	}

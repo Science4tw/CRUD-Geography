@@ -11,7 +11,7 @@ import javafx.stage.Stage;
 import model.FormOfGovernment;
 import model.App_Model;
 
-public class UpdateView extends GridPane {
+public class UpdateViewCountry extends GridPane {
 
 	private App_Model model;
 	private App_Controller controller;
@@ -38,7 +38,7 @@ public class UpdateView extends GridPane {
 	protected Button btnUpdateCancel = new Button("Cancel");
 	
 	// Konstruktor
-	public UpdateView(Stage stage, App_Model model, App_Controller controller) {
+	public UpdateViewCountry(Stage stage, App_Model model, App_Controller controller) {
 		this.stage = stage;
 		this.model = model;
 		this.add(createUpdateDataEntryPane(), 0, 0);
@@ -173,6 +173,46 @@ public class UpdateView extends GridPane {
 
 	public void setBtnUpdateCancel(Button btnCancel) {
 		this.btnUpdateCancel = btnCancel;
+	}
+
+	public TextField getTxtUpdateCountry() {
+		return txtUpdateCountry;
+	}
+
+	public void setTxtUpdateCountry(TextField txtUpdateCountry) {
+		this.txtUpdateCountry = txtUpdateCountry;
+	}
+
+	public TextField getTxtUpdateArea() {
+		return txtUpdateArea;
+	}
+
+	public void setTxtUpdateArea(TextField txtUpdateArea) {
+		this.txtUpdateArea = txtUpdateArea;
+	}
+
+	public TextField getTxtUpdatePopulation() {
+		return txtUpdatePopulation;
+	}
+
+	public void setTxtUpdatePopulation(TextField txtUpdatePopulation) {
+		this.txtUpdatePopulation = txtUpdatePopulation;
+	}
+
+	public ComboBox<FormOfGovernment> getCmbUpdateFormOfGov() {
+		return cmbUpdateFormOfGov;
+	}
+
+	public void setCmbUpdateFormOfGov(ComboBox<FormOfGovernment> cmbUpdateFormOfGov) {
+		this.cmbUpdateFormOfGov = cmbUpdateFormOfGov;
+	}
+
+	public Button getBtnUpdateSave() {
+		return btnUpdateSave;
+	}
+
+	public void setBtnUpdateSave(Button btnUpdateSave) {
+		this.btnUpdateSave = btnUpdateSave;
 	}
 
 

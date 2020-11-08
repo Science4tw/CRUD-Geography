@@ -1,6 +1,7 @@
 package view;
 
 import controller.App_Controller;
+import javafx.collections.ObservableList;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -12,6 +13,7 @@ import model.Country;
 import model.FormOfGovernment;
 import model.GovernedRegion;
 import model.App_Model;
+import model.State;
 
 public class StateView extends GridPane {
 
@@ -36,7 +38,7 @@ public class StateView extends GridPane {
 	protected ComboBox<FormOfGovernment> cmbFormOfGovState = new ComboBox<FormOfGovernment>();
 	
 	// ComboBox um das Land auszuwählen, wo der State hinzugehört
-	protected ComboBox<GovernedRegion> cmbMyCountry = new ComboBox<GovernedRegion>();
+	protected ComboBox<Country> cmbMyCountry = new ComboBox<Country>();
 	
 	// ComboBox um das zugehörige Land auszuwählen
 	// 1 Buttons (Data Control)
@@ -88,8 +90,8 @@ public class StateView extends GridPane {
 //		for (GovernedRegion governedRegion: model.getGovernedRegions()) {
 //			cmbMyCountry.getItems().add(governedRegion.getName());
 //		}
-		
-		cmbMyCountry.setItems(model.getGovernedRegions());
+
+		cmbMyCountry.setItems(model.getCountries());
 //		cmbMyCountry.setModel(new DefaultComboBoxModel<GovernedRegion>(model.getGovernedRegions().toArray(new Country[0])));		
 //		cmbMyCountry.setValue(null);
 		
@@ -222,11 +224,11 @@ public class StateView extends GridPane {
 		this.btnDelete = btnDelete;
 	}
 
-	public ComboBox<GovernedRegion> getCmbmyCountry() {
+	public ComboBox<Country> getCmbmyCountry() {
 		return cmbMyCountry;
 	}
 
-	public void setCmbmyCountry(ComboBox<GovernedRegion> cmbmyCountry) {
+	public void setCmbmyCountry(ComboBox<Country> cmbmyCountry) {
 		this.cmbMyCountry = cmbmyCountry;
 	}
 
@@ -260,6 +262,14 @@ public class StateView extends GridPane {
 
 	public void setCmbFormOfGovState(ComboBox<FormOfGovernment> cmbFormOfGovState) {
 		this.cmbFormOfGovState = cmbFormOfGovState;
+	}
+
+	public ComboBox<Country> getCmbMyCountry() {
+		return cmbMyCountry;
+	}
+
+	public void setCmbMyCountry(ComboBox<Country> cmbMyCountry) {
+		this.cmbMyCountry = cmbMyCountry;
 	}
 
 }

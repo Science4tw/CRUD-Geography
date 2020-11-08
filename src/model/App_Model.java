@@ -26,7 +26,7 @@ public class App_Model extends Model {
 
 	// 2 (MR)
 	private static ObservableList<GovernedRegion> governedRegions = FXCollections.observableArrayList();
-	
+	private static ObservableList<Country> countries = FXCollections.observableArrayList();
 	private static ObservableList<State> states = FXCollections.observableArrayList();
 	
 	
@@ -38,7 +38,9 @@ public class App_Model extends Model {
 	// CREATE Country
 	// Fügt / speichert der Liste ein neu erzeugtes Country Objekts hinzu (MR)
 	public static void createNewCountry(String name, double area, int population, FormOfGovernment formOfGovernment, ObservableList<State> myStates) {
-		governedRegions.add(new Country(name, area, population, formOfGovernment, myStates));
+		Country country = new Country(name, area, population, formOfGovernment, myStates);
+		governedRegions.add(country);
+		countries.add(country);
 
 	}
 
@@ -46,7 +48,9 @@ public class App_Model extends Model {
 	// Fügt / speichert der Liste ein neu erzeugtes State Objekts hinzu (MR)
 	public static void createNewState(String name, double area, int population, FormOfGovernment formOfGovernment,
 			Country myCountry) {
-		states.add(new State(name, area, population, formOfGovernment, myCountry));
+		State state = new State(name, area, population, formOfGovernment, myCountry);
+		governedRegions.add(state);
+		states.add(state);
 	}
 	
 	// UPDATE COUNTRY
@@ -65,6 +69,10 @@ public class App_Model extends Model {
 //		return getStates();
 //	}
 //	
+	public static void setCountries(ObservableList<Country> countries) {
+		App_Model.countries = countries;
+	}
+	
 	public static void setstates(ObservableList<State> states) {
 		App_Model.states = states;
 	}
@@ -75,9 +83,9 @@ public class App_Model extends Model {
 
 	// Um nach dem Namen eines Countrys zu holen
 	public static Country getCountryByName(String name) {
-		for (GovernedRegion governedRegion : governedRegions) {
-			if (governedRegion instanceof Country && governedRegion.getName() != null && governedRegion.getName().equals(name)) {
-				return (Country) governedRegion;
+		for (Country country : countries) {
+			if (country instanceof Country && country.getName() != null && country.getName().equals(name)) {
+				return country;
 			}
 		}
 		return null;
@@ -98,10 +106,10 @@ public class App_Model extends Model {
 		return states;
 	}
 
-	// UPDATE COUNTRY
-	public void updateCountry() {
-		// TODO Auto-generated method stub
+
+	public ObservableList<Country> getCountries() {
 		
+		return countries;
 	}
 
 

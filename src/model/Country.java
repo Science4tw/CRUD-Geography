@@ -59,4 +59,10 @@ public class Country extends GovernedRegion {
 	public void addState(State state) {
 		this.myStates.add(state);
 	}
+	
+	@Override
+	public String toString()
+	{
+		return this.getName();
+	}
 }

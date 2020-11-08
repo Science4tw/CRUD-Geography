@@ -65,11 +65,11 @@ public class App_View { // 1 extends BorderPane
 	private Button btnUpdateState;
 
 	// 1 (Data Display) die TableView für die Countries
-	protected TableView<GovernedRegion> tableView;
-	protected TableColumn<GovernedRegion, String> colCountry;
-	protected TableColumn<GovernedRegion, Double> colArea;
-	protected TableColumn<GovernedRegion, Integer> colPopulation;
-	protected TableColumn<GovernedRegion, String> colFormOfGov;
+	protected TableView<Country> tableView;
+	protected TableColumn<Country, String> colCountry;
+	protected TableColumn<Country, Double> colArea;
+	protected TableColumn<Country, Integer> colPopulation;
+	protected TableColumn<Country, String> colFormOfGov;
 	
 	// 1 (Data Display) die TableView für die States
 	protected TableView<State> stateTableView;
@@ -77,7 +77,7 @@ public class App_View { // 1 extends BorderPane
 	protected TableColumn<State, Double> colStateArea;
 	protected TableColumn<State, Integer> colStatePopulation;
 //	protected TableColumn<GovernedRegion, String> colStateFormOfGov;
-	protected TableColumn<State, Country> colMyCountry;
+	protected TableColumn<State, String> colMyCountry;
 	
 
 	// MyStates VIEW
@@ -205,8 +205,8 @@ public class App_View { // 1 extends BorderPane
 	/*
 	 * 1, 2 & 3 Data Display Pane TableView für die COUNTRY Liste
 	 */
-	private TableView<GovernedRegion> createTableView() {
-		this.tableView = new TableView<GovernedRegion>();
+	private TableView<Country> createTableView() {
+		this.tableView = new TableView<Country>();
 		this.tableView.setEditable(false);
 
 		// Each column needs a title, and a source of data.
@@ -233,11 +233,11 @@ public class App_View { // 1 extends BorderPane
 		// Government Spalte
 		colFormOfGov = new TableColumn<>("Form of Government");
 		colFormOfGov.setMinWidth(50);
-		colFormOfGov.setCellValueFactory(new PropertyValueFactory<GovernedRegion, String>("formOfGovernment"));
+		colFormOfGov.setCellValueFactory(new PropertyValueFactory<Country, String>("formOfGovernment"));
 		tableView.getColumns().add(colFormOfGov);
 
 		// Finally, attach the tableView to the ObservableList of data
-		tableView.setItems(model.getGovernedRegions());
+		tableView.setItems(model.getCountries());
 
 		return tableView;
 	}
@@ -279,7 +279,7 @@ public class App_View { // 1 extends BorderPane
 		
 		colMyCountry = new TableColumn<>("My Country");
 		colMyCountry.setMinWidth(50);
-		colMyCountry.setCellValueFactory(new PropertyValueFactory<>("myCountry"));
+		colMyCountry.setCellValueFactory(new PropertyValueFactory<State, String>("myCountryName"));
 		stateTableView.getColumns().add(colMyCountry);
 
 		// Finally, attach the tableView to the ObservableList of data
@@ -357,42 +357,42 @@ public class App_View { // 1 extends BorderPane
 		this.updateViewCountry = updateViewCountry;
 	}
 	// Getter
-	public TableView<GovernedRegion> getTableView() {
+	public TableView<Country> getTableView() {
 		return this.tableView;
 	}
 
 	// Setter
-	public void setTableView(TableView<GovernedRegion> tableView) {
+	public void setTableView(TableView<Country> tableView) {
 		this.tableView = tableView;
 	}
 
 	// Getter
-	public TableColumn<GovernedRegion, String> getColCountry() {
+	public TableColumn<Country, String> getColCountry() {
 		return colCountry;
 	}
 
 	// Setter
-	public void setColCountry(TableColumn<GovernedRegion, String> colCountry) {
+	public void setColCountry(TableColumn<Country, String> colCountry) {
 		this.colCountry = colCountry;
 	}
 
 	// Getter
-	public TableColumn<GovernedRegion, Double> getColArea() {
+	public TableColumn<Country, Double> getColArea() {
 		return colArea;
 	}
 
 	// Setter
-	public void setColArea(TableColumn<GovernedRegion, Double> colArea) {
+	public void setColArea(TableColumn<Country, Double> colArea) {
 		this.colArea = colArea;
 	}
 
 	// Getter
-	public TableColumn<GovernedRegion, String> getColFormOfGov() {
+	public TableColumn<Country, String> getColFormOfGov() {
 		return colFormOfGov;
 	}
 
 	// Setter
-	public void setColFormOfGov(TableColumn<GovernedRegion, String> colFormOfGov) {
+	public void setColFormOfGov(TableColumn<Country, String> colFormOfGov) {
 		this.colFormOfGov = colFormOfGov;
 	}
 
@@ -507,7 +507,7 @@ public class App_View { // 1 extends BorderPane
 	}
 
 
-	public void setColPopulation(TableColumn<GovernedRegion, Integer> colPopulation) {
+	public void setColPopulation(TableColumn<Country, Integer> colPopulation) {
 		this.colPopulation = colPopulation;
 	}
 
@@ -640,7 +640,7 @@ public class App_View { // 1 extends BorderPane
 		this.colMyStates = colMyStates;
 	}
 
-	public TableColumn<GovernedRegion, Integer> getColPopulation() {
+	public TableColumn<Country, Integer> getColPopulation() {
 		return colPopulation;
 	}	
 

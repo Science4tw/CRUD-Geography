@@ -266,7 +266,7 @@ public class App_Controller {
 		return view.getUpdateSceneState();
 	}
 
-	protected TableView<GovernedRegion> getTableView() {
+	protected TableView<Country> getTableView() {
 		return view.getTableView();
 	}
 
@@ -384,7 +384,7 @@ public class App_Controller {
 
 		// 4. Überprüfen das Kontrollelemente nicht leer sind
 		if (name != null && area != 0 && formOfGovernment != null) {
-			GovernedRegion selectedItem = view.getTableView().getSelectionModel().getSelectedItem();
+			Country selectedItem = view.getTableView().getSelectionModel().getSelectedItem();
 			selectedItem.setName(name);
 			selectedItem.setArea(area);
 			selectedItem.setPopulation(population);
@@ -426,10 +426,13 @@ public class App_Controller {
 		double area = Integer.parseInt(view.getStateView().getTxtAreaState().getText());
 		int population = Integer.parseInt(view.getStateView().getTxtPopulationState().getText());
 		FormOfGovernment formOfGovernment = view.getStateView().getCmbFormOfGovState().getValue();
+		
+		Country myCountry = view.getStateView().getCmbMyCountry().getValue();
+		
 		// 4. Überprüfen das Kontrollelemente nicht leer sind
 		if (name != null && area != 0 && formOfGovernment != null) {
 			// 5
-			model.createNewState(name, area, population, formOfGovernment, null);
+			model.createNewState(name, area, population, formOfGovernment, myCountry);
 			view.setStatus("State Objekt hinzugefügt"); // Aktualisiert Status
 			view.getStateView().reset(); // Setzt die Eingaben in den Kontrollelementen zurück
 		} else {
@@ -443,7 +446,7 @@ public class App_Controller {
 	 */
 	public void updateView() {
 		// Finally, attach the tableView to the ObservableList of data
-		view.getTableView().setItems(model.getGovernedRegions());
+		view.getTableView().setItems(model.getCountries());
 		view.getStateTableView().setItems(model.getStates());
 
 	}

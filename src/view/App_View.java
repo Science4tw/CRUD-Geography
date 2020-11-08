@@ -6,6 +6,7 @@ import java.util.logging.Logger;
 import abstractClasses.View;
 import commonClasses.Translator;
 import mvc.ServiceLocator;
+import splashScreen.Splash_View;
 import controller.App_Controller;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
@@ -28,7 +29,7 @@ import model.GovernedRegion;
 import model.State;
 
 // 0
-public class App_View extends GridPane { // 1 extends BorderPane
+public class App_View { // 1 extends BorderPane
 
 	// 0
 	private Stage stage;
@@ -37,7 +38,7 @@ public class App_View extends GridPane { // 1 extends BorderPane
 	private App_Controller controller;
 
 	// VIEWS
-	private SplashView splashView;
+
 	private CountryView countryView;
 	private UpdateViewCountry updateViewCountry;
 	
@@ -96,34 +97,35 @@ public class App_View extends GridPane { // 1 extends BorderPane
 		this.stage = primaryStage;
 		this.model = model;
 		ServiceLocator.getServiceLocator().getLogger().info("Application view initialized");
+		GridPane root = new GridPane();
 		
 		// VIEWS
 //		this.add(createCountryView(), 0, 0);
 
 		// MENU Bereich initialisieren
-		this.add(createMenuPane(), 0, 1);
+		root.add(createMenuPane(), 0, 1);
 				
 		// Control Pane mit den Buttons Create, Delete und Update in der App_View für die Country View
-		this.add(createControlPane(), 0, 2);
+		root.add(createControlPane(), 0, 2);
 		
 		// Control Pane mit den Buttons Create, Delete und Update in der App_View für die State View
-		this.add(createControlPaneState(), 0, 5);
+		root.add(createControlPaneState(), 0, 5);
 
 		// DATA DISPLAY PANE Country TableView
 		// Initialisieren der TableView
 		this.tableView = createTableView();
-		this.add(tableView, 0, 3);
+		root.add(tableView, 0, 3);
 		
 		this.myStatesTableView = createMyStatesTablewView();
-		this.add(myStatesTableView, 2, 3);
+		root.add(myStatesTableView, 2, 3);
 	
 		// DATA DISPLAY PANE STATE TableView
 		// Initialisieren der TableView
 		this.stateTableView = createStateTableView();
-		this.add(stateTableView, 0, 6);
+		root.add(stateTableView, 0, 6);
 
 		// SZENEN
-		mainScene = new Scene(this);
+		mainScene = new Scene(root);
 		countryScene = new Scene(createCountryView(), 350,350);
 		stateScene = new Scene(createStateView(), 350,350);
 		updateScene = new Scene(createUpdateView(), 350, 350);
@@ -131,7 +133,7 @@ public class App_View extends GridPane { // 1 extends BorderPane
 
 		// 1 Aktueller Status
 		this.lblStatus = new Label("Everything okay");
-		this.add(this.lblStatus, 0, 4);
+		root.add(this.lblStatus, 0, 4);
 
 		// 1 Create the scene using our layout; then display it
 //		mainScene = new Scene(this);
@@ -402,13 +404,6 @@ public class App_View extends GridPane { // 1 extends BorderPane
 		this.stage = stage;
 	}
 
-	public SplashView getSplashView() {
-		return splashView;
-	}
-
-	public void setSplashView(SplashView splashView) {
-		this.splashView = splashView;
-	}
 
 	public Scene getSplashScene() {
 		return splashScene;

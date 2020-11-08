@@ -429,6 +429,9 @@ public class App_Controller {
 		
 		Country myCountry = view.getStateView().getCmbMyCountry().getValue();
 		
+		State newState = new State(name, area, population, formOfGovernment, myCountry);
+//		model.addState(newState);
+		
 		// 4. Überprüfen das Kontrollelemente nicht leer sind
 		if (name != null && area != 0 && formOfGovernment != null) {
 			// 5

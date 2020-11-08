@@ -51,6 +51,8 @@ public class App_Model extends Model {
 		State state = new State(name, area, population, formOfGovernment, myCountry);
 		governedRegions.add(state);
 		states.add(state);
+//		getMyStates().add(state);
+
 	}
 	
 	// UPDATE COUNTRY
@@ -101,16 +103,12 @@ public class App_Model extends Model {
 		return null;
 	}
 
-	public ObservableList<State> getMyStates() {
-		// TODO Auto-generated method stub
-		return states;
-	}
-
 
 	public ObservableList<Country> getCountries() {
 		
 		return countries;
 	}
+
 
 
 	

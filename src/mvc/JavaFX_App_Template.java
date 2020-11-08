@@ -30,21 +30,7 @@ public class JavaFX_App_Template extends Application {
 
     private ServiceLocator serviceLocator; // resources, after initialization
 
-    
- // Country TEST
- 	public FormOfGovernment DEMOCRACY = null;
- 	public String Schweiz = "Schweiz";
- 	
- 	// State TEST
- 	public String bern = "Bern";
- 	public String genf = "Genf";
- 	public String basel = "Basel";
- 	public String zuerich = "Zuerich";
- 	 
- 	public Country schweiz = new Country("Schweiz", 0, 0, DEMOCRACY, null);
- 	public Country deutschland = new Country("deutschland", 0, 0, DEMOCRACY, null);
- 	public Country frankreich = new Country("frankreich", 0, 0, DEMOCRACY, null);
- 	
+
     public static void main(String[] args) {
         launch(args);
     }
@@ -127,21 +113,6 @@ public class JavaFX_App_Template extends Application {
         splashView = null;
         // Country TEST
         
- 		model.createNewCountry(Schweiz, 10, 10, DEMOCRACY, null);
- 		model.createNewCountry(Schweiz, 10, 10, DEMOCRACY, null);
- 		
- 		// State TEST
- 		model.createNewState(bern, 1, 1, DEMOCRACY, schweiz);
- 		model.createNewState(basel, 1, 1, DEMOCRACY, schweiz);
- 		model.createNewState(zuerich, 1, 1, DEMOCRACY, schweiz);
- 		
- 		model.createNewState("Bayern", 1, 1, DEMOCRACY, deutschland);
- 		model.createNewState("Hessen", 1, 1, DEMOCRACY, deutschland);
- 		model.createNewState("Brandenburg", 1, 1, DEMOCRACY, deutschland);
- 		
- 		model.createNewState("Paris", 1, 1, DEMOCRACY, frankreich);
- 		model.createNewState("Lyon", 1, 1, DEMOCRACY, frankreich);
- 		model.createNewState("Marseille", 1, 1, DEMOCRACY, frankreich);
  		
         view.start();
     }

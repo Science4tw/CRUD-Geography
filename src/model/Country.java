@@ -14,7 +14,7 @@ import javafx.collections.ObservableList;
 public class Country extends GovernedRegion {
 
 	// X (MR)
-	private static ObservableList<State> myStates = FXCollections.observableArrayList();
+	private ObservableList<State> myStates = FXCollections.observableArrayList();
 
 	// Konstruktor
 	public Country(String name, double area, int population, FormOfGovernment formOfGovernment, ObservableList<State> myStates) {
@@ -23,7 +23,7 @@ public class Country extends GovernedRegion {
 	}
 
 	// Getter für states (MR)
-	public static ObservableList<State> getStates() {
+	public ObservableList<State> getStates() {
 		return myStates;
 	}
 

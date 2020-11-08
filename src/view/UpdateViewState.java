@@ -23,7 +23,8 @@ public class UpdateViewState extends GridPane {
 	private Label lblUpdateAreaState;
 	private Label lblUpdatePopulationState;
 	private Label lblUpdateFormOfGovState;
-
+	private Label lblMyCountry;
+	
 	// 1
 	// Textfeld um den Namen des States einzugeben
 	private TextField txtUpdateState = new TextField();
@@ -60,6 +61,10 @@ public class UpdateViewState extends GridPane {
 		lblUpdateAreaState = new Label("Fläche des States");
 		lblUpdatePopulationState = new Label("Population des States");
 		lblUpdateFormOfGovState = new Label("Regierungsform des States");
+		lblMyCountry = new Label("Land des States");
+		
+		cmbMyCountry.setItems(model.getCountries());
+		
 		// Fill combos (hol mir die Items,alle hinzufügen von den values der Enums)
 		cmbUpdateFormOfGovState.getItems().addAll(FormOfGovernment.values());
 		cmbUpdateFormOfGovState.setValue(FormOfGovernment.DICTATORSHIP);
@@ -74,6 +79,10 @@ public class UpdateViewState extends GridPane {
 		pane.add(lblUpdateFormOfGovState, 0, 3);
 		pane.add(getCmbUpdateFormOfGovState(), 1, 3);
 
+		
+		pane.add(lblMyCountry, 0, 4);
+		pane.add(cmbMyCountry, 1, 4);
+		
 		return pane;
 		
 	}

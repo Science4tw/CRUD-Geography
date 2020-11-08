@@ -80,9 +80,9 @@ public class App_View { // 1 extends BorderPane
 	protected TableColumn<State, String> colMyCountry;
 	
 
-	// MyStates VIEW
-	protected TableView<State> myStatesTableView;
-	protected TableColumn<State, String> colMyStates;
+//	// MyStates VIEW
+//	protected TableView<State> myStatesTableView;
+//	protected TableColumn<State, String> colMyStates;
 
 	// *** MENUS ***
 	protected Menu menuFile;
@@ -116,8 +116,8 @@ public class App_View { // 1 extends BorderPane
 		this.tableView = createTableView();
 		root.add(tableView, 0, 3);
 		
-		this.myStatesTableView = createMyStatesTablewView();
-		root.add(myStatesTableView, 2, 3);
+//		this.myStatesTableView = createMyStatesTablewView();
+//		root.add(myStatesTableView, 2, 3);
 	
 		// DATA DISPLAY PANE STATE TableView
 		// Initialisieren der TableView
@@ -188,20 +188,20 @@ public class App_View { // 1 extends BorderPane
 		return pane;
 	}
 
-	private TableView<State> createMyStatesTablewView(){
-		this.myStatesTableView = new TableView<State>();
-		this.myStatesTableView.setEditable(false);
-		
-		colMyStates = new TableColumn<>("My States");
-		colMyStates.setMinWidth(50);
+//	private TableView<State> createMyStatesTablewView(){
+//		this.myStatesTableView = new TableView<State>();
+//		this.myStatesTableView.setEditable(false);
+//		
+//		colMyStates = new TableColumn<>("My States");
+//		colMyStates.setMinWidth(50);
 //		colMyStates.setCellValueFactory(new PropertyValueFactory<>("myStates"));
-		myStatesTableView.getColumns().add(colMyStates);
-		
-		// Finally, attach the tableView to the ObservableList of data
-		myStatesTableView.setItems(model.getMyStates());
-
-		return myStatesTableView;
-	}
+//		myStatesTableView.getColumns().add(colMyStates);
+//		
+//		// Finally, attach the tableView to the ObservableList of data
+////		myStatesTableView.setItems(model.getMyStates());
+//
+//		return myStatesTableView;
+//	}
 	/*
 	 * 1, 2 & 3 Data Display Pane TableView für die COUNTRY Liste
 	 */
@@ -632,13 +632,13 @@ public class App_View { // 1 extends BorderPane
 		this.updateViewCountry = updateViewCountry;
 	}
 
-	public TableColumn<State, String> getColMyStates() {
-		return colMyStates;
-	}
-
-	public void setColMyStates(TableColumn<State, String> colMyStates) {
-		this.colMyStates = colMyStates;
-	}
+//	public TableColumn<State, String> getColMyStates() {
+//		return colMyStates;
+//	}
+//
+//	public void setColMyStates(TableColumn<State, String> colMyStates) {
+//		this.colMyStates = colMyStates;
+//	}
 
 	public TableColumn<Country, Integer> getColPopulation() {
 		return colPopulation;

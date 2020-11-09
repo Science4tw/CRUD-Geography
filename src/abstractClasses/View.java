@@ -12,7 +12,7 @@ import javafx.stage.Stage;
  * 
  * @author Brad Richards
  */
-public abstract class View<M extends Model> extends GridPane {
+public abstract class View<M extends Model> {
     protected Stage stage;
     protected Scene scene;
     protected M model;

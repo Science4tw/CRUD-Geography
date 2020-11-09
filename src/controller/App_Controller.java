@@ -4,6 +4,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import abstractClasses.Controller;
+import mvc.ServiceLocator;
+import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -11,11 +13,15 @@ import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TablePosition;
 import javafx.scene.control.TableView;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TableView.TableViewSelectionModel;
+import javafx.stage.WindowEvent;
 import model.FormOfGovernment;
 import model.App_Model;
 import model.Country;
@@ -24,8 +30,10 @@ import model.State;
 import view.App_View;
 
 // 0
-public class App_Controller {
+public class App_Controller extends Controller<App_Model, App_View> {
 
+	ServiceLocator serviceLocator;
+	
 	private App_Model model;
 	private App_View view;
 
@@ -35,8 +43,8 @@ public class App_Controller {
 
 	// 0 Konstruktor
 	public App_Controller(App_Model model, App_View view) {
-		this.model = model;
-		this.view = view;
+		super(model, view);
+
 
 		// *** HANDLING COUNTRY ***
 
@@ -254,6 +262,20 @@ public class App_Controller {
 				view.getTableView().scrollTo(c.getFrom());
 			}
 		});
+		
+		
+		 // register ourselves to handle window-closing event
+        view.getStage().setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent event) {
+            	Alert alert = new Alert(AlertType.CONFIRMATION, "Möchten Sie wirklich beenden?");
+            	alert.showAndWait();
+                Platform.exit();
+            }
+        });
+        
+        serviceLocator = ServiceLocator.getServiceLocator();        
+        serviceLocator.getLogger().info("Application controller initialized");
 	}
 
 	protected TableView<State> getStateTableView() {
@@ -278,7 +300,7 @@ public class App_Controller {
 
 	private void validateCountry(String newValue) {
 		boolean valid = false;
-		String country = newValue;
+		String country = newValue;                                                                                                                                                                                                 
 		Pattern pattern = Pattern.compile("[a-zA-Z]*");
 		Matcher m = pattern.matcher(country);
 		boolean alphabetic = m.matches();
@@ -377,7 +399,7 @@ public class App_Controller {
 		// 1. Lese den Wert des Textfelds mit den Namen des Landes aus
 		String name = view.getUpdateViewCountry().getTxtUpdateCountry().getText();
 		// 2. Lese den Wert des Textfelds mit der Fläche des Landes aus
-		double area = Integer.parseInt(view.getUpdateViewCountry().getTxtUpdateArea().getText());
+		double area = (double) Integer.parseInt(view.getUpdateViewCountry().getTxtUpdateArea().getText());
 		int population = Integer.parseInt(view.getUpdateViewCountry().getTxtUpdatePopulation().getText());
 		// 3. Hole den ausgewählten Wert der ComboBox
 		FormOfGovernment formOfGovernment = view.getUpdateViewCountry().getCmbUpdateFormOfGov().getValue();
@@ -400,7 +422,7 @@ public class App_Controller {
 		// 1. Lese den Wert des Textfelds mit den Namen des Landes aus
 		String name = view.getUpdateViewState().getTxtUpdateState().getText();
 		// 2. Lese den Wert des Textfelds mit der Fläche des Landes aus
-		double area = (double) Integer.parseInt(view.getUpdateViewState().getTxtUpdateAreaState().getText());
+		double area = Integer.parseInt(view.getUpdateViewState().getTxtUpdateAreaState().getText());
 		int population = Integer.parseInt(view.getUpdateViewState().getTxtUpdatePopulationState().getText());
 		// 3. Hole den ausgewählten Wert der ComboBox
 		FormOfGovernment formOfGovernment = view.getUpdateViewState().getCmbUpdateFormOfGovState().getValue();
@@ -433,7 +455,7 @@ public class App_Controller {
 //		model.addState(newState);
 		
 		// 4. Überprüfen das Kontrollelemente nicht leer sind
-		if (name != null && area != 0 && formOfGovernment != null) {
+		if (name != null && area != 0 && formOfGovernment != null && myCountry != null ) {
 			// 5
 			model.createNewState(name, area, population, formOfGovernment, myCountry);
 			view.setStatus("State Objekt hinzugefügt"); // Aktualisiert Status

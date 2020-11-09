@@ -29,19 +29,18 @@ import model.GovernedRegion;
 import model.State;
 
 // 0
-public class App_View { // 1 extends BorderPane
+public class App_View extends View<App_Model> { // 1 extends BorderPane
 
 	// 0
-	private Stage stage;
-	private App_Model model;
+//	private Stage stage;
+//	private App_Model model;
 	// 1 (abklären ob das so machbar ist)
 	private App_Controller controller;
 
 	// VIEWS
-
 	private CountryView countryView;
 	private UpdateViewCountry updateViewCountry;
-	
+
 	private StateView stateView;
 	private UpdateViewState updateViewState;
 
@@ -50,7 +49,7 @@ public class App_View { // 1 extends BorderPane
 	private Scene mainScene; // -> App_View (GridPane)
 	private Scene countryScene;
 	private Scene updateScene;
-	
+
 	private Scene stateScene;
 	private Scene updateSceneState;
 
@@ -58,7 +57,7 @@ public class App_View { // 1 extends BorderPane
 	private Button btnCreateCountry;
 	private Button btnDeleteCountry;
 	private Button btnUpdateCountry;
-	
+
 	// Controls State
 	private Button btnCreateState;
 	private Button btnDeleteState;
@@ -70,7 +69,7 @@ public class App_View { // 1 extends BorderPane
 	protected TableColumn<Country, Double> colArea;
 	protected TableColumn<Country, Integer> colPopulation;
 	protected TableColumn<Country, String> colFormOfGov;
-	
+
 	// 1 (Data Display) die TableView für die States
 	protected TableView<State> stateTableView;
 	protected TableColumn<State, String> colState;
@@ -78,7 +77,6 @@ public class App_View { // 1 extends BorderPane
 	protected TableColumn<State, Integer> colStatePopulation;
 //	protected TableColumn<GovernedRegion, String> colStateFormOfGov;
 	protected TableColumn<State, String> colMyCountry;
-	
 
 //	// MyStates VIEW
 //	protected TableView<State> myStatesTableView;
@@ -88,58 +86,26 @@ public class App_View { // 1 extends BorderPane
 	protected Menu menuFile;
 	protected Menu menuFileLanguage;
 	protected Menu menuHelp;
-	
+
 	// 1 & 2 Aktueller Status Label
 	private Label lblStatus;
 
 	// 0
 	public App_View(Stage primaryStage, App_Model model) {
-		this.stage = primaryStage;
-		this.model = model;
+		super(primaryStage, model);
+
 		ServiceLocator.getServiceLocator().getLogger().info("Application view initialized");
-		GridPane root = new GridPane();
-		
+		mainScene = create_GUI();
+
+
 		// VIEWS
 //		this.add(createCountryView(), 0, 0);
 
-		// MENU Bereich initialisieren
-		root.add(createMenuPane(), 0, 1);
-				
-		// Control Pane mit den Buttons Create, Delete und Update in der App_View für die Country View
-		root.add(createControlPane(), 0, 2);
-		
-		// Control Pane mit den Buttons Create, Delete und Update in der App_View für die State View
-		root.add(createControlPaneState(), 0, 5);
+//		// MENU Bereich initialisieren
+//		root.add(createMenuPane(), 0, 1);
 
-		// DATA DISPLAY PANE Country TableView
-		// Initialisieren der TableView
-		this.tableView = createTableView();
-		root.add(tableView, 0, 3);
-		
-//		this.myStatesTableView = createMyStatesTablewView();
-//		root.add(myStatesTableView, 2, 3);
-	
-		// DATA DISPLAY PANE STATE TableView
-		// Initialisieren der TableView
-		this.stateTableView = createStateTableView();
-		root.add(stateTableView, 0, 6);
 
-		// SZENEN
-		mainScene = new Scene(root);
-		countryScene = new Scene(createCountryView(), 350,350);
-		stateScene = new Scene(createStateView(), 350,350);
-		updateScene = new Scene(createUpdateView(), 350, 350);
-		updateSceneState = new Scene(createUpdateViewState(), 350, 350);
-
-		// 1 Aktueller Status
-		this.lblStatus = new Label("Everything okay");
-		root.add(this.lblStatus, 0, 4);
-
-		// 1 Create the scene using our layout; then display it
-//		mainScene = new Scene(this);
-		mainScene.getStylesheets().add(getClass().getResource("view.css").toExternalForm());
 		stage.setScene(mainScene);
-		stage.setTitle("Geography Miniproject");
 		stage.setResizable(true);
 	}
 
@@ -164,8 +130,14 @@ public class App_View { // 1 extends BorderPane
 		stage.show();
 
 	}
+	// 0
+	public void stop() {
+		stage.hide();
+		// TODO Auto-generated method stub
 
-	// Methode um die Kontrollelemente zu erzeugen
+	}
+
+	// Methode um die Kontrollelemente zu erzeugen (Country)
 	public Pane createControlPane() {
 		GridPane pane = new GridPane();
 		btnCreateCountry = new Button("Create Country");
@@ -177,31 +149,18 @@ public class App_View { // 1 extends BorderPane
 		return pane;
 	}
 
+	// Methode um die Kontrollelemente zu erzeugen (State)
 	public Pane createControlPaneState() {
 		GridPane pane = new GridPane();
 		btnCreateState = new Button("Create State");
-		btnDeleteState= new Button("Delete State");
-		btnUpdateState= new Button("Update State");
+		btnDeleteState = new Button("Delete State");
+		btnUpdateState = new Button("Update State");
 		pane.add(btnCreateState, 0, 0);
 		pane.add(btnDeleteState, 2, 0);
 		pane.add(btnUpdateState, 4, 0);
 		return pane;
 	}
 
-//	private TableView<State> createMyStatesTablewView(){
-//		this.myStatesTableView = new TableView<State>();
-//		this.myStatesTableView.setEditable(false);
-//		
-//		colMyStates = new TableColumn<>("My States");
-//		colMyStates.setMinWidth(50);
-//		colMyStates.setCellValueFactory(new PropertyValueFactory<>("myStates"));
-//		myStatesTableView.getColumns().add(colMyStates);
-//		
-//		// Finally, attach the tableView to the ObservableList of data
-////		myStatesTableView.setItems(model.getMyStates());
-//
-//		return myStatesTableView;
-//	}
 	/*
 	 * 1, 2 & 3 Data Display Pane TableView für die COUNTRY Liste
 	 */
@@ -276,7 +235,7 @@ public class App_View { // 1 extends BorderPane
 //		colStateFormOfGov.setMinWidth(50);
 //		colStateFormOfGov.setCellValueFactory(new PropertyValueFactory<GovernedRegion, String>("formOfGovernment"));
 //		stateTableView.getColumns().add(colStateFormOfGov);
-		
+
 		colMyCountry = new TableColumn<>("My Country");
 		colMyCountry.setMinWidth(50);
 		colMyCountry.setCellValueFactory(new PropertyValueFactory<State, String>("myCountryName"));
@@ -287,6 +246,7 @@ public class App_View { // 1 extends BorderPane
 
 		return stateTableView;
 	}
+
 	// Methode die Country View zu erzeugen
 	public Pane createCountryView() {
 		Pane pane = new Pane();
@@ -304,7 +264,7 @@ public class App_View { // 1 extends BorderPane
 		return pane;
 
 	}
-	
+
 	// Methode um die UpdateView zu erzeugen
 	public Pane createUpdateView() {
 		Pane pane = new Pane();
@@ -312,50 +272,21 @@ public class App_View { // 1 extends BorderPane
 		pane.getChildren().add(this.getUpdateViewCountry());
 		return pane;
 	}
-	
+
 	// Methode um die UpdateViewState zu erzeugen
 	public Pane createUpdateViewState() {
 		Pane pane = new Pane();
-		this.setUpdateViewState(new UpdateViewState(stage,model,controller));
+		this.setUpdateViewState(new UpdateViewState(stage, model, controller));
 		pane.getChildren().add(this.getUpdateViewState());
 		return pane;
 	}
 
-	
 	// Methode um den Status zu aktualiseren
 	public void setStatus(String message) {
 		this.lblStatus.setText(message); // status = Label
 
 	}
 
-	// Getter für die CountryView
-	public CountryView getCountryView() {
-		return this.countryView;
-	}
-
-	// Setter für die CountryView
-	public void setCountryView(CountryView countryView) {
-		this.countryView = countryView;
-	}
-
-	// Getter für die StateView
-	public StateView getStateView() {
-		return this.stateView;
-	}
-
-	// Setter für die StateView
-	public void setStateView(StateView stateView) {
-		this.stateView = stateView;
-	}
-	// Getter für die UpdateView
-	public UpdateViewCountry getUpdateView() {
-		return this.updateViewCountry;
-	}
-	
-	// Setter für die UpdateView
-	public void setUpdateView(UpdateViewCountry updateViewCountry) {
-		this.updateViewCountry = updateViewCountry;
-	}
 	// Getter
 	public TableView<Country> getTableView() {
 		return this.tableView;
@@ -404,6 +335,96 @@ public class App_View { // 1 extends BorderPane
 		this.stage = stage;
 	}
 
+	public Button getBtnCreateCountry() {
+		return btnCreateCountry;
+	}
+
+	public void setBtnCreateCountry(Button btnCreateCountry) {
+		this.btnCreateCountry = btnCreateCountry;
+	}
+
+	public Button getBtnDeleteCountry() {
+		return btnDeleteCountry;
+	}
+
+	public void setBtnDeleteCountry(Button btnDeleteCountry) {
+		this.btnDeleteCountry = btnDeleteCountry;
+	}
+
+	public Button getBtnUpdateCountry() {
+		return btnUpdateCountry;
+	}
+
+	public void setBtnUpdateCountry(Button btnUpdateCountry) {
+		this.btnUpdateCountry = btnUpdateCountry;
+	}
+
+	public App_Controller getController() {
+		return controller;
+	}
+
+	public void setController(App_Controller controller) {
+		this.controller = controller;
+	}
+
+	// ***** VIEWS ***** (GETTER & SETTER)
+	// Getter für die CountryView
+	public CountryView getCountryView() {
+		return this.countryView;
+	}
+
+	// Setter für die CountryView
+	public void setCountryView(CountryView countryView) {
+		this.countryView = countryView;
+	}
+
+	// Getter für die StateView
+	public StateView getStateView() {
+		return this.stateView;
+	}
+
+	// Setter für die StateView
+	public void setStateView(StateView stateView) {
+		this.stateView = stateView;
+	}
+
+	// Getter für die UpdateView
+	public UpdateViewCountry getUpdateView() {
+		return this.updateViewCountry;
+	}
+
+	// Setter für die UpdateView
+	public void setUpdateView(UpdateViewCountry updateViewCountry) {
+		this.updateViewCountry = updateViewCountry;
+	}
+
+	public UpdateViewCountry getUpdateViewCountry() {
+		return updateViewCountry;
+	}
+	// Setter für die UpdateViewCountry
+	public void setUpdateViewCountry(UpdateViewCountry updateViewCountry) {
+		this.updateViewCountry = updateViewCountry;
+	}
+
+		
+	// ***** SZENEN ***** (GETTER & SETTER)
+	// (UPDATE)
+	public Scene getUpdateScene() {
+		return updateScene;
+	}
+
+	public void setUpdateScene(Scene updateScene) {
+		this.updateScene = updateScene;
+	}
+
+	// (UPDATE STATE)
+	public Scene getUpdateSceneState() {
+		return updateSceneState;
+	}
+
+	public void setUpdateSceneState(Scene updateSceneState) {
+		this.updateSceneState = updateSceneState;
+	}
 
 	public Scene getSplashScene() {
 		return splashScene;
@@ -429,59 +450,10 @@ public class App_View { // 1 extends BorderPane
 		this.stateScene = stateScene;
 	}
 
-	public Button getBtnCreateCountry() {
-		return btnCreateCountry;
-	}
-
-	public void setBtnCreateCountry(Button btnCreateCountry) {
-		this.btnCreateCountry = btnCreateCountry;
-	}
-
-	public Button getBtnDeleteCountry() {
-		return btnDeleteCountry;
-	}
-
-	public void setBtnDeleteCountry(Button btnDeleteCountry) {
-		this.btnDeleteCountry = btnDeleteCountry;
-	}
-
-	public Button getBtnUpdateCountry() {
-		return btnUpdateCountry;
-	}
-
-	public void setBtnUpdateCountry(Button btnUpdateCountry) {
-		this.btnUpdateCountry = btnUpdateCountry;
-	}
-	public App_Controller getController() {
-		return controller;
-	}
-
-	public void setController(App_Controller controller) {
-		this.controller = controller;
-	}
-
-	// *****   *****
+	// ***** ENDE SZENEN *****
 	
-	// *****   *****
-	
-	// *****   *****
-	
-	// **** SZENEN *****
-	// (UPDATE)
-	public Scene getUpdateScene() {
-		return updateScene;
-	}
-
-	public void setUpdateScene(Scene updateScene) {
-		this.updateScene = updateScene;
-	}
-
-	public void stop() {
-		stage.hide();
-		// TODO Auto-generated method stub
-		
-	}
-
+	// ***** CONTROLS ***** (GETTER & SETTER)
+	// CONTROLS STATE
 	public Button getBtnCreateState() {
 		return btnCreateState;
 	}
@@ -506,11 +478,13 @@ public class App_View { // 1 extends BorderPane
 		this.btnUpdateState = btnUpdateState;
 	}
 
-
+	// **** TABLEVIEWS ***
+	// Countries
 	public void setColPopulation(TableColumn<Country, Integer> colPopulation) {
 		this.colPopulation = colPopulation;
 	}
 
+	// States
 	public TableView<State> getStateTableView() {
 		return stateTableView;
 	}
@@ -559,24 +533,76 @@ public class App_View { // 1 extends BorderPane
 		this.updateViewState = updateViewState;
 	}
 
-	public Scene getUpdateSceneState() {
-		return updateSceneState;
-	}
-
-	public void setUpdateSceneState(Scene updateSceneState) {
-		this.updateSceneState = updateSceneState;
-	}
-
 //	@Override
 //	protected Scene create_GUI() {
 //		// TODO Auto-generated method stub
 //		return null;
 //	}	
-	
+
 	// **** VIEWS *****
+
+////	@Override
+//	protected Pane createMenuPane() {
+//		ServiceLocator sl = ServiceLocator.getServiceLocator();
+//		Logger logger = sl.getLogger();
+//
+//		MenuBar menuBar = new MenuBar();
+//		menuFile = new Menu();
+//		menuFileLanguage = new Menu();
+//		menuFile.getItems().add(menuFileLanguage);
+//
+//		for (Locale locale : sl.getLocales()) {
+//			MenuItem language = new MenuItem(locale.getLanguage());
+//			menuFileLanguage.getItems().add(language);
+//			language.setOnAction(event -> {
+//				sl.getConfiguration().setLocalOption("Language", locale.getLanguage());
+//				sl.setTranslator(new Translator(locale.getLanguage()));
+//				updateTexts();
+//			});
+//		}
+//
+//		menuHelp = new Menu();
+//		menuBar.getMenus().addAll(menuFile, menuHelp);
+//
+//		GridPane root = new GridPane();
+//		root.add(menuBar, 0, 0);
+//
+//		updateTexts();
+//
+////        Scene scene = new Scene(root);
+////        scene.getStylesheets().add(
+////                getClass().getResource("app.css").toExternalForm());
+//		return root;
+//	}
+
 	
-//	@Override
-	protected Pane createMenuPane() {
+	
+	
+//	protected void updateTexts() {
+//		Translator t = ServiceLocator.getServiceLocator().getTranslator();
+//
+//		// The menu entries
+//		menuFile.setText(t.getString("program.menu.file"));
+//		menuFileLanguage.setText(t.getString("program.menu.file.language"));
+//		menuHelp.setText(t.getString("program.menu.help"));
+//
+//		// Other controls
+//		// Controls Countries
+////           btnCreateCountry.setText(t.getString("button.btnCreateCountry"));
+////           btnDeleteCountry.setText(t.getString("button.btnDeleteCountry"));
+////           btnUpdateCountry.setText(t.getString("button.btnUpdateCountry"));
+//
+//		stage.setTitle(t.getString("program.name"));
+//	}
+//
+//	public TableColumn<Country, Integer> getColPopulation() {
+//		return colPopulation;
+//	}
+
+	
+	
+	@Override
+	protected Scene create_GUI() {
 	    ServiceLocator sl = ServiceLocator.getServiceLocator();  
 	    Logger logger = sl.getLogger();
 	    
@@ -601,13 +627,51 @@ public class App_View { // 1 extends BorderPane
 		GridPane root = new GridPane();
 		root.add(menuBar, 0, 0);
 		
+
+        
+        
+        
+		// Control Pane mit den Buttons Create, Delete und Update in der App_View für
+		// die Country View
+		root.add(createControlPane(), 0, 2);
+
+		// Control Pane mit den Buttons Create, Delete und Update in der App_View für
+		// die State View
+		root.add(createControlPaneState(), 0, 5);
+
+		// DATA DISPLAY PANE Country TableView
+		// Initialisieren der TableView
+		this.tableView = createTableView();
+		root.add(tableView, 0, 3);
+
+//		this.myStatesTableView = createMyStatesTablewView();
+//		root.add(myStatesTableView, 2, 3);
+
+		// DATA DISPLAY PANE STATE TableView
+		// Initialisieren der TableView
+		this.stateTableView = createStateTableView();
+		root.add(stateTableView, 0, 6);
+
+		// SZENEN
+		countryScene = new Scene(createCountryView(), 350, 350);
+		stateScene = new Scene(createStateView(), 350, 350);
+		updateScene = new Scene(createUpdateView(), 350, 350);
+		updateSceneState = new Scene(createUpdateViewState(), 350, 350);
+
+		// 1 Aktueller Status
+		this.lblStatus = new Label("Everything okay");
+		root.add(this.lblStatus, 0, 4);
+
+		// 1 Create the scene using our layout; then display it
+//		mainScene = new Scene(this);
+//	mainScene.getStylesheets().add(getClass().getResource("view.css").toExternalForm());       
         
         updateTexts();
 		
-//        Scene scene = new Scene(root);
+        Scene scene = new Scene(root);
 //        scene.getStylesheets().add(
 //                getClass().getResource("app.css").toExternalForm());
-        return root;
+        return scene;
 	}
 	
 	   protected void updateTexts() {
@@ -619,31 +683,52 @@ public class App_View { // 1 extends BorderPane
            menuHelp.setText(t.getString("program.menu.help"));
 	        
 	        // Other controls
-           
+//           btnClick.setText(t.getString("button.clickme"));
            
            stage.setTitle(t.getString("program.name"));
-	    }
-
-	public UpdateViewCountry getUpdateViewCountry() {
-		return updateViewCountry;
-	}
-
-	public void setUpdateViewCountry(UpdateViewCountry updateViewCountry) {
-		this.updateViewCountry = updateViewCountry;
-	}
-
+	    }	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 //	public TableColumn<State, String> getColMyStates() {
-//		return colMyStates;
-//	}
+//	return colMyStates;
+//}
 //
-//	public void setColMyStates(TableColumn<State, String> colMyStates) {
-//		this.colMyStates = colMyStates;
-//	}
-
-	public TableColumn<Country, Integer> getColPopulation() {
-		return colPopulation;
-	}	
-
-
-	   
+//public void setColMyStates(TableColumn<State, String> colMyStates) {
+//	this.colMyStates = colMyStates;
+//}
+  
+//	private TableView<State> createMyStatesTablewView(){
+//	this.myStatesTableView = new TableView<State>();
+//	this.myStatesTableView.setEditable(false);
+//	
+//	colMyStates = new TableColumn<>("My States");
+//	colMyStates.setMinWidth(50);
+//	colMyStates.setCellValueFactory(new PropertyValueFactory<>("myStates"));
+//	myStatesTableView.getColumns().add(colMyStates);
+//	
+//	// Finally, attach the tableView to the ObservableList of data
+////	myStatesTableView.setItems(model.getMyStates());
+//
+//	return myStatesTableView;
+//}
 }

@@ -7,6 +7,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
+import model.App_Model;
 
 public class ReadWriteFile {
 
@@ -28,7 +29,7 @@ public class ReadWriteFile {
 			String line = in.readLine();
 			while(line != null) {
 				Country country = readCountry(line);
-				allData.add(country);
+				governedRegions.add(country);
 				line = in.readLine();
 			}
 		}catch(Exception e) {
@@ -68,4 +69,4 @@ public class ReadWriteFile {
 		return line;
 	}
 }
-}
+

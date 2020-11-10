@@ -34,9 +34,9 @@ import view.App_View;
 public class App_Controller extends Controller<App_Model, App_View> {
 
 	ServiceLocator serviceLocator;
-	
-	//private App_Model model;
-	//private App_View view;
+
+	// private App_Model model;
+	// private App_View view;
 
 	// Speichert Wert für gültige Textfelder
 	private boolean countryValid = false;
@@ -63,6 +63,7 @@ public class App_Controller extends Controller<App_Model, App_View> {
 		// soll die Sczene gewechselt werden zu der CountryView
 		view.getBtnCreateCountry().setOnAction(event -> {
 			view.getStage().setScene(getCountryScene());
+			view.getCountryView().getCmbFormOfGov().getStyleClass().add("comboboxNotOk");
 		});
 
 		// (CANCEL UPDATEVIEWCOUNTRY) SZENEN Wechsel von UpdateView zu App_View
@@ -196,7 +197,7 @@ public class App_Controller extends Controller<App_Model, App_View> {
 		// CANCEL STATEVIEW) SZENEN Wechsel von StateView zu App_View
 		view.getStateView().getBtnCancelState().setOnAction(event -> {
 			view.getStage().setScene(getMainScene());
-			view.getCountryView().reset();
+			view.getStateView().reset();
 		});
 
 		// SZENEN Wechsel von App_View zu StateView (CREATE STATE)
@@ -204,6 +205,8 @@ public class App_Controller extends Controller<App_Model, App_View> {
 		// soll die Sczene gewechselt werden zu der CountryView
 		view.getBtnCreateState().setOnAction(event -> {
 			view.getStage().setScene(getStateScene());
+			view.getStateView().getCmbMyCountry().getStyleClass().add("comboboxNotOk");
+
 		});
 
 		// DELETE STATE in App_View in der State TableView
@@ -292,7 +295,6 @@ public class App_Controller extends Controller<App_Model, App_View> {
 					validateStatePopulationUpdate(newValue);
 				});
 
-
 		// ADDITIONAL FUNCTIONALITY
 		/**
 		 * 3 Wenn kein Zeile in der TableView angewählt ist "DEAKTIVIERE" den DELETE
@@ -329,7 +331,6 @@ public class App_Controller extends Controller<App_Model, App_View> {
 		view.getUpdateViewCountry().getBtnUpdateSave().setDisable(true);
 		view.getUpdateViewState().getBtnUpdateSaveState().setDisable(true);
 
-		
 		// Event handler for the model's ObservableList requires a ListChangeListener.
 		// To make generics happy, we have to cast our lambda: what kind of data do we
 		// have?S
@@ -339,21 +340,20 @@ public class App_Controller extends Controller<App_Model, App_View> {
 				view.getTableView().scrollTo(c.getFrom());
 			}
 		});
-		
-		
-		 // register ourselves to handle window-closing event
-        view.getStage().setOnCloseRequest(new EventHandler<WindowEvent>() {
-            @Override
-            public void handle(WindowEvent event) {
-            	Alert alert = new Alert(AlertType.CONFIRMATION, "Möchten Sie wirklich beenden?");
-            	alert.showAndWait();
-            	model.saveCountry();
-                Platform.exit();
-            }
-        });
-        
-        serviceLocator = ServiceLocator.getServiceLocator();        
-        serviceLocator.getLogger().info("Application controller initialized");
+
+		// register ourselves to handle window-closing event
+		view.getStage().setOnCloseRequest(new EventHandler<WindowEvent>() {
+			@Override
+			public void handle(WindowEvent event) {
+				Alert alert = new Alert(AlertType.CONFIRMATION, "Möchten Sie wirklich beenden?");
+				alert.showAndWait();
+				model.saveCountry();
+				Platform.exit();
+			}
+		});
+
+		serviceLocator = ServiceLocator.getServiceLocator();
+		serviceLocator.getLogger().info("Application controller initialized");
 	}
 
 	protected TableView<State> getStateTableView() {
@@ -371,378 +371,387 @@ public class App_Controller extends Controller<App_Model, App_View> {
 	}
 
 	// 3 METHODEN; UM INPUT ZU VALIDIEREN MIT CHANGELISTENER
-		/**
-		 * Für Country Input
-		 */
-		// Muss String zwischen 3 & 50 Zeichen sein, nur Letters keine Zahlen
-		private void validateCountry(String newValue) {
-			boolean valid = false;
-			String country = newValue;                                                                                                                                                                                                 
-			Pattern pattern = Pattern.compile("[a-zA-Z]*");
-			Matcher m = pattern.matcher(country);
-			boolean alphabetic = m.matches();
-			if (country.length() >= 3 && country.length() <= 50 && alphabetic) {
+	/**
+	 * Für Country Input
+	 */
+	// Muss String zwischen 3 & 50 Zeichen sein, nur Letters keine Zahlen
+	private void validateCountry(String newValue) {
+		boolean valid = false;
+		String country = newValue;
+		Pattern pattern = Pattern.compile("[a-zA-Z]*");
+		Matcher m = pattern.matcher(country);
+		boolean alphabetic = m.matches();
+		if (country.length() >= 3 && country.length() <= 50 && alphabetic) {
+			valid = true;
+		}
+
+		// Farben neutralisieren
+		view.getCountryView().getTxtCountry().getStyleClass().remove("inputNotOk");
+		view.getCountryView().getStyleClass().remove("inputOk");
+
+		// Farben setzen, rot = invalid, grün = valid
+		if (valid) {
+			view.getCountryView().getTxtCountry().getStyleClass().add("inputOk");
+		} else {
+			view.getCountryView().getTxtCountry().getStyleClass().add("inputNotOk");
+		}
+		// Speichert true/false-Wert für Button aktivieren
+		countryValid = valid;
+		// Aktiviert Button, wenn alles korrekt
+		enableCreateButton();
+	}
+
+	// Eingabe in Textfeld Area muss Integer sein: > 0, <= Max_Value
+	private void validateArea(String newValue) {
+		boolean valid = false;
+
+		try {
+			int area = Integer.parseInt(newValue);
+			if (area > 0 && area <= Integer.MAX_VALUE)
 				valid = true;
-			}
 
-			// Farben neutralisieren
-			view.getCountryView().getTxtCountry().getStyleClass().remove("inputNotOk");
-			view.getCountryView().getStyleClass().remove("inputOk");
-
-			// Farben setzen, rot = invalid, grün = valid
-			if (valid) {
-				view.getCountryView().getTxtCountry().getStyleClass().add("inputOk");
-			} else {
-				view.getCountryView().getTxtCountry().getStyleClass().add("inputNotOk");
-			}
-			// Speichert true/false-Wert für Button aktivieren
-			countryValid = valid;
-			// Aktiviert Button, wenn alles korrekt
-			enableCreateButton();
+		} catch (NumberFormatException e) {
+			valid = false;
 		}
 
-		// Eingabe in Textfeld Area muss Integer sein: > 0, <= Max_Value
-		private void validateArea(String newValue) {
-			boolean valid = false;
+		view.getCountryView().getTxtArea().getStyleClass().remove("inputNotOk");
+		view.getCountryView().getTxtArea().getStyleClass().remove("inputOk");
 
-			try {
-				int area = Integer.parseInt(newValue);
-				if (area > 0 && area <= Integer.MAX_VALUE)
-					valid = true;
+		if (valid) {
+			view.getCountryView().getTxtArea().getStyleClass().add("inputOk");
 
-			} catch (NumberFormatException e) {
-				valid = false;
-			}
-
-			view.getCountryView().getTxtArea().getStyleClass().remove("inputNotOk");
-			view.getCountryView().getTxtArea().getStyleClass().remove("inputOk");
-
-			if (valid) {
-				view.getCountryView().getTxtArea().getStyleClass().add("inputOk");
-
-			} else {
-				view.getCountryView().getTxtArea().getStyleClass().add("inputNotOk");
-			}
-
-			areaValid = valid;
-			enableCreateButton();
+		} else {
+			view.getCountryView().getTxtArea().getStyleClass().add("inputNotOk");
 		}
 
-		// Eingabe in Textfeld Population muss Integer sein: > 0, <= Max_Value
-		private void validatePopulation(String newValue) {
-			boolean valid = false;
+		areaValid = valid;
+		enableCreateButton();
+	}
 
-			try {
-				int population = Integer.parseInt(newValue);
-				if (population > 0 && population <= Integer.MAX_VALUE)
-					valid = true;
+	// Eingabe in Textfeld Population muss Integer sein: > 0, <= Max_Value
+	private void validatePopulation(String newValue) {
+		boolean valid = false;
 
-			} catch (NumberFormatException e) {
-				valid = false;
-			}
-
-			view.getCountryView().getTxtPopulation().getStyleClass().remove("inputNotOk");
-			view.getCountryView().getTxtPopulation().getStyleClass().remove("inputOk");
-
-			if (valid) {
-				view.getCountryView().getTxtPopulation().getStyleClass().add("inputOk");
-
-			} else {
-				view.getCountryView().getTxtPopulation().getStyleClass().add("inputNotOk");
-			}
-
-			populationValid = valid;
-			enableCreateButton();
-		}
-
-		// Combobox Country of State muss ausgefüllt sein
-		private void validateFormOfGovernment(FormOfGovernment newValue) {
-			boolean valid = false;
-			Object validate = view.getCountryView().getCmbFormOfGov().getSelectionModel().isEmpty();
-
-			if (validate != null) {
+		try {
+			int population = Integer.parseInt(newValue);
+			if (population > 0 && population <= Integer.MAX_VALUE)
 				valid = true;
-			}
-			formOfGovernmentValid = valid;
-			enableCreateButton();
+
+		} catch (NumberFormatException e) {
+			valid = false;
 		}
 
-		// Aktiviert Button, wenn alle Felder korrekt ausgefüllt
-		private void enableCreateButton() {
-			boolean valid = countryValid & areaValid & populationValid & formOfGovernmentValid;
-			view.getCountryView().getBtnSave().setDisable(!valid);
+		view.getCountryView().getTxtPopulation().getStyleClass().remove("inputNotOk");
+		view.getCountryView().getTxtPopulation().getStyleClass().remove("inputOk");
+
+		if (valid) {
+			view.getCountryView().getTxtPopulation().getStyleClass().add("inputOk");
+
+		} else {
+			view.getCountryView().getTxtPopulation().getStyleClass().add("inputNotOk");
 		}
 
-		/**
-		 * Für Country Update
-		 */
-		private void validateCountryUpdate(String newValue) {
-			boolean valid = false;
-			String country = newValue;
-			Pattern pattern = Pattern.compile("[a-zA-Z]*");
-			Matcher m = pattern.matcher(country);
-			boolean alphabetic = m.matches();
-			if (country.length() >= 3 && country.length() <= 50 && alphabetic) {
+		populationValid = valid;
+		enableCreateButton();
+	}
+
+	// Combobox Country of State muss ausgefüllt sein
+	private void validateFormOfGovernment(FormOfGovernment newValue) {
+		boolean valid = false;
+		boolean value = view.getCountryView().getCmbFormOfGov().getSelectionModel().isEmpty();
+
+		view.getCountryView().getCmbFormOfGov().getStyleClass().remove("comboboxOk");
+		view.getCountryView().getCmbFormOfGov().getStyleClass().remove("comboboxNotOk");
+
+		if (!value) {
+			valid = true;
+			view.getCountryView().getCmbFormOfGov().getStyleClass().add("comboboxOk");
+		} 
+
+		formOfGovernmentValid = valid;
+		enableCreateButton();
+	}
+
+	// Aktiviert Button, wenn alle Felder korrekt ausgefüllt
+	private void enableCreateButton() {
+		boolean valid = countryValid & areaValid & populationValid & formOfGovernmentValid;
+		view.getCountryView().getBtnSave().setDisable(!valid);
+	}
+
+	/**
+	 * Für Country Update
+	 */
+	private void validateCountryUpdate(String newValue) {
+		boolean valid = false;
+		String country = newValue;
+		Pattern pattern = Pattern.compile("[a-zA-Z]*");
+		Matcher m = pattern.matcher(country);
+		boolean alphabetic = m.matches();
+		if (country.length() >= 3 && country.length() <= 50 && alphabetic) {
+			valid = true;
+		}
+
+		view.getUpdateViewCountry().getTxtUpdateCountry().getStyleClass().remove("inputNotOk");
+		view.getUpdateViewCountry().getStyleClass().remove("inputOk");
+
+		if (valid) {
+			view.getUpdateViewCountry().getTxtUpdateCountry().getStyleClass().add("inputOk");
+		} else {
+			view.getUpdateViewCountry().getTxtUpdateCountry().getStyleClass().add("inputNotOk");
+		}
+		countryValid = valid;
+		enableCountryUpdateButton();
+	}
+
+	// Eingabe in Textfeld Area muss Integer sein: > 0, <= Max_Value
+	private void validateAreaUpdate(String newValue) {
+		boolean valid = false;
+
+		try {
+			double area = Double.parseDouble(newValue);
+			if (area > 0 && area <= Double.MAX_VALUE)
 				valid = true;
-			}
 
-			view.getUpdateViewCountry().getTxtUpdateCountry().getStyleClass().remove("inputNotOk");
-			view.getUpdateViewCountry().getStyleClass().remove("inputOk");
-
-			if (valid) {
-				view.getUpdateViewCountry().getTxtUpdateCountry().getStyleClass().add("inputOk");
-			} else {
-				view.getUpdateViewCountry().getTxtUpdateCountry().getStyleClass().add("inputNotOk");
-			}
-			countryValid = valid;
-			enableCountryUpdateButton();
+		} catch (NumberFormatException e) {
+			valid = false;
 		}
 
-		// Eingabe in Textfeld Area muss Integer sein: > 0, <= Max_Value
-		private void validateAreaUpdate(String newValue) {
-			boolean valid = false;
+		view.getUpdateViewCountry().getTxtUpdateArea().getStyleClass().remove("inputNotOk");
+		view.getUpdateViewCountry().getTxtUpdateArea().getStyleClass().remove("inputOk");
 
-			try {
-				double area = Double.parseDouble(newValue);
-					if (area > 0 && area <= Double.MAX_VALUE)
-						valid = true;
-					
-			} catch (NumberFormatException e) {
-				valid = false;
-			}
+		if (valid) {
+			view.getUpdateViewCountry().getTxtUpdateArea().getStyleClass().add("inputOk");
 
-			view.getUpdateViewCountry().getTxtUpdateArea().getStyleClass().remove("inputNotOk");
-			view.getUpdateViewCountry().getTxtUpdateArea().getStyleClass().remove("inputOk");
-
-			if (valid) {
-				view.getUpdateViewCountry().getTxtUpdateArea().getStyleClass().add("inputOk");
-
-			} else {
-				view.getUpdateViewCountry().getTxtUpdateArea().getStyleClass().add("inputNotOk");
-			}
-
-			areaValid = valid;
-			enableCountryUpdateButton();
+		} else {
+			view.getUpdateViewCountry().getTxtUpdateArea().getStyleClass().add("inputNotOk");
 		}
 
-		// Eingabe in Textfeld Population muss Integer sein: > 0, <= Max_Value
-		private void validatePopulationUpdate(String newValue) {
-			boolean valid = false;
+		areaValid = valid;
+		enableCountryUpdateButton();
+	}
 
-			try {
-				double population = Double.parseDouble(newValue);
-				if (population > 0 && population <= Double.MAX_VALUE)
-					valid = true;
+	// Eingabe in Textfeld Population muss Integer sein: > 0, <= Max_Value
+	private void validatePopulationUpdate(String newValue) {
+		boolean valid = false;
 
-			} catch (NumberFormatException e) {
-				valid = false;
-			}
-
-			view.getUpdateViewCountry().getTxtUpdatePopulation().getStyleClass().remove("inputNotOk");
-			view.getUpdateViewCountry().getTxtUpdatePopulation().getStyleClass().remove("inputOk");
-
-			if (valid) {
-				view.getUpdateViewCountry().getTxtUpdatePopulation().getStyleClass().add("inputOk");
-
-			} else {
-				view.getUpdateViewCountry().getTxtUpdatePopulation().getStyleClass().add("inputNotOk");
-			}
-
-			populationValid = valid;
-			enableCountryUpdateButton();
-		}
-
-		private void enableCountryUpdateButton() {
-			boolean valid = countryValid & areaValid & populationValid;
-			view.getUpdateViewCountry().getBtnUpdateSave().setDisable(!valid);
-		}
-
-		/**
-		 * für State Input
-		 */
-		// Muss String zwischen 3 & 50 Zeichen sein, nur Letters keine Zahlen
-		private void validateState(String newValue) {
-			boolean valid = false;
-			String state = newValue;
-			Pattern pattern = Pattern.compile("[a-zA-Z]*");
-			Matcher m = pattern.matcher(state);
-			boolean alphabetic = m.matches();
-			if (state.length() >= 3 && state.length() <= 50 && alphabetic) {
+		try {
+			double population = Double.parseDouble(newValue);
+			if (population > 0 && population <= Double.MAX_VALUE)
 				valid = true;
-			}
 
-			view.getStateView().getTxtState().getStyleClass().remove("inputNotOk");
-			view.getStateView().getStyleClass().remove("inputOk");
-
-			if (valid) {
-				view.getStateView().getTxtState().getStyleClass().add("inputOk");
-			} else {
-				view.getStateView().getTxtState().getStyleClass().add("inputNotOk");
-			}
-
-			stateValid = valid;
-			enableCreateStateButton();
+		} catch (NumberFormatException e) {
+			valid = false;
 		}
 
-		// Eingabe in Textfeld Population muss Integer sein: > 0, <= Max_Value
-		private void validateStatePopulation(String newValue) {
-			boolean valid = false;
+		view.getUpdateViewCountry().getTxtUpdatePopulation().getStyleClass().remove("inputNotOk");
+		view.getUpdateViewCountry().getTxtUpdatePopulation().getStyleClass().remove("inputOk");
 
-			try {
-				int population = Integer.parseInt(newValue);
-				if (population > 0 && population <= Integer.MAX_VALUE)
-					valid = true;
+		if (valid) {
+			view.getUpdateViewCountry().getTxtUpdatePopulation().getStyleClass().add("inputOk");
 
-			} catch (NumberFormatException e) {
-				valid = false;
-			}
-
-			view.getStateView().getTxtPopulationState().getStyleClass().remove("inputNotOk");
-			view.getStateView().getTxtPopulationState().getStyleClass().remove("inputOk");
-
-			if (valid) {
-				view.getStateView().getTxtPopulationState().getStyleClass().add("inputOk");
-
-			} else {
-				view.getStateView().getTxtPopulationState().getStyleClass().add("inputNotOk");
-			}
-
-			statePopulationValid = valid;
-			enableCreateStateButton();
+		} else {
+			view.getUpdateViewCountry().getTxtUpdatePopulation().getStyleClass().add("inputNotOk");
 		}
 
-		// Eingabe in Textfeld Area muss Integer sein: > 0, <= Max_Value
-		private void validateStateArea(String newValue) {
-			boolean valid = false;
+		populationValid = valid;
+		enableCountryUpdateButton();
+	}
 
-			try {
-				int area = Integer.parseInt(newValue);
-				if (area > 0 && area <= Integer.MAX_VALUE)
-					valid = true;
+	private void enableCountryUpdateButton() {
+		boolean valid = countryValid & areaValid & populationValid;
+		view.getUpdateViewCountry().getBtnUpdateSave().setDisable(!valid);
+	}
 
-			} catch (NumberFormatException e) {
-				valid = false;
-			}
-
-			view.getStateView().getTxtAreaState().getStyleClass().remove("inputNotOk");
-			view.getStateView().getTxtAreaState().getStyleClass().remove("inputOk");
-
-			if (valid) {
-				view.getStateView().getTxtAreaState().getStyleClass().add("inputOk");
-
-			} else {
-				view.getStateView().getTxtAreaState().getStyleClass().add("inputNotOk");
-			}
-
-			stateAreaValid = valid;
-			enableCreateStateButton();
+	/**
+	 * für State Input
+	 */
+	// Muss String zwischen 3 & 50 Zeichen sein, nur Letters keine Zahlen
+	private void validateState(String newValue) {
+		boolean valid = false;
+		String state = newValue;
+		Pattern pattern = Pattern.compile("[a-zA-Z]*");
+		Matcher m = pattern.matcher(state);
+		boolean alphabetic = m.matches();
+		if (state.length() >= 3 && state.length() <= 50 && alphabetic) {
+			valid = true;
 		}
 
-		// Combobox Country of State muss ausgefüllt sein
-		private void validateStateCountry(Country newValue) {
-			boolean valid = false;
-			Object validate = view.getStateView().getCmbMyCountry().getSelectionModel().isEmpty();
+		view.getStateView().getTxtState().getStyleClass().remove("inputNotOk");
+		view.getStateView().getStyleClass().remove("inputOk");
 
-			if (validate != null) {
+		if (valid) {
+			view.getStateView().getTxtState().getStyleClass().add("inputOk");
+		} else {
+			view.getStateView().getTxtState().getStyleClass().add("inputNotOk");
+		}
+
+		stateValid = valid;
+		enableCreateStateButton();
+	}
+
+	// Eingabe in Textfeld Population muss Integer sein: > 0, <= Max_Value
+	private void validateStatePopulation(String newValue) {
+		boolean valid = false;
+
+		try {
+			int population = Integer.parseInt(newValue);
+			if (population > 0 && population <= Integer.MAX_VALUE)
 				valid = true;
-			}
 
-			stateCountryValid = valid;
-			enableCreateStateButton();
+		} catch (NumberFormatException e) {
+			valid = false;
 		}
 
-		// Aktiviert Button, wenn alle Felder korrekt ausgefüllt
-		private void enableCreateStateButton() {
-			boolean valid = stateValid & stateAreaValid & statePopulationValid & stateCountryValid;
-			view.getStateView().getBtnCreateState().setDisable(!valid);
+		view.getStateView().getTxtPopulationState().getStyleClass().remove("inputNotOk");
+		view.getStateView().getTxtPopulationState().getStyleClass().remove("inputOk");
+
+		if (valid) {
+			view.getStateView().getTxtPopulationState().getStyleClass().add("inputOk");
+
+		} else {
+			view.getStateView().getTxtPopulationState().getStyleClass().add("inputNotOk");
 		}
 
-		/**
-		 * Für Update State
-		 */
-		// Muss String zwischen 3 & 50 Zeichen sein, nur Letters keine Zahlen
-		private void validateStateUpdate(String newValue) {
-			boolean valid = false;
-			String state = newValue;
-			Pattern pattern = Pattern.compile("[a-zA-Z]*");
-			Matcher m = pattern.matcher(state);
-			boolean alphabetic = m.matches();
-			if (state.length() >= 3 && state.length() <= 50 && alphabetic) {
+		statePopulationValid = valid;
+		enableCreateStateButton();
+	}
+
+	// Eingabe in Textfeld Area muss Integer sein: > 0, <= Max_Value
+	private void validateStateArea(String newValue) {
+		boolean valid = false;
+
+		try {
+			int area = Integer.parseInt(newValue);
+			if (area > 0 && area <= Integer.MAX_VALUE)
 				valid = true;
-			}
 
-			view.getUpdateViewState().getTxtUpdateState().getStyleClass().remove("inputNotOk");
-			view.getUpdateViewState().getStyleClass().remove("inputOk");
-
-			if (valid) {
-				view.getUpdateViewState().getTxtUpdateState().getStyleClass().add("inputOk");
-			} else {
-				view.getUpdateViewState().getTxtUpdateState().getStyleClass().add("inputNotOk");
-			}
-
-			stateValid = valid;
-			enableUpdateStateButton();
+		} catch (NumberFormatException e) {
+			valid = false;
 		}
 
-		// Eingabe in Textfeld Area muss Integer sein: > 0, <= Max_Value
-		private void validateStateAreaUpdate(String newValue) {
-			boolean valid = false;
+		view.getStateView().getTxtAreaState().getStyleClass().remove("inputNotOk");
+		view.getStateView().getTxtAreaState().getStyleClass().remove("inputOk");
 
-			try {
-				double area = Double.parseDouble(newValue);
-				if (area > 0 && area <= Double.MAX_VALUE)
-					valid = true;
+		if (valid) {
+			view.getStateView().getTxtAreaState().getStyleClass().add("inputOk");
 
-			} catch (NumberFormatException e) {
-				valid = false;
-			}
-
-			view.getUpdateViewState().getTxtUpdateAreaState().getStyleClass().remove("inputNotOk");
-			view.getUpdateViewState().getTxtUpdateAreaState().getStyleClass().remove("inputOk");
-
-			if (valid) {
-				view.getUpdateViewState().getTxtUpdateAreaState().getStyleClass().add("inputOk");
-
-			} else {
-				view.getUpdateViewState().getTxtUpdateAreaState().getStyleClass().add("inputNotOk");
-			}
-
-			stateAreaValid = valid;
-			enableUpdateStateButton();
+		} else {
+			view.getStateView().getTxtAreaState().getStyleClass().add("inputNotOk");
 		}
 
-		// Eingabe in Textfeld Population muss Integer sein: > 0, <= Max_Value
-		private void validateStatePopulationUpdate(String newValue) {
-			boolean valid = false;
+		stateAreaValid = valid;
+		enableCreateStateButton();
+	}
 
-			try {
-				double population = Double.parseDouble(newValue);
-				if (population > 0 && population <= Double.MAX_VALUE)
-					valid = true;
+	// Combobox Country of State muss ausgefüllt sein
+	private void validateStateCountry(Country newValue) {
+		boolean valid = false;
+		boolean value = view.getStateView().getCmbMyCountry().getSelectionModel().isEmpty();
 
-			} catch (NumberFormatException e) {
-				valid = false;
-			}
+		view.getStateView().getCmbMyCountry().getStyleClass().remove("comboboxOk");
+		view.getStateView().getCmbMyCountry().getStyleClass().remove("comboboxNotOk");
 
-			view.getUpdateViewState().getTxtUpdatePopulationState().getStyleClass().remove("inputNotOk");
-			view.getUpdateViewState().getTxtUpdatePopulationState().getStyleClass().remove("inputOk");
-
-			if (valid) {
-				view.getUpdateViewState().getTxtUpdatePopulationState().getStyleClass().add("inputOk");
-
-			} else {
-				view.getUpdateViewState().getTxtUpdatePopulationState().getStyleClass().add("inputNotOk");
-			}
-
-			statePopulationValid = valid;
-			enableUpdateStateButton();
+		if (!value) {
+			valid = true;
+			view.getStateView().getCmbMyCountry().getStyleClass().add("comboboxOk");
 		}
 
-		// Aktiviert Button, wenn alle Felder korrekt ausgefüllt
-		private void enableUpdateStateButton() {
-			boolean valid = stateValid & stateAreaValid & statePopulationValid;
-			view.getUpdateViewState().getBtnUpdateSaveState().setDisable(!valid);
+		stateCountryValid = valid;
+		enableCreateStateButton();
+	}
+
+	// Aktiviert Button, wenn alle Felder korrekt ausgefüllt
+	private void enableCreateStateButton() {
+		boolean valid = stateValid & stateAreaValid & statePopulationValid & stateCountryValid;
+		view.getStateView().getBtnCreateState().setDisable(!valid);
+	}
+
+	/**
+	 * Für Update State
+	 */
+	// Muss String zwischen 3 & 50 Zeichen sein, nur Letters keine Zahlen
+	private void validateStateUpdate(String newValue) {
+		boolean valid = false;
+		String state = newValue;
+		Pattern pattern = Pattern.compile("[a-zA-Z]*");
+		Matcher m = pattern.matcher(state);
+		boolean alphabetic = m.matches();
+		if (state.length() >= 3 && state.length() <= 50 && alphabetic) {
+			valid = true;
 		}
+
+		view.getUpdateViewState().getTxtUpdateState().getStyleClass().remove("inputNotOk");
+		view.getUpdateViewState().getStyleClass().remove("inputOk");
+
+		if (valid) {
+			view.getUpdateViewState().getTxtUpdateState().getStyleClass().add("inputOk");
+		} else {
+			view.getUpdateViewState().getTxtUpdateState().getStyleClass().add("inputNotOk");
+		}
+
+		stateValid = valid;
+		enableUpdateStateButton();
+	}
+
+	// Eingabe in Textfeld Area muss Integer sein: > 0, <= Max_Value
+	private void validateStateAreaUpdate(String newValue) {
+		boolean valid = false;
+
+		try {
+			double area = Double.parseDouble(newValue);
+			if (area > 0 && area <= Double.MAX_VALUE)
+				valid = true;
+
+		} catch (NumberFormatException e) {
+			valid = false;
+		}
+
+		view.getUpdateViewState().getTxtUpdateAreaState().getStyleClass().remove("inputNotOk");
+		view.getUpdateViewState().getTxtUpdateAreaState().getStyleClass().remove("inputOk");
+
+		if (valid) {
+			view.getUpdateViewState().getTxtUpdateAreaState().getStyleClass().add("inputOk");
+
+		} else {
+			view.getUpdateViewState().getTxtUpdateAreaState().getStyleClass().add("inputNotOk");
+		}
+
+		stateAreaValid = valid;
+		enableUpdateStateButton();
+	}
+
+	// Eingabe in Textfeld Population muss Integer sein: > 0, <= Max_Value
+	private void validateStatePopulationUpdate(String newValue) {
+		boolean valid = false;
+
+		try {
+			double population = Double.parseDouble(newValue);
+			if (population > 0 && population <= Double.MAX_VALUE)
+				valid = true;
+
+		} catch (NumberFormatException e) {
+			valid = false;
+		}
+
+		view.getUpdateViewState().getTxtUpdatePopulationState().getStyleClass().remove("inputNotOk");
+		view.getUpdateViewState().getTxtUpdatePopulationState().getStyleClass().remove("inputOk");
+
+		if (valid) {
+			view.getUpdateViewState().getTxtUpdatePopulationState().getStyleClass().add("inputOk");
+
+		} else {
+			view.getUpdateViewState().getTxtUpdatePopulationState().getStyleClass().add("inputNotOk");
+		}
+
+		statePopulationValid = valid;
+		enableUpdateStateButton();
+	}
+
+	// Aktiviert Button, wenn alle Felder korrekt ausgefüllt
+	private void enableUpdateStateButton() {
+		boolean valid = stateValid & stateAreaValid & statePopulationValid;
+		view.getUpdateViewState().getBtnUpdateSaveState().setDisable(!valid);
+	}
 
 	// CREATE COUNTRY
 	// TODO: Exceptions(Text in Area Attribut löst Exception aus)
@@ -766,7 +775,8 @@ public class App_Controller extends Controller<App_Model, App_View> {
 			model.createNewCountry(name, area, population, formOfGovernment, myStates);
 			view.setStatus("Country Objekt hinzugefügt"); // Aktualisiert Status
 			view.getCountryView().reset(); // Setzt die Eingaben in den Kontrollelementen zurück
-		} 
+
+		}
 
 	}
 
@@ -824,19 +834,19 @@ public class App_Controller extends Controller<App_Model, App_View> {
 		double area = Integer.parseInt(view.getStateView().getTxtAreaState().getText());
 		int population = Integer.parseInt(view.getStateView().getTxtPopulationState().getText());
 		FormOfGovernment formOfGovernment = view.getStateView().getCmbFormOfGovState().getValue();
-		
+
 		Country myCountry = view.getStateView().getCmbMyCountry().getValue();
-		
+
 		State newState = new State(name, area, population, formOfGovernment, myCountry);
 //		model.addState(newState);
-		
+
 		// 4. Überprüfen das Kontrollelemente nicht leer sind
-		if (name != null && area != 0 && formOfGovernment != null && myCountry != null ) {
+		if (name != null && area != 0 && formOfGovernment != null && myCountry != null) {
 			// 5
 			model.createNewState(name, area, population, formOfGovernment, myCountry);
 			view.setStatus("State Objekt hinzugefügt"); // Aktualisiert Status
 			view.getStateView().reset(); // Setzt die Eingaben in den Kontrollelementen zurück
-		} 
+		}
 	}
 
 	/**

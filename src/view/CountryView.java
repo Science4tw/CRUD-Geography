@@ -97,7 +97,7 @@ public class CountryView extends GridPane {
 	}
 
 	/*
-	 * Methode um die TextFelder und Choicebox zu leeren
+	 * Methode um die TextFelder und Combobox zu leeren
 	 */
 	public void reset() {
 		this.txtCountry.setText("");

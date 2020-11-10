@@ -59,13 +59,13 @@ public class StateView extends GridPane {
 	}
 
 	/*
-	 * Methode um die TextFelder und Choicebox zu leeren
+	 * Methode um die TextFelder und Combobox zu leeren
 	 */
 	public void reset() {
 		this.txtState.setText("");
 		this.txtAreaState.setText("");
 		this.txtPopulationState.setText("");
-		this.cmbMyCountry.getSelectionModel().clearSelection(); // API
+		this.cmbMyCountry.getSelectionModel().clearSelection(); 
 	}
 
 	// 1 Data Entry Pane

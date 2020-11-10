@@ -6,12 +6,13 @@
   -fx-text-fill: red;
 }
 .comboboxOk {
-  -fx-text-fill: green;
+  -fx-outer-border: green;
 }
 
 .comboboxNotOk {
-  -fx-text-fill: red;
+  -fx-outer-border: red;
 }
+
 
 .label {
 	-fx-padding: 5.0px;

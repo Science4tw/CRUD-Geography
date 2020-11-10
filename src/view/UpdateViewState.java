@@ -102,6 +102,7 @@ public class UpdateViewState extends GridPane {
 		this.txtUpdateAreaState.setText("");
 		this.txtUpdatePopulationState.setText("");
 		this.cmbUpdateFormOfGovState.getSelectionModel().clearSelection(); // API
+		this.cmbMyCountry.getSelectionModel().clearSelection();
 	}
 	public App_Model getModel() {
 		return model;

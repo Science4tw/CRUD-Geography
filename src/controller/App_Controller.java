@@ -196,6 +196,7 @@ public class App_Controller extends Controller<App_Model, App_View> {
 		// CANCEL STATEVIEW) SZENEN Wechsel von StateView zu App_View
 		view.getStateView().getBtnCancelState().setOnAction(event -> {
 			view.getStage().setScene(getMainScene());
+			view.getCountryView().reset();
 		});
 
 		// SZENEN Wechsel von App_View zu StateView (CREATE STATE)
@@ -502,10 +503,10 @@ public class App_Controller extends Controller<App_Model, App_View> {
 			boolean valid = false;
 
 			try {
-				int area = Integer.parseInt(newValue);
-				if (area > 0 && area <= Integer.MAX_VALUE)
-					valid = true;
-
+				double area = Double.parseDouble(newValue);
+					if (area > 0 && area <= Double.MAX_VALUE)
+						valid = true;
+					
 			} catch (NumberFormatException e) {
 				valid = false;
 			}
@@ -529,8 +530,8 @@ public class App_Controller extends Controller<App_Model, App_View> {
 			boolean valid = false;
 
 			try {
-				int population = Integer.parseInt(newValue);
-				if (population > 0 && population <= Integer.MAX_VALUE)
+				double population = Double.parseDouble(newValue);
+				if (population > 0 && population <= Double.MAX_VALUE)
 					valid = true;
 
 			} catch (NumberFormatException e) {
@@ -688,8 +689,8 @@ public class App_Controller extends Controller<App_Model, App_View> {
 			boolean valid = false;
 
 			try {
-				int area = Integer.parseInt(newValue);
-				if (area > 0 && area <= Integer.MAX_VALUE)
+				double area = Double.parseDouble(newValue);
+				if (area > 0 && area <= Double.MAX_VALUE)
 					valid = true;
 
 			} catch (NumberFormatException e) {
@@ -715,8 +716,8 @@ public class App_Controller extends Controller<App_Model, App_View> {
 			boolean valid = false;
 
 			try {
-				int population = Integer.parseInt(newValue);
-				if (population > 0 && population <= Integer.MAX_VALUE)
+				double population = Double.parseDouble(newValue);
+				if (population > 0 && population <= Double.MAX_VALUE)
 					valid = true;
 
 			} catch (NumberFormatException e) {

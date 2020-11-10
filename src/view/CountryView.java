@@ -103,7 +103,7 @@ public class CountryView extends GridPane {
 		this.txtCountry.setText("");
 		this.txtArea.setText("");
 		this.txtPopulation.setText("");
-		this.cmbFormOfGov.getSelectionModel().clearSelection(); // API
+		this.cmbFormOfGov.getSelectionModel().clearSelection();
 	}
 	
 	public TextField getTxtPopulation() {

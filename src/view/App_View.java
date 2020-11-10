@@ -97,18 +97,16 @@ public class App_View extends View<App_Model> { // 1 extends BorderPane
 		ServiceLocator.getServiceLocator().getLogger().info("Application view initialized");
 		mainScene = create_GUI();
 
-
 		// VIEWS
 //		this.add(createCountryView(), 0, 0);
 
 //		// MENU Bereich initialisieren
 //		root.add(createMenuPane(), 0, 1);
 
-
 		stage.setScene(mainScene);
 		stage.setResizable(true);
 		scene.getStylesheets().add(getClass().getResource("view.css").toExternalForm());
-		
+
 	}
 
 	public App_Model getModel() {
@@ -132,6 +130,7 @@ public class App_View extends View<App_Model> { // 1 extends BorderPane
 		stage.show();
 
 	}
+
 	// 0
 	public void stop() {
 		stage.hide();
@@ -175,25 +174,25 @@ public class App_View extends View<App_Model> { // 1 extends BorderPane
 
 		// Country Spalte
 		colCountry = new TableColumn<>("Country"); // Erstellen und Beschriftung der Spalte
-		colCountry.setMinWidth(50);
+		colCountry.setMinWidth(200);
 		colCountry.setCellValueFactory(new PropertyValueFactory<>("name")); // Insatnzieren ein Property und übergeben
 		tableView.getColumns().add(colCountry); // Fügen der TableView die Spalte hinzu
 
 		// Area Spalte
 		colArea = new TableColumn<>("Area");
-		colArea.setMinWidth(50);
+		colArea.setMinWidth(200);
 		colArea.setCellValueFactory(new PropertyValueFactory<>("area"));
 		tableView.getColumns().add(colArea);
 
 		// Population Spalte
 		colPopulation = new TableColumn<>("Population");
-		colPopulation.setMinWidth(50);
+		colPopulation.setMinWidth(200);
 		colPopulation.setCellValueFactory(new PropertyValueFactory<>("population"));
 		tableView.getColumns().add(colPopulation);
 
 		// Government Spalte
 		colFormOfGov = new TableColumn<>("Form of Government");
-		colFormOfGov.setMinWidth(50);
+		colFormOfGov.setMinWidth(200);
 		colFormOfGov.setCellValueFactory(new PropertyValueFactory<Country, String>("formOfGovernment"));
 		tableView.getColumns().add(colFormOfGov);
 
@@ -216,19 +215,19 @@ public class App_View extends View<App_Model> { // 1 extends BorderPane
 
 		// Country Spalte
 		colState = new TableColumn<>("State"); // Erstellen und Beschriftung der Spalte
-		colState.setMinWidth(50);
+		colState.setMinWidth(200);
 		colState.setCellValueFactory(new PropertyValueFactory<>("name")); // Insatnzieren ein Property und übergeben
 		stateTableView.getColumns().add(colState); // Fügen der TableView die Spalte hinzu
 
 		// Area Spalte
 		colStateArea = new TableColumn<>("Area State");
-		colStateArea.setMinWidth(50);
+		colStateArea.setMinWidth(200);
 		colStateArea.setCellValueFactory(new PropertyValueFactory<>("area"));
 		stateTableView.getColumns().add(colStateArea);
 
 		// Population Spalte
 		colStatePopulation = new TableColumn<>("Population State");
-		colStatePopulation.setMinWidth(50);
+		colStatePopulation.setMinWidth(200);
 		colStatePopulation.setCellValueFactory(new PropertyValueFactory<>("population"));
 		stateTableView.getColumns().add(colStatePopulation);
 
@@ -239,7 +238,7 @@ public class App_View extends View<App_Model> { // 1 extends BorderPane
 //		stateTableView.getColumns().add(colStateFormOfGov);
 
 		colMyCountry = new TableColumn<>("My Country");
-		colMyCountry.setMinWidth(50);
+		colMyCountry.setMinWidth(200);
 		colMyCountry.setCellValueFactory(new PropertyValueFactory<State, String>("myCountryName"));
 		stateTableView.getColumns().add(colMyCountry);
 
@@ -403,12 +402,12 @@ public class App_View extends View<App_Model> { // 1 extends BorderPane
 	public UpdateViewCountry getUpdateViewCountry() {
 		return updateViewCountry;
 	}
+
 	// Setter für die UpdateViewCountry
 	public void setUpdateViewCountry(UpdateViewCountry updateViewCountry) {
 		this.updateViewCountry = updateViewCountry;
 	}
 
-		
 	// ***** SZENEN ***** (GETTER & SETTER)
 	// (UPDATE)
 	public Scene getUpdateScene() {
@@ -453,7 +452,7 @@ public class App_View extends View<App_Model> { // 1 extends BorderPane
 	}
 
 	// ***** ENDE SZENEN *****
-	
+
 	// ***** CONTROLS ***** (GETTER & SETTER)
 	// CONTROLS STATE
 	public Button getBtnCreateState() {
@@ -577,9 +576,6 @@ public class App_View extends View<App_Model> { // 1 extends BorderPane
 //		return root;
 //	}
 
-	
-	
-	
 //	protected void updateTexts() {
 //		Translator t = ServiceLocator.getServiceLocator().getTranslator();
 //
@@ -601,58 +597,54 @@ public class App_View extends View<App_Model> { // 1 extends BorderPane
 //		return colPopulation;
 //	}
 
-	
-	
 	@Override
 	protected Scene create_GUI() {
-	    ServiceLocator sl = ServiceLocator.getServiceLocator();  
-	    Logger logger = sl.getLogger();
-	    
-	    MenuBar menuBar = new MenuBar();
-	    menuFile = new Menu();
-	    menuFileLanguage = new Menu();
-	    menuFile.getItems().add(menuFileLanguage);
-	    
-       for (Locale locale : sl.getLocales()) {
-           MenuItem language = new MenuItem(locale.getLanguage());
-           menuFileLanguage.getItems().add(language);
-           language.setOnAction( event -> {
+		ServiceLocator sl = ServiceLocator.getServiceLocator();
+		Logger logger = sl.getLogger();
+
+		MenuBar menuBar = new MenuBar();
+		menuFile = new Menu();
+		menuFileLanguage = new Menu();
+		menuFile.getItems().add(menuFileLanguage);
+
+		for (Locale locale : sl.getLocales()) {
+			MenuItem language = new MenuItem(locale.getLanguage());
+			menuFileLanguage.getItems().add(language);
+			language.setOnAction(event -> {
 				sl.getConfiguration().setLocalOption("Language", locale.getLanguage());
-                sl.setTranslator(new Translator(locale.getLanguage()));
-                updateTexts();
-            });
-        }
-	    
-        menuHelp = new Menu();
-	    menuBar.getMenus().addAll(menuFile, menuHelp);
-		
+				sl.setTranslator(new Translator(locale.getLanguage()));
+				updateTexts();
+			});
+		}
+
+		menuHelp = new Menu();
+		menuBar.getMenus().addAll(menuFile, menuHelp);
+
 		GridPane root = new GridPane();
 		root.add(menuBar, 0, 0);
-		
 
-        
-        
-        
 		// Control Pane mit den Buttons Create, Delete und Update in der App_View für
 		// die Country View
-		root.add(createControlPane(), 0, 2);
+		root.add(createControlPane(), 0, 3);
 
-		// Control Pane mit den Buttons Create, Delete und Update in der App_View für
-		// die State View
-		root.add(createControlPaneState(), 0, 5);
+
 
 		// DATA DISPLAY PANE Country TableView
 		// Initialisieren der TableView
 		this.tableView = createTableView();
-		root.add(tableView, 0, 3);
+		root.add(tableView, 0, 4);
 
 //		this.myStatesTableView = createMyStatesTablewView();
 //		root.add(myStatesTableView, 2, 3);
+		
+		// Control Pane mit den Buttons Create, Delete und Update in der App_View für
+		// die State View
+		root.add(createControlPaneState(), 0, 6);
 
 		// DATA DISPLAY PANE STATE TableView
 		// Initialisieren der TableView
 		this.stateTableView = createStateTableView();
-		root.add(stateTableView, 0, 6);
+		root.add(stateTableView, 0, 7);
 
 		// SZENEN
 		countryScene = new Scene(createCountryView(), 350, 350);
@@ -662,55 +654,44 @@ public class App_View extends View<App_Model> { // 1 extends BorderPane
 
 		// 1 Aktueller Status
 		this.lblStatus = new Label("Everything okay");
-		root.add(this.lblStatus, 0, 4);
+		root.add(this.lblStatus, 0, 8);
 
 		// 1 Create the scene using our layout; then display it
 //		mainScene = new Scene(this);
 //	mainScene.getStylesheets().add(getClass().getResource("view.css").toExternalForm());       
-        
-        updateTexts();
-		
-        Scene scene = new Scene(root);
+
+		updateTexts();
+
+		Scene scene = new Scene(root);
 //        scene.getStylesheets().add(
 //                getClass().getResource("app.css").toExternalForm());
-        return scene;
+		return scene;
 	}
-	
-	   protected void updateTexts() {
-	       Translator t = ServiceLocator.getServiceLocator().getTranslator();
-	        
-	        // The menu entries
-	       menuFile.setText(t.getString("program.menu.file"));
-	       menuFileLanguage.setText(t.getString("program.menu.file.language"));
-           menuHelp.setText(t.getString("program.menu.help"));
-	        
-	        // Other controls
+
+	protected void updateTexts() {
+		Translator t = ServiceLocator.getServiceLocator().getTranslator();
+
+		// The menu entries
+		menuFile.setText(t.getString("program.menu.file"));
+		menuFileLanguage.setText(t.getString("program.menu.file.language"));
+		menuHelp.setText(t.getString("program.menu.help"));
+
+		// Other controls
 //           btnClick.setText(t.getString("button.clickme"));
-           
-           stage.setTitle(t.getString("program.name"));
-	    }	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+		// Controls Country
+		btnCreateCountry.setText(t.getString("button.btnCreateCountry"));
+		btnDeleteCountry.setText(t.getString("button.btnDeleteCountry"));
+		btnUpdateCountry.setText(t.getString("button.btnUpdateCountry"));
+
+		// Controls State
+		btnCreateState.setText(t.getString("button.btnCreateState"));
+		btnDeleteState.setText(t.getString("button.btnDeleteState"));
+		btnUpdateState.setText(t.getString("button.btnUpdateState"));
+		
+		
+		stage.setTitle(t.getString("program.name"));
+	}
+
 //	public TableColumn<State, String> getColMyStates() {
 //	return colMyStates;
 //}
@@ -718,7 +699,7 @@ public class App_View extends View<App_Model> { // 1 extends BorderPane
 //public void setColMyStates(TableColumn<State, String> colMyStates) {
 //	this.colMyStates = colMyStates;
 //}
-  
+
 //	private TableView<State> createMyStatesTablewView(){
 //	this.myStatesTableView = new TableView<State>();
 //	this.myStatesTableView.setEditable(false);

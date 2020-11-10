@@ -29,9 +29,8 @@ public class StateView extends GridPane {
 	private Label lblMyCountry;
 
 	// 1
-	// Textfeld um den Namen des Landes einzugeben
+	// Textfelder
 	private TextField txtState = new TextField();
-	// Textfeld um die Fläche(area) des landes einzugeben
 	private TextField txtAreaState = new TextField();
 	private TextField txtPopulationState = new TextField();
 	// ComboBox um die Regierungsform auszuwählen
@@ -55,6 +54,8 @@ public class StateView extends GridPane {
 		this.model = model;
 		this.add(createDataEntryPane(), 0, 0);
 		this.add(createControlPane(), 0, 1);
+		
+		getStylesheets().add(getClass().getResource("view.css").toExternalForm());
 	}
 
 	/*

@@ -1,15 +1,15 @@
-.areaOk {
+.inputOk {
   -fx-text-fill: green;
 }
 
-.areaNotOk {
+.inputNotOk {
   -fx-text-fill: red;
 }
-.countryOk {
+.comboboxOk {
   -fx-text-fill: green;
 }
 
-.countryNotOk {
+.comboboxNotOk {
   -fx-text-fill: red;
 }
 

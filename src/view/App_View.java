@@ -107,6 +107,8 @@ public class App_View extends View<App_Model> { // 1 extends BorderPane
 
 		stage.setScene(mainScene);
 		stage.setResizable(true);
+		scene.getStylesheets().add(getClass().getResource("view.css").toExternalForm());
+		
 	}
 
 	public App_Model getModel() {

@@ -24,11 +24,9 @@ public class UpdateViewCountry extends GridPane {
 	private Label lblUpdateFormOfGov;
 
 	// 1
-	// Textfeld um den Namen des Landes einzugeben
+	// Textfelder
 	private TextField txtUpdateCountry = new TextField();
-	// Textfeld um die Fläche(area) des landes einzugeben
 	private TextField txtUpdateArea = new TextField();
-	// TextFeld für die Population des Landes einzugeben
 	private TextField txtUpdatePopulation = new TextField();
 	// ComboBox um die Regierungsform auszuwählen
 	protected ComboBox<FormOfGovernment> cmbUpdateFormOfGov = new ComboBox<FormOfGovernment>();
@@ -43,6 +41,8 @@ public class UpdateViewCountry extends GridPane {
 		this.model = model;
 		this.add(createUpdateDataEntryPane(), 0, 0);
 		this.add(createUpdateControlPane(), 0, 1);
+		
+		getStylesheets().add(getClass().getResource("view.css").toExternalForm());
 
 	}
 	

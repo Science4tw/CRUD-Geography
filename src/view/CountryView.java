@@ -54,6 +54,7 @@ public class CountryView extends GridPane {
 		this.add(createDataEntryPane(), 0, 0);
 		this.add(createControlPane(), 0, 1);
 
+		getStylesheets().add(getClass().getResource("view.css").toExternalForm());
 	}
 
 	// 1 Data Entry Pane
@@ -67,7 +68,8 @@ public class CountryView extends GridPane {
 		lblFormOfGov = new Label("Regierungsform des Landes");
 		// Fill combos (hol mir die Items,alle hinzufügen von den values der Enums)
 		cmbFormOfGov.getItems().addAll(FormOfGovernment.values());
-		cmbFormOfGov.setValue(FormOfGovernment.DICTATORSHIP);
+		//cmbFormOfGov.setValue(FormOfGovernment.DICTATORSHIP);
+		
 		// Organize the layout, add in the controls (col, row)
 		// pane.add(child, columnIndex, rowIndex);
 		pane.add(lblCountry, 0, 0);

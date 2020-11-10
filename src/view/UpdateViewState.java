@@ -26,11 +26,9 @@ public class UpdateViewState extends GridPane {
 	private Label lblMyCountry;
 	
 	// 1
-	// Textfeld um den Namen des States einzugeben
+	// Textfelder
 	private TextField txtUpdateState = new TextField();
-	// Textfeld um die Fläche(area) des States einzugeben
 	private TextField txtUpdateAreaState = new TextField();
-	// TextFeld für die Population des States einzugeben
 	private TextField txtUpdatePopulationState = new TextField();
 	// ComboBox um die Regierungsform auszuwählen
 	protected ComboBox<FormOfGovernment> cmbUpdateFormOfGovState = new ComboBox<FormOfGovernment>();
@@ -50,6 +48,7 @@ public class UpdateViewState extends GridPane {
 		this.add(createUpdateDataEntryPaneState(), 0, 0);
 		this.add(createUpdateControlPaneState(), 0, 1);
 
+		getStylesheets().add(getClass().getResource("view.css").toExternalForm());
 	}
 	
 	// 1 Data Entry Pane

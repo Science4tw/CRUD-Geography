@@ -1,5 +1,11 @@
 package model;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +35,9 @@ public class App_Model extends Model {
 	private static ObservableList<Country> countries = FXCollections.observableArrayList();
 	private static ObservableList<State> states = FXCollections.observableArrayList();
 	
+	// AF
+	private static String CountrylistFile = "C:/ProgProjekte/00 Software Engineering Projects/CRUD-Geography/src/model/SE_CountryList.csv";
+	private static String SEPARATOR = ";";
 	
 	// Konstruktor
 	public App_Model () {
@@ -43,7 +52,14 @@ public class App_Model extends Model {
 		countries.add(country);
 
 	}
+	// CREATE Country (OHNE LISTE MIT STATES
+	// Fügt / speichert der Liste ein neu erzeugtes Country Objekts hinzu (MR)
+	public static void createNewCountry(String name, double area, int population, FormOfGovernment formOfGovernment) {
+		Country country = new Country(name, area, population, formOfGovernment);
+		governedRegions.add(country);
+		countries.add(country);
 
+	}
 	// CREATE State
 	// Fügt / speichert der Liste ein neu erzeugtes State Objekts hinzu (MR)
 	public static void createNewState(String name, double area, int population, FormOfGovernment formOfGovernment,
@@ -110,6 +126,66 @@ public class App_Model extends Model {
 	}
 
 
+	// Methode um ein Excel-File (CSV-File) einzulesen
+
+	public void readCountries() {
+		
+		File countriesFile = new File(CountrylistFile);
+
+		String data = "";
+		// Reader wird initilisiert um File zu lesen
+		try (BufferedReader fileIn = new BufferedReader(new FileReader(countriesFile))) {
+			
+
+
+
+			// Loop wird erstellt um Zeilen zu lesen und in Observable list zu speichern
+			String line = fileIn.readLine();
+			while (line != null) {
+				Country country = readCountry(line);
+				governedRegions.add(country);
+				countries.add(country);
+				line = fileIn.readLine();
+			}
+		} catch (Exception e) {
+			data = e.getClass().toString();
+			e.printStackTrace();
+		}
+		
+	}
+
+	// die eingelesenen Zeilen werden zum Country Objekt gemacht
+	private Country readCountry(String line) {
+		String[] attributes = line.split(SEPARATOR);
+		String name = attributes[0];
+		double area = Double.parseDouble(attributes[1]);
+		int population = Integer.parseInt(attributes[2]);
+		FormOfGovernment formOfGovernment = FormOfGovernment.valueOf(attributes[3]);
+		Country country = new Country(name, area, population, formOfGovernment);
+
+		return country;
+	}
+
+	public void saveCountry() {
+
+		File countryFile = new File(CountrylistFile);
+
+		try (Writer out = new FileWriter(countryFile)) {
+			for (GovernedRegion country : countries) {
+				String line = writeCountry(country);
+				out.write(line);
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	private String writeCountry(GovernedRegion country) {
+		String line = country.getName() + SEPARATOR + country.getArea() + SEPARATOR + country.getPopulation()
+				+ SEPARATOR + country.getFormOfGovernment() + "\n";
+		return line;
+	}
 
 	
 	

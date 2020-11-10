@@ -2,6 +2,7 @@ package splashScreen;
 
 import abstractClasses.Controller;
 import javafx.concurrent.Worker;
+import mvc.Geo_MVC;
 import mvc.JavaFX_App_Template;
 
 /**

@@ -34,8 +34,8 @@ public class App_Controller extends Controller<App_Model, App_View> {
 
 	ServiceLocator serviceLocator;
 	
-	private App_Model model;
-	private App_View view;
+	//private App_Model model;
+	//private App_View view;
 
 	// Speichert Wert für gültige Textfelder
 	private boolean countryValid = false;

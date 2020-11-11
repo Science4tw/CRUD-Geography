@@ -55,6 +55,7 @@ public class App_Controller extends Controller<App_Model, App_View> {
 		super(model, view);
 
 		model.readCountries();
+		model.readStates();
 
 		// *** HANDLING COUNTRY ***
 
@@ -350,7 +351,7 @@ public class App_Controller extends Controller<App_Model, App_View> {
 			public void handle(WindowEvent event) {
 				Alert alert = new Alert(AlertType.CONFIRMATION, "Möchten Sie wirklich beenden?");
 				alert.showAndWait();
-				model.saveCountry();
+//				model.saveCountry();
 				Platform.exit();
 			}
 		});

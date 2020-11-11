@@ -25,7 +25,7 @@ public class Country extends GovernedRegion {
 	// Konstruktor 2
 	public Country(String name, double area, int population, FormOfGovernment formOfGovernment) {
 		super(name, area, population, formOfGovernment);
-		this.myStates = myStates;
+
 	}
 	
 	// Getter für states (MR)

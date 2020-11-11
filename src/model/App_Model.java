@@ -37,6 +37,7 @@ public class App_Model extends Model {
 	
 	// AF
 	private static String CountrylistFile = "C:/ProgProjekte/00 Software Engineering Projects/CRUD-Geography/src/model/SE_CountryList.csv";
+	private static String StatelistFile = "C:/ProgProjekte/00 Software Engineering Projects/CRUD-Geography/src/model/SE_StateList.csv";
 	private static String SEPARATOR = ";";
 	
 	// Konstruktor
@@ -52,7 +53,7 @@ public class App_Model extends Model {
 		countries.add(country);
 
 	}
-	// CREATE Country (OHNE LISTE MIT STATES
+	// CREATE Country (OHNE LISTE MIT STATES)
 	// Fügt / speichert der Liste ein neu erzeugtes Country Objekts hinzu (MR)
 	public static void createNewCountry(String name, double area, int population, FormOfGovernment formOfGovernment) {
 		Country country = new Country(name, area, population, formOfGovernment);
@@ -66,6 +67,7 @@ public class App_Model extends Model {
 			Country myCountry) {
 		State state = new State(name, area, population, formOfGovernment, myCountry);
 		governedRegions.add(state);
+		myCountry.addState(state);
 		states.add(state);
 //		getMyStates().add(state);
 
@@ -161,31 +163,78 @@ public class App_Model extends Model {
 		double area = Double.parseDouble(attributes[1]);
 		int population = Integer.parseInt(attributes[2]);
 		FormOfGovernment formOfGovernment = FormOfGovernment.valueOf(attributes[3]);
-		Country country = new Country(name, area, population, formOfGovernment);
+		Country myCountry = App_Model.getCountryByName(name);
+		if(myCountry == null)
+		{
+			myCountry = new Country(name, area, population, formOfGovernment);
+		}
 
-		return country;
+		return myCountry;
 	}
 
-	public void saveCountry() {
+	
+	public void readStates() {
+		
+		File statesFile = new File(StatelistFile);
 
-		File countryFile = new File(CountrylistFile);
-
-		try (Writer out = new FileWriter(countryFile)) {
-			for (GovernedRegion country : countries) {
-				String line = writeCountry(country);
-				out.write(line);
+		String data = "";
+		// Reader wird initilisiert um File zu lesen
+		try (BufferedReader fileIn = new BufferedReader(new FileReader(statesFile))) {
+			// Loop wird erstellt um Zeilen zu lesen und in Observable list zu speichern
+			String line = fileIn.readLine();
+			
+			while (line != null) {
+				State state = readState(line);
+				governedRegions.add(state);
+				states.add(state);
+				line = fileIn.readLine();
 			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
+		} catch (Exception e) {
+			data = e.getClass().toString();
 			e.printStackTrace();
 		}
+		
 	}
 
-	private String writeCountry(GovernedRegion country) {
-		String line = country.getName() + SEPARATOR + country.getArea() + SEPARATOR + country.getPopulation()
-				+ SEPARATOR + country.getFormOfGovernment() + "\n";
-		return line;
+	// die eingelesenen Zeilen werden zum Country Objekt gemacht
+	private State readState(String line) throws Exception {
+		String[] attributes = line.split(SEPARATOR);
+		String name = attributes[0];
+		String countryName = attributes[4];
+		double area = Double.parseDouble(attributes[1]);
+		int population = Integer.parseInt(attributes[2]);
+		FormOfGovernment formOfGovernment = FormOfGovernment.valueOf(attributes[3]);
+		Country myCountry = App_Model.getCountryByName(countryName);
+		
+		if(myCountry == null)
+			{
+			throw new Exception();
+			}
+
+		State state = new State(name, area, population, formOfGovernment, myCountry);
+
+		return state;
 	}
+//	public void saveState() {
+//
+//		File stateFile = new File(StatelistFile);
+//
+//		try (Writer out = new FileWriter(stateFile)) {
+//			for (State state : states) {
+//				String line = writeCountry(state);
+//				out.write(line);
+//			}
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//	}
+//
+//	private String writeCountry(GovernedRegion country) {
+//		String line = country.getName() + SEPARATOR + country.getArea() + SEPARATOR + country.getPopulation()
+//				+ SEPARATOR + country.getFormOfGovernment() + "\n";
+//		return line;
+//	}
 
 	
 	

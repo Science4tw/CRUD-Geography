@@ -19,6 +19,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TablePosition;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TableView.TableViewSelectionModel;
@@ -70,6 +71,7 @@ public class App_Controller extends Controller<App_Model, App_View> {
 		// Wenn in der UpdateView der Cancel Button gedrückt wird,
 		// soll die Sczene gewechselt werden zu der Geo_View
 		view.getUpdateView().getBtnUpdateCancel().setOnAction(event -> {
+			view.getUpdateView().reset();
 			view.getStage().setScene(getMainScene());
 		});
 
@@ -81,8 +83,9 @@ public class App_Controller extends Controller<App_Model, App_View> {
 		// *** COUNTRY VIEW ***
 		// BUTTON CANCEL und Eingaben leeren
 		view.getCountryView().getBtnCancel().setOnAction(event -> {
-			view.getStage().setScene(getMainScene());
 			view.getCountryView().reset();
+			view.getStage().setScene(getMainScene());
+			
 		});
 
 		// SZENEN WECHSEL: GOTO -> UPDATEVIEW from App_View
@@ -350,6 +353,29 @@ public class App_Controller extends Controller<App_Model, App_View> {
 				model.saveCountry();
 				Platform.exit();
 			}
+		});
+		
+		// doppelclick auf countryrow updateCountry
+		view.getTableView().setRowFactory( tv -> {
+		  TableRow<Country> row = new TableRow<>();
+		  row.setOnMouseClicked(e -> {
+		     if (e.getClickCount() == 2 && (!row.isEmpty()) ) {
+		     view.getBtnUpdateCountry().fire();              
+		     }
+		  });
+		 
+		  return row;
+		});
+		// doppelclick auf state row updateState
+		view.getStateTableView().setRowFactory( tv -> {
+		  TableRow<State> row = new TableRow<>();
+		  row.setOnMouseClicked(e -> {
+		     if (e.getClickCount() == 2 && (!row.isEmpty()) ) {
+		     view.getBtnUpdateState().fire();              
+		     }
+		  });
+		 
+		  return row;
 		});
 
 		serviceLocator = ServiceLocator.getServiceLocator();

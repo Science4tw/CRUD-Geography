@@ -19,6 +19,9 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -627,8 +630,6 @@ public class App_View extends View<App_Model> { // 1 extends BorderPane
 		// die Country View
 		root.add(createControlPane(), 0, 3);
 
-
-
 		// DATA DISPLAY PANE Country TableView
 		// Initialisieren der TableView
 		this.tableView = createTableView();
@@ -636,7 +637,7 @@ public class App_View extends View<App_Model> { // 1 extends BorderPane
 
 //		this.myStatesTableView = createMyStatesTablewView();
 //		root.add(myStatesTableView, 2, 3);
-		
+
 		// Control Pane mit den Buttons Create, Delete und Update in der App_View für
 		// die State View
 		root.add(createControlPaneState(), 0, 6);
@@ -665,6 +666,47 @@ public class App_View extends View<App_Model> { // 1 extends BorderPane
 		Scene scene = new Scene(root);
 //        scene.getStylesheets().add(
 //                getClass().getResource("app.css").toExternalForm());
+		// set shortcut ctrl'c to create countrz button
+		btnCreateCountry.getScene().getAccelerators()
+				.put(new KeyCodeCombination(KeyCode.C, KeyCombination.CONTROL_DOWN), new Runnable() {
+					public void run() {
+						btnCreateCountry.fire();
+					}
+				});
+		// set ctrl d to delete country
+		btnDeleteCountry.getScene().getAccelerators()
+				.put(new KeyCodeCombination(KeyCode.D, KeyCombination.CONTROL_DOWN), new Runnable() {
+					public void run() {
+						btnDeleteCountry.fire();
+					}
+				});
+		// set shortcut ctrl s to create state button
+		btnCreateState.getScene().getAccelerators().put(new KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_DOWN),
+				new Runnable() {
+					public void run() {
+						btnCreateState.fire();
+					}
+				});
+		// set ctrl x to cancel on countrz scene
+		countryScene.getAccelerators().put(new KeyCodeCombination(KeyCode.X, KeyCombination.CONTROL_DOWN),
+				new Runnable() {
+					public void run() {
+						countryView.getBtnCancel().fire();
+					}
+				});
+		// set ctrl s to save button on country scene
+		countryScene.getAccelerators().put(new KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_DOWN),
+				new Runnable() {
+					public void run() {
+						countryView.getBtnSave().fire();
+					}
+				});
+		stateScene.getAccelerators().put(new KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_DOWN),
+				new Runnable() {
+					public void run() {
+						stateView.getBtnCreate().fire();
+					}
+				});
 		return scene;
 	}
 
@@ -687,8 +729,7 @@ public class App_View extends View<App_Model> { // 1 extends BorderPane
 		btnCreateState.setText(t.getString("button.btnCreateState"));
 		btnDeleteState.setText(t.getString("button.btnDeleteState"));
 		btnUpdateState.setText(t.getString("button.btnUpdateState"));
-		
-		
+
 		stage.setTitle(t.getString("program.name"));
 	}
 

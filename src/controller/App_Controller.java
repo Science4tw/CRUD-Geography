@@ -351,7 +351,8 @@ public class App_Controller extends Controller<App_Model, App_View> {
 			public void handle(WindowEvent event) {
 				Alert alert = new Alert(AlertType.CONFIRMATION, "Möchten Sie wirklich beenden?");
 				alert.showAndWait();
-//				model.saveCountry();
+				model.saveCountries();
+				model.saveStates();
 				Platform.exit();
 			}
 		});

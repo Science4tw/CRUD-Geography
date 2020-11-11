@@ -34,25 +34,27 @@ public class App_Model extends Model {
 	private static ObservableList<GovernedRegion> governedRegions = FXCollections.observableArrayList();
 	private static ObservableList<Country> countries = FXCollections.observableArrayList();
 	private static ObservableList<State> states = FXCollections.observableArrayList();
-	
+
 	// AF
 	private static String CountrylistFile = "C:/ProgProjekte/00 Software Engineering Projects/CRUD-Geography/src/model/SE_CountryList.csv";
 	private static String StatelistFile = "C:/ProgProjekte/00 Software Engineering Projects/CRUD-Geography/src/model/SE_StateList.csv";
 	private static String SEPARATOR = ";";
-	
+
 	// Konstruktor
-	public App_Model () {
-		
+	public App_Model() {
+
 	}
 
 	// CREATE Country
 	// Fügt / speichert der Liste ein neu erzeugtes Country Objekts hinzu (MR)
-	public static void createNewCountry(String name, double area, int population, FormOfGovernment formOfGovernment, ObservableList<State> myStates) {
+	public static void createNewCountry(String name, double area, int population, FormOfGovernment formOfGovernment,
+			ObservableList<State> myStates) {
 		Country country = new Country(name, area, population, formOfGovernment, myStates);
 		governedRegions.add(country);
 		countries.add(country);
 
 	}
+
 	// CREATE Country (OHNE LISTE MIT STATES)
 	// Fügt / speichert der Liste ein neu erzeugtes Country Objekts hinzu (MR)
 	public static void createNewCountry(String name, double area, int population, FormOfGovernment formOfGovernment) {
@@ -61,6 +63,7 @@ public class App_Model extends Model {
 		countries.add(country);
 
 	}
+
 	// CREATE State
 	// Fügt / speichert der Liste ein neu erzeugtes State Objekts hinzu (MR)
 	public static void createNewState(String name, double area, int population, FormOfGovernment formOfGovernment,
@@ -72,9 +75,8 @@ public class App_Model extends Model {
 //		getMyStates().add(state);
 
 	}
-	
+
 	// UPDATE COUNTRY
-	
 
 	// Getter für ObservableList<GovernedRegion> governedRegions (MR)
 	public ObservableList<GovernedRegion> getGovernedRegions() {
@@ -92,7 +94,7 @@ public class App_Model extends Model {
 	public static void setCountries(ObservableList<Country> countries) {
 		App_Model.countries = countries;
 	}
-	
+
 	public static void setstates(ObservableList<State> states) {
 		App_Model.states = states;
 	}
@@ -121,25 +123,20 @@ public class App_Model extends Model {
 		return null;
 	}
 
-
 	public ObservableList<Country> getCountries() {
-		
+
 		return countries;
 	}
-
 
 	// Methode um ein Excel-File (CSV-File) einzulesen
 
 	public void readCountries() {
-		
+
 		File countriesFile = new File(CountrylistFile);
 
 		String data = "";
 		// Reader wird initilisiert um File zu lesen
 		try (BufferedReader fileIn = new BufferedReader(new FileReader(countriesFile))) {
-			
-
-
 
 			// Loop wird erstellt um Zeilen zu lesen und in Observable list zu speichern
 			String line = fileIn.readLine();
@@ -153,7 +150,7 @@ public class App_Model extends Model {
 			data = e.getClass().toString();
 			e.printStackTrace();
 		}
-		
+
 	}
 
 	// die eingelesenen Zeilen werden zum Country Objekt gemacht
@@ -164,17 +161,15 @@ public class App_Model extends Model {
 		int population = Integer.parseInt(attributes[2]);
 		FormOfGovernment formOfGovernment = FormOfGovernment.valueOf(attributes[3]);
 		Country myCountry = App_Model.getCountryByName(name);
-		if(myCountry == null)
-		{
+		if (myCountry == null) {
 			myCountry = new Country(name, area, population, formOfGovernment);
 		}
 
 		return myCountry;
 	}
 
-	
 	public void readStates() {
-		
+
 		File statesFile = new File(StatelistFile);
 
 		String data = "";
@@ -182,18 +177,19 @@ public class App_Model extends Model {
 		try (BufferedReader fileIn = new BufferedReader(new FileReader(statesFile))) {
 			// Loop wird erstellt um Zeilen zu lesen und in Observable list zu speichern
 			String line = fileIn.readLine();
-			
+
 			while (line != null) {
 				State state = readState(line);
 				governedRegions.add(state);
 				states.add(state);
 				line = fileIn.readLine();
 			}
+
 		} catch (Exception e) {
 			data = e.getClass().toString();
 			e.printStackTrace();
 		}
-		
+
 	}
 
 	// die eingelesenen Zeilen werden zum Country Objekt gemacht
@@ -205,38 +201,57 @@ public class App_Model extends Model {
 		int population = Integer.parseInt(attributes[2]);
 		FormOfGovernment formOfGovernment = FormOfGovernment.valueOf(attributes[3]);
 		Country myCountry = App_Model.getCountryByName(countryName);
-		
-		if(myCountry == null)
-			{
+
+		if (myCountry == null) {
 			throw new Exception();
-			}
+		}
 
 		State state = new State(name, area, population, formOfGovernment, myCountry);
 
 		return state;
 	}
-//	public void saveState() {
-//
-//		File stateFile = new File(StatelistFile);
-//
-//		try (Writer out = new FileWriter(stateFile)) {
-//			for (State state : states) {
-//				String line = writeCountry(state);
-//				out.write(line);
-//			}
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//	}
-//
-//	private String writeCountry(GovernedRegion country) {
-//		String line = country.getName() + SEPARATOR + country.getArea() + SEPARATOR + country.getPopulation()
-//				+ SEPARATOR + country.getFormOfGovernment() + "\n";
-//		return line;
-//	}
+	public void saveCountries() {
 
-	
-	
+		File countryFile = new File(CountrylistFile);
 
+		try (Writer out = new FileWriter(countryFile)) {
+			for (Country country : countries) {
+				String line = writeCountry(country);
+				out.write(line);
+				
+			}
+			out.flush();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	private String writeCountry(GovernedRegion country) {
+		String line = country.getName() + SEPARATOR + country.getArea() + SEPARATOR + country.getPopulation()
+				+ SEPARATOR + country.getFormOfGovernment() + "\n";
+		return line;
+	}
+	public void saveStates() {
+
+		File stateFile = new File(StatelistFile);
+
+		try (Writer out = new FileWriter(stateFile)) {
+			for (State state : states) {
+				String line = writeState(state);
+				out.write(line);
+				
+			}
+			out.flush();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	private String writeState(State state) {
+		String line = state.getName() + SEPARATOR + state.getArea() + SEPARATOR + state.getPopulation()
+				+ SEPARATOR + state.getFormOfGovernment() + SEPARATOR + state.getMyCountry() + "\n";
+		return line;
+	}
 }

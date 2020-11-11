@@ -535,8 +535,8 @@ public class App_Controller extends Controller<App_Model, App_View> {
 		boolean valid = false;
 
 		try {
-			double population = Double.parseDouble(newValue);
-			if (population > 0 && population <= Double.MAX_VALUE)
+			int population = Integer.parseInt(newValue);
+			if (population > 0 && population <= Integer.MAX_VALUE)
 				valid = true;
 
 		} catch (NumberFormatException e) {

@@ -671,7 +671,7 @@ public class App_View extends View<App_Model> { // 1 extends BorderPane
 
 		// 1 Aktueller Status
 		this.lblStatus = new Label("Everything okay");
-		this.lblStatus.setStyle("-fx-text-fill: #1577c2; -fx-font-size: 12;");
+		this.lblStatus.setStyle("-fx-text-fill: #1577c2; -fx-font-size: 16;");
 		root.add(this.lblStatus, 0, 8);
 
 		updateTexts();

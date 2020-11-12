@@ -21,6 +21,7 @@ public class UpdateViewCountry extends GridPane {
 	private Stage stage;
 
 	// 1 Controls used for data processing (Data Entry)
+	private Label lblUpdateCountryTitle;
 	private Label lblUpdateCountry;
 	private Label lblUpdateArea;
 	private Label lblUpdatePopulation;
@@ -54,23 +55,27 @@ public class UpdateViewCountry extends GridPane {
 		GridPane pane = new GridPane();
 		pane.setId("dataEntry");
 		// Declare the individual controls in the GUI
+		lblUpdateCountryTitle = new Label ("Land bearbeiten");
+		lblUpdateCountryTitle.setStyle("-fx-font-size: 16;");
 		lblUpdateCountry = new Label("Name des Landes");
 		lblUpdateArea = new Label("Fläche des Landes");
 		lblUpdatePopulation = new Label("Population des Landes");
 		lblUpdateFormOfGov = new Label("Regierungsform des Landes");
 		// Fill combos (hol mir die Items,alle hinzufügen von den values der Enums)
 		cmbUpdateFormOfGov.getItems().addAll(FormOfGovernment.values());
-		cmbUpdateFormOfGov.setValue(FormOfGovernment.DICTATORSHIP);
+		//cmbUpdateFormOfGov.setValue(FormOfGovernment.DICTATORSHIP);
+	
 		// Organize the layout, add in the controls (col, row)
 		// pane.add(child, columnIndex, rowIndex);
-		pane.add(lblUpdateCountry, 0, 0);
-		pane.add(getUpdateTxtCountry(), 1, 0);
-		pane.add(lblUpdateArea, 0, 1);
-		pane.add(getUpdateTxtArea(), 1, 1);
-		pane.add(lblUpdatePopulation, 0, 2);
-		pane.add(getUpdateTxtPopulation(), 1, 2);
-		pane.add(lblUpdateFormOfGov, 0, 3);
-		pane.add(cmbUpdateFormOfGov, 1, 3);
+		pane.add(lblUpdateCountryTitle, 0, 0);
+		pane.add(lblUpdateCountry, 0, 1);
+		pane.add(getUpdateTxtCountry(), 1, 1);
+		pane.add(lblUpdateArea, 0, 2);
+		pane.add(getUpdateTxtArea(), 1, 2);
+		pane.add(lblUpdatePopulation, 0, 3);
+		pane.add(getUpdateTxtPopulation(), 1, 3);
+		pane.add(lblUpdateFormOfGov, 0, 4);
+		pane.add(cmbUpdateFormOfGov, 1, 4);
 
 		return pane;
 	}

@@ -20,6 +20,7 @@ public class UpdateViewState extends GridPane {
 	private Stage stage;
 
 	// 1 Controls used for data processing (Data Entry)
+	private Label lblUpdateStateTitle;
 	private Label lblUpdateState;
 	private Label lblUpdateAreaState;
 	private Label lblUpdatePopulationState;
@@ -57,6 +58,8 @@ public class UpdateViewState extends GridPane {
 		GridPane pane = new GridPane();
 		pane.setId("dataEntry");
 		// Declare the individual controls in the GUI
+		lblUpdateStateTitle = new Label("State bearbeiten");
+		lblUpdateStateTitle.setStyle("-fx-font-size: 16;");
 		lblUpdateState = new Label("Name des States");
 		lblUpdateAreaState = new Label("Fläche des States");
 		lblUpdatePopulationState = new Label("Population des States");
@@ -67,21 +70,20 @@ public class UpdateViewState extends GridPane {
 		
 		// Fill combos (hol mir die Items,alle hinzufügen von den values der Enums)
 		cmbUpdateFormOfGovState.getItems().addAll(FormOfGovernment.values());
-		cmbUpdateFormOfGovState.setValue(FormOfGovernment.DICTATORSHIP);
-		// Organize the layout, add in the controls (col, row)
-		// pane.add(child, columnIndex, rowIndex);
-		pane.add(lblUpdateState, 0, 0);
-		pane.add(getTxtUpdateState(), 1, 0);
-		pane.add(lblUpdateAreaState, 0, 1);
-		pane.add(getTxtUpdateAreaState(), 1, 1);
-		pane.add(lblUpdatePopulationState, 0, 2);
-		pane.add(getTxtUpdatePopulationState(), 1, 2);
-		pane.add(lblUpdateFormOfGovState, 0, 3);
-		pane.add(getCmbUpdateFormOfGovState(), 1, 3);
-
+		//cmbUpdateFormOfGovState.setValue(FormOfGovernment.DICTATORSHIP);
 		
-		pane.add(lblMyCountry, 0, 4);
-		pane.add(cmbMyCountry, 1, 4);
+		// Organize the layout, add in the controls (col, row)
+		pane.add(lblUpdateStateTitle, 0, 0);
+		pane.add(lblUpdateState, 0, 1);
+		pane.add(getTxtUpdateState(), 1, 1);
+		pane.add(lblUpdateAreaState, 0, 2);
+		pane.add(getTxtUpdateAreaState(), 1, 2);
+		pane.add(lblUpdatePopulationState, 0, 3);
+		pane.add(getTxtUpdatePopulationState(), 1, 3);
+		pane.add(lblUpdateFormOfGovState, 0, 4);
+		pane.add(getCmbUpdateFormOfGovState(), 1, 4);
+		pane.add(lblMyCountry, 0, 5);
+		pane.add(cmbMyCountry, 1, 5);
 		
 		return pane;
 		

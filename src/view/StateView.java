@@ -28,6 +28,7 @@ public class StateView extends GridPane {
 	private Label lblPopulationState;
 	private Label lblFormOfGovState;
 	private Label lblMyCountry;
+	private Label lblStateTitle;
 
 	// 1
 	// Textfelder
@@ -74,17 +75,14 @@ public class StateView extends GridPane {
 		GridPane pane = new GridPane();
 		pane.setId("dataEntry");
 		// Declare the individual controls in the GUI
+		lblStateTitle = new Label("State erstellen");
+		lblStateTitle.setStyle("-fx-font-size: 16;");
 		lblState = new Label("Name State");
 		lblAreaState = new Label("Fläche State");
 		lblPopulationState = new Label("Population State");
 		lblFormOfGovState = new Label("Regierungsform des Landes");
 		lblMyCountry = new Label("Land des States");
-		
-		
-		
-		
-
-		
+	
 		
 		
 //		// Aus der TablewView soll die erste Spalte als Auswahlmöglichkeit angeboten werden		
@@ -97,32 +95,30 @@ public class StateView extends GridPane {
 //		cmbMyCountry.setModel(new DefaultComboBoxModel<GovernedRegion>(model.getGovernedRegions().toArray(new Country[0])));		
 //		cmbMyCountry.setValue(null);
 		
-		
-		
-		
+
 		
 		
 
 		// Fill combos (hol mir die Items,alle hinzufügen von den values der Enums)
 		cmbFormOfGovState.getItems().addAll(FormOfGovernment.values());
-		cmbFormOfGovState.setValue(FormOfGovernment.DICTATORSHIP);		
+		//cmbFormOfGovState.setValue(FormOfGovernment.DICTATORSHIP);		
 		
 		// Organize the layout, add in the controls (col, row)
-		// pane.add(child, columnIndex, rowIndex);
-		pane.add(lblState, 0, 0);
-		pane.add(getTxtState(), 1, 0);
+		pane.add(lblStateTitle, 0, 0);
+		pane.add(lblState, 0, 1);
+		pane.add(getTxtState(), 1, 1);
 
-		pane.add(lblAreaState, 0, 1);
-		pane.add(getTxtAreaState(), 1, 1);
+		pane.add(lblAreaState, 0, 2);
+		pane.add(getTxtAreaState(), 1, 2);
 
-		pane.add(lblPopulationState, 0, 2);
-		pane.add(getTxtPopulationState(), 1, 2);
+		pane.add(lblPopulationState, 0, 3);
+		pane.add(getTxtPopulationState(), 1, 3);
 
-		pane.add(lblFormOfGovState, 0, 3);
-		pane.add(cmbFormOfGovState, 1, 3);
+		pane.add(lblFormOfGovState, 0, 4);
+		pane.add(cmbFormOfGovState, 1, 4);
 		
-		pane.add(lblMyCountry, 0, 4);
-		pane.add(cmbMyCountry, 1, 4);
+		pane.add(lblMyCountry, 0, 5);
+		pane.add(cmbMyCountry, 1, 5);
 		
 		pane.setVgap(5);
 

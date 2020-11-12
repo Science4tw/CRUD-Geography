@@ -33,6 +33,7 @@ public class CountryView extends GridPane {
 	private Label lblArea;
 	private Label lblPopulation;
 	private Label lblFormOfGov;
+	private Label lblCountryTitle;
 
 	// 1
 	// Textfeld um den Namen des Landes einzugeben
@@ -63,6 +64,9 @@ public class CountryView extends GridPane {
 		GridPane pane = new GridPane();
 		pane.setId("dataEntry");
 		// Declare the individual controls in the GUI
+		lblCountryTitle = new Label("Land erstellen");
+		lblCountryTitle.setStyle("-fx-font-weight: bold; -fx-font-size: 16;");
+		
 		lblCountry = new Label("Name des Landes");
 		lblArea = new Label("Fläche des Landes");
 		lblPopulation = new Label("Population des Landes");
@@ -72,18 +76,19 @@ public class CountryView extends GridPane {
 		//cmbFormOfGov.setValue(FormOfGovernment.DICTATORSHIP);
 		
 		// Organize the layout, add in the controls (col, row)
-		// pane.add(child, columnIndex, rowIndex);
-		pane.add(lblCountry, 0, 0);
-		pane.add(getTxtCountry(), 1, 0);
+		pane.add(lblCountryTitle, 0, 0);
 		
-		pane.add(lblArea, 0, 1);
-		pane.add(getTxtArea(), 1, 1);
+		pane.add(lblCountry, 0, 1);
+		pane.add(getTxtCountry(), 1, 1);
 		
-		pane.add(lblPopulation, 0, 2);
-		pane.add(getTxtPopulation(), 1, 2);
+		pane.add(lblArea, 0, 2);
+		pane.add(getTxtArea(), 1, 2);
 		
-		pane.add(lblFormOfGov, 0, 3);
-		pane.add(cmbFormOfGov, 1, 3);
+		pane.add(lblPopulation, 0, 3);
+		pane.add(getTxtPopulation(), 1, 3);
+		
+		pane.add(lblFormOfGov, 0, 4);
+		pane.add(cmbFormOfGov, 1, 4);
 		
 		pane.setVgap(5);
 		pane.setPadding(new Insets(10, 10, 10, 10));

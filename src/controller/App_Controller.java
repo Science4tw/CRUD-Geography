@@ -812,7 +812,6 @@ public class App_Controller extends Controller<App_Model, App_View> {
 			model.createNewCountry(name, area, population, formOfGovernment, myStates);
 			view.setStatus("Country Objekt hinzugefügt"); // Aktualisiert Status
 			view.getCountryView().reset(); // Setzt die Eingaben in den Kontrollelementen zurück
-			
 		}
 
 	}

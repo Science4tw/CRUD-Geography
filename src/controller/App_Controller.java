@@ -84,7 +84,7 @@ public class App_Controller extends Controller<App_Model, App_View> {
 		// BUTTON CANCEL und Eingaben leeren
 		view.getCountryView().getBtnCancel().setOnAction(event -> {
 			view.getStage().setScene(getMainScene());
-			
+
 		});
 
 		// SZENEN WECHSEL: GOTO -> UPDATEVIEW from App_View
@@ -120,6 +120,11 @@ public class App_Controller extends Controller<App_Model, App_View> {
 			GovernedRegion selectedItem = view.getTableView().getSelectionModel().getSelectedItem();
 			Alert alert = new Alert(AlertType.CONFIRMATION, "Möchten Sie das Land wirklich löschen?");
 			alert.showAndWait();
+			// TODO:
+			if (true == true) {
+			} else {
+
+			}
 			view.getTableView().getItems().remove(selectedItem);
 		});
 
@@ -357,38 +362,37 @@ public class App_Controller extends Controller<App_Model, App_View> {
 				Platform.exit();
 			}
 		});
-		
+
 		// doppelclick auf countryrow updateCountry
-		view.getTableView().setRowFactory( tv -> {
-		  TableRow<Country> row = new TableRow<>();
-		  row.setOnMouseClicked(e -> {
-		     if (e.getClickCount() == 2 && (!row.isEmpty()) ) {
-		     view.getBtnUpdateCountry().fire();              
-		     }
-		  });
-		 
-		  return row;
+		view.getTableView().setRowFactory(tv -> {
+			TableRow<Country> row = new TableRow<>();
+			row.setOnMouseClicked(e -> {
+				if (e.getClickCount() == 2 && (!row.isEmpty())) {
+					view.getBtnUpdateCountry().fire();
+				}
+			});
+
+			return row;
 		});
 		// doppelclick auf state row updateState
-		view.getStateTableView().setRowFactory( tv -> {
-		  TableRow<State> row = new TableRow<>();
-		  row.setOnMouseClicked(e -> {
-		     if (e.getClickCount() == 2 && (!row.isEmpty()) ) {
-		     view.getBtnUpdateState().fire();              
-		     }
-		  });
-		 
-		  return row;
+		view.getStateTableView().setRowFactory(tv -> {
+			TableRow<State> row = new TableRow<>();
+			row.setOnMouseClicked(e -> {
+				if (e.getClickCount() == 2 && (!row.isEmpty())) {
+					view.getBtnUpdateState().fire();
+				}
+			});
+
+			return row;
 		});
 
-		
 //		view.getTableView().setRowFactory( tableView -> {
 //			TableRow<Country> row = new TableRow<>();
 //			row.setOnMouseClicked(event -> {
 //				
 //			});
 //		});
-		
+
 		serviceLocator = ServiceLocator.getServiceLocator();
 		serviceLocator.getLogger().info("Application controller initialized");
 	}
@@ -503,7 +507,7 @@ public class App_Controller extends Controller<App_Model, App_View> {
 		if (!value) {
 			valid = true;
 			view.getCountryView().getCmbFormOfGov().getStyleClass().add("comboboxOk");
-		} 
+		}
 
 		formOfGovernmentValid = valid;
 		enableCreateButton();
@@ -850,7 +854,9 @@ public class App_Controller extends Controller<App_Model, App_View> {
 		FormOfGovernment formOfGovernment = view.getUpdateViewState().getCmbUpdateFormOfGovState().getValue();
 
 		// 4. Überprüfen das Kontrollelemente nicht leer sind
-		if (name != null && area != 0 && formOfGovernment != null) {
+		if (name != null && area != 0 && formOfGovernment != null
+				&& ((Country) App_Model.getStates()).hasState(name) != true) {
+
 			State selectedItem = view.getStateTableView().getSelectionModel().getSelectedItem();
 			selectedItem.setName(name);
 			selectedItem.setArea(area);
@@ -859,6 +865,14 @@ public class App_Controller extends Controller<App_Model, App_View> {
 
 			int position = view.getStateTableView().getSelectionModel().getSelectedIndex();
 			view.getStateTableView().getItems().set((int) position, selectedItem);
+		} else {
+			Alert alert = new Alert(AlertType.INFORMATION, "Dieser State existiert bereits,geben Sie einen anderen State ein");
+			alert.showAndWait();
+			// TODO:
+			if (true == true) {
+			} else {
+
+			}
 
 		}
 

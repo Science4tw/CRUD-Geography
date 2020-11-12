@@ -1,6 +1,7 @@
 package view;
 
 import controller.App_Controller;
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -91,6 +92,8 @@ public class UpdateViewState extends GridPane {
 		pane.setId("controlArea");
 		pane.add(btnUpdateSaveState, 0, 0);
 		pane.add(btnUpdateCancelState, 1, 0);
+		pane.setHgap(10);
+		pane.setPadding(new Insets(10, 10, 10, 35));
 		return pane;
 	}
 	

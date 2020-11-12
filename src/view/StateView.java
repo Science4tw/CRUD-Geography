@@ -2,6 +2,7 @@ package view;
 
 import controller.App_Controller;
 import javafx.collections.ObservableList;
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -122,6 +123,8 @@ public class StateView extends GridPane {
 		
 		pane.add(lblMyCountry, 0, 4);
 		pane.add(cmbMyCountry, 1, 4);
+		
+		pane.setVgap(5);
 
 		return pane;
 	}
@@ -133,6 +136,8 @@ public class StateView extends GridPane {
 		pane.setId("controlArea");
 		pane.add(btnCreateState, 0, 0);
 		pane.add(btnCancelState, 1, 0);
+		pane.setHgap(10);
+		pane.setPadding(new Insets(10, 10, 10, 35));
 		return pane;
 	}
 

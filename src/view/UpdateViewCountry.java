@@ -1,12 +1,15 @@
 package view;
 
 import controller.App_Controller;
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import model.FormOfGovernment;
 import model.App_Model;
@@ -77,6 +80,8 @@ public class UpdateViewCountry extends GridPane {
 		pane.setId("controlArea");
 		pane.add(btnUpdateSave, 0, 0);
 		pane.add(btnUpdateCancel, 1, 0);
+		pane.setHgap(10);
+		pane.setPadding(new Insets(10, 10, 10, 35));
 		return pane;
 	}
 

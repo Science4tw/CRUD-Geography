@@ -8,6 +8,7 @@ import commonClasses.Translator;
 import mvc.ServiceLocator;
 import splashScreen.Splash_View;
 import controller.App_Controller;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -25,6 +26,7 @@ import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import model.App_Model;
 import model.Country;
@@ -108,7 +110,11 @@ public class App_View extends View<App_Model> { // 1 extends BorderPane
 
 		stage.setScene(mainScene);
 		stage.setResizable(true);
-		scene.getStylesheets().add(getClass().getResource("view.css").toExternalForm());
+		mainScene.getStylesheets().add(getClass().getResource("view.css").toExternalForm());
+		
+		//Diese 2 Zeilen Blockieren die Buttons, nur durch Shortcuts kann das GUI bedient werden
+		//primaryStage.setScene(scene);
+		//primaryStage.show();
 
 	}
 
@@ -150,6 +156,8 @@ public class App_View extends View<App_Model> { // 1 extends BorderPane
 		pane.add(btnCreateCountry, 0, 0);
 		pane.add(btnDeleteCountry, 2, 0);
 		pane.add(btnUpdateCountry, 4, 0);
+		pane.setHgap(5);
+		pane.setPadding(new Insets(10, 10, 10, 10));
 		return pane;
 	}
 
@@ -162,6 +170,8 @@ public class App_View extends View<App_Model> { // 1 extends BorderPane
 		pane.add(btnCreateState, 0, 0);
 		pane.add(btnDeleteState, 2, 0);
 		pane.add(btnUpdateState, 4, 0);
+		pane.setHgap(5);
+		pane.setPadding(new Insets(10, 10, 10, 10));
 		return pane;
 	}
 
@@ -609,6 +619,7 @@ public class App_View extends View<App_Model> { // 1 extends BorderPane
 		menuFile = new Menu();
 		menuFileLanguage = new Menu();
 		menuFile.getItems().add(menuFileLanguage);
+		
 
 		for (Locale locale : sl.getLocales()) {
 			MenuItem language = new MenuItem(locale.getLanguage());
@@ -634,6 +645,7 @@ public class App_View extends View<App_Model> { // 1 extends BorderPane
 		// Initialisieren der TableView
 		this.tableView = createTableView();
 		root.add(tableView, 0, 4);
+		this.tableView.prefWidthProperty().bind(root.widthProperty());
 
 //		this.myStatesTableView = createMyStatesTablewView();
 //		root.add(myStatesTableView, 2, 3);
@@ -646,12 +658,13 @@ public class App_View extends View<App_Model> { // 1 extends BorderPane
 		// Initialisieren der TableView
 		this.stateTableView = createStateTableView();
 		root.add(stateTableView, 0, 7);
+		
 
 		// SZENEN
-		countryScene = new Scene(createCountryView(), 350, 350);
-		stateScene = new Scene(createStateView(), 350, 350);
-		updateScene = new Scene(createUpdateView(), 350, 350);
-		updateSceneState = new Scene(createUpdateViewState(), 350, 350);
+		countryScene = new Scene(createCountryView(), 450, 450);
+		stateScene = new Scene(createStateView(), 450, 450);
+		updateScene = new Scene(createUpdateView(), 450, 450);
+		updateSceneState = new Scene(createUpdateViewState(), 450, 450);
 
 		// 1 Aktueller Status
 		this.lblStatus = new Label("Everything okay");

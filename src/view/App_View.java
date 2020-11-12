@@ -17,6 +17,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.RadioMenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -91,6 +92,7 @@ public class App_View extends View<App_Model> { // 1 extends BorderPane
 	protected Menu menuFile;
 	protected Menu menuFileLanguage;
 	protected Menu menuHelp;
+	protected Menu menuHelpShortcuts;
 
 	// 1 & 2 Aktueller Status Label
 	private Label lblStatus;
@@ -298,7 +300,6 @@ public class App_View extends View<App_Model> { // 1 extends BorderPane
 	// Methode um den Status zu aktualiseren
 	public void setStatus(String message) {
 		this.lblStatus.setText(message); // status = Label
-
 	}
 
 	// Getter
@@ -630,8 +631,10 @@ public class App_View extends View<App_Model> { // 1 extends BorderPane
 				updateTexts();
 			});
 		}
-
+		
 		menuHelp = new Menu();
+		MenuItem shortcuts = new MenuItem("Shortcuts");
+		menuHelp.getItems().add(shortcuts);
 		menuBar.getMenus().addAll(menuFile, menuHelp);
 
 		GridPane root = new GridPane();
@@ -668,18 +671,14 @@ public class App_View extends View<App_Model> { // 1 extends BorderPane
 
 		// 1 Aktueller Status
 		this.lblStatus = new Label("Everything okay");
+		this.lblStatus.setStyle("-fx-text-fill: #1577c2; -fx-font-size: 12;");
 		root.add(this.lblStatus, 0, 8);
-
-		// 1 Create the scene using our layout; then display it
-//		mainScene = new Scene(this);
-//	mainScene.getStylesheets().add(getClass().getResource("view.css").toExternalForm());       
 
 		updateTexts();
 
 		Scene scene = new Scene(root);
-//        scene.getStylesheets().add(
-//                getClass().getResource("app.css").toExternalForm());
-		// set shortcut ctrl'c to create countrz button
+
+		// set shortcut ctrl'c to create country 
 		btnCreateCountry.getScene().getAccelerators()
 				.put(new KeyCodeCombination(KeyCode.C, KeyCombination.CONTROL_DOWN), new Runnable() {
 					public void run() {
@@ -700,7 +699,7 @@ public class App_View extends View<App_Model> { // 1 extends BorderPane
 						btnCreateState.fire();
 					}
 				});
-		// set ctrl x to cancel on countrz scene
+		// set ctrl x to cancel on country scene
 		countryScene.getAccelerators().put(new KeyCodeCombination(KeyCode.X, KeyCombination.CONTROL_DOWN),
 				new Runnable() {
 					public void run() {

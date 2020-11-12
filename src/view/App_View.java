@@ -80,7 +80,7 @@ public class App_View extends View<App_Model> { // 1 extends BorderPane
 	protected TableColumn<State, String> colState;
 	protected TableColumn<State, Double> colStateArea;
 	protected TableColumn<State, Integer> colStatePopulation;
-//	protected TableColumn<GovernedRegion, String> colStateFormOfGov;
+	protected TableColumn<State, String> colStateFormOfGov;
 	protected TableColumn<State, String> colMyCountry;
 
 //	// MyStates VIEW
@@ -244,11 +244,11 @@ public class App_View extends View<App_Model> { // 1 extends BorderPane
 		colStatePopulation.setCellValueFactory(new PropertyValueFactory<>("population"));
 		stateTableView.getColumns().add(colStatePopulation);
 
-//		// Government Spalte
-//		colStateFormOfGov = new TableColumn<>("Form of Government State");
-//		colStateFormOfGov.setMinWidth(50);
-//		colStateFormOfGov.setCellValueFactory(new PropertyValueFactory<GovernedRegion, String>("formOfGovernment"));
-//		stateTableView.getColumns().add(colStateFormOfGov);
+		// Government Spalte
+		colStateFormOfGov = new TableColumn<>("Form of Government State");
+		colStateFormOfGov.setMinWidth(200);
+		colStateFormOfGov.setCellValueFactory(new PropertyValueFactory<State, String>("formOfGovernment"));
+		stateTableView.getColumns().add(colStateFormOfGov);
 
 		colMyCountry = new TableColumn<>("My Country");
 		colMyCountry.setMinWidth(200);

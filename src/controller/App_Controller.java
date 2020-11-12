@@ -118,6 +118,8 @@ public class App_Controller extends Controller<App_Model, App_View> {
 		view.getBtnDeleteCountry().setOnAction(e -> { // Holt den Button und setzt in durch das Event unter Aktion
 			// Holt das ausgewählt Item in der TableView
 			GovernedRegion selectedItem = view.getTableView().getSelectionModel().getSelectedItem();
+			Alert alert = new Alert(AlertType.CONFIRMATION, "Möchten Sie das Land wirklich löschen?");
+			alert.showAndWait();
 			view.getTableView().getItems().remove(selectedItem);
 		});
 
@@ -213,6 +215,8 @@ public class App_Controller extends Controller<App_Model, App_View> {
 		// DELETE STATE in App_View in der State TableView
 		view.getBtnDeleteState().setOnAction(e -> { // Holt den Button und setzt in durch das Event unter Aktion
 			GovernedRegion selectedItem = view.getStateTableView().getSelectionModel().getSelectedItem();
+			Alert alert = new Alert(AlertType.CONFIRMATION, "Möchten Sie diesen State wirklich löschen?");
+			alert.showAndWait();
 			view.getStateTableView().getItems().remove(selectedItem);
 		});
 

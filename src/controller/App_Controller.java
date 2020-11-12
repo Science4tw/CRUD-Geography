@@ -72,7 +72,6 @@ public class App_Controller extends Controller<App_Model, App_View> {
 		// Wenn in der UpdateView der Cancel Button gedrückt wird,
 		// soll die Sczene gewechselt werden zu der Geo_View
 		view.getUpdateView().getBtnUpdateCancel().setOnAction(event -> {
-			view.getUpdateView().reset();
 			view.getStage().setScene(getMainScene());
 		});
 
@@ -84,7 +83,6 @@ public class App_Controller extends Controller<App_Model, App_View> {
 		// *** COUNTRY VIEW ***
 		// BUTTON CANCEL und Eingaben leeren
 		view.getCountryView().getBtnCancel().setOnAction(event -> {
-			view.getCountryView().reset();
 			view.getStage().setScene(getMainScene());
 			
 		});
@@ -139,7 +137,7 @@ public class App_Controller extends Controller<App_Model, App_View> {
 					String areaString = Double.toString(area);
 
 					int population = governedRegion.getPopulation();
-					String populationString = Double.toString(area);
+					String populationString = Integer.toString(population);
 
 					FormOfGovernment formOfGovernment = governedRegion.getFormOfGovernment();
 
@@ -201,7 +199,6 @@ public class App_Controller extends Controller<App_Model, App_View> {
 		// CANCEL STATEVIEW) SZENEN Wechsel von StateView zu App_View
 		view.getStateView().getBtnCancelState().setOnAction(event -> {
 			view.getStage().setScene(getMainScene());
-			view.getStateView().reset();
 		});
 
 		// SZENEN Wechsel von App_View zu StateView (CREATE STATE)
@@ -380,6 +377,14 @@ public class App_Controller extends Controller<App_Model, App_View> {
 		  return row;
 		});
 
+		
+//		view.getTableView().setRowFactory( tableView -> {
+//			TableRow<Country> row = new TableRow<>();
+//			row.setOnMouseClicked(event -> {
+//				
+//			});
+//		});
+		
 		serviceLocator = ServiceLocator.getServiceLocator();
 		serviceLocator.getLogger().info("Application controller initialized");
 	}
@@ -836,7 +841,7 @@ public class App_Controller extends Controller<App_Model, App_View> {
 		// 1. Lese den Wert des Textfelds mit den Namen des Landes aus
 		String name = view.getUpdateViewState().getTxtUpdateState().getText();
 		// 2. Lese den Wert des Textfelds mit der Fläche des Landes aus
-		double area = Integer.parseInt(view.getUpdateViewState().getTxtUpdateAreaState().getText());
+		double area = Double.parseDouble(view.getUpdateViewState().getTxtUpdateAreaState().getText());
 		int population = Integer.parseInt(view.getUpdateViewState().getTxtUpdatePopulationState().getText());
 		// 3. Hole den ausgewählten Wert der ComboBox
 		FormOfGovernment formOfGovernment = view.getUpdateViewState().getCmbUpdateFormOfGovState().getValue();

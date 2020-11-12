@@ -1,3 +1,4 @@
+/*Input Validation*/
 .inputOk {
   -fx-text-fill: green;
 }
@@ -13,7 +14,7 @@
   -fx-outer-border: red;
 }
 
-
+/*Controlls*/
 .label {
 	-fx-padding: 5.0px;
     -fx-min-width: 200.0;
@@ -21,8 +22,7 @@
   	-fx-alignment: center;
 }
 .button {
-	-fx-background-color:
-	#000000, 
+	-fx-background-color: #000000, 
 	linear-gradient(#7ebcea, #2f4b8f),
 	linear-gradient(#426ab7, #263e75),
 	linear-gradient(#395cab, #223768);
@@ -32,8 +32,47 @@
 	-fx-text-fill: white;
 	-fx-font-size: 12px;
 	}
-	
 
+/*MenuBar*/
+.menu-bar .menu-button:hover, .menu-bar .menu-button:focused, .menu-bar .menu-button:showing {
+    -fx-background-color: #000000, 
+	linear-gradient(#7ebcea, #2f4b8f),
+	linear-gradient(#426ab7, #263e75),
+	linear-gradient(#395cab, #223768);
+    -fx-text-fill: white;
+    -fx-font-size: 12px;
+}
+
+.menu-item .label:hover{
+    -fx-background-color: #000000, 
+	linear-gradient(#7ebcea, #2f4b8f),
+	linear-gradient(#426ab7, #263e75),
+	linear-gradient(#395cab, #223768);
+    -fx-text-fill: white;
+    -fx-font-size: 12px;
+}
+.menu-item:focused {
+    -fx-background-color: #000000, 
+	linear-gradient(#7ebcea, #2f4b8f),
+	linear-gradient(#426ab7, #263e75),
+	linear-gradient(#395cab, #223768);
+    -fx-text-fill: white;
+    -fx-font-size: 12px;
+}
+
+/*TabelView*/
+.table-view .column-header .label{
+   -fx-alignment: CENTER_LEFT;
+}
+
+.table-view .cell{
+  -fx-cell-size: 30;
+  -fx-alignment: CENTER_LEFT;
+   
+}
+.table-row-cell:selected {
+   -fx-background-color: #1577c2;
+}
 
 
 

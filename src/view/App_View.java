@@ -584,8 +584,8 @@ public class App_View extends View<App_Model> { // 1 extends BorderPane
 		this.stateTableView = createStateTableView();
 		root.add(stateTableView, 0, 7);
 
-		this.myStatesTableView = createMyStatesTablewView();
-		root.add(myStatesTableView, 0, 8);
+//		this.myStatesTableView = createMyStatesTablewView();
+//		root.add(myStatesTableView, 0, 8);
 
 		// SZENEN
 		countryScene = new Scene(createCountryView(), 450, 450);

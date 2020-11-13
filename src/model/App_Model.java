@@ -257,9 +257,6 @@ public class App_Model extends Model {
 		return line;
 	}
 
-	public void addState(State selectedItem) {
-
-	}
 	private File getWorkFolder() {
 
 		return new File(".");

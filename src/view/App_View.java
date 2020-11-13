@@ -49,7 +49,7 @@ public class App_View extends View<App_Model> { // 1 extends BorderPane
 
 	private StateView stateView;
 	private UpdateViewState updateViewState;
-
+	
 	// SZENEN
 	private Scene splashScene;
 	private Scene mainScene; // -> App_View (GridPane)
@@ -87,6 +87,11 @@ public class App_View extends View<App_Model> { // 1 extends BorderPane
 	// MyStates VIEW
 	protected TableView<State> myStatesTableView;
 	protected TableColumn<State, String> colMyStates;
+	protected TableColumn<State, Double> colMyStateArea;
+	protected TableColumn<State, Integer> colMyStatePopulation;
+	protected TableColumn<State, String> colMyStateFormOfGov;
+
+	
 
 	// *** MENUS ***
 	protected Menu menuFile;
@@ -584,8 +589,8 @@ public class App_View extends View<App_Model> { // 1 extends BorderPane
 		this.stateTableView = createStateTableView();
 		root.add(stateTableView, 0, 7);
 
-//		this.myStatesTableView = createMyStatesTablewView();
-//		root.add(myStatesTableView, 0, 8);
+		this.myStatesTableView = createMyStatesTablewView();
+		root.add(myStatesTableView, 0, 8);
 
 		// SZENEN
 		countryScene = new Scene(createCountryView(), 450, 450);
@@ -732,6 +737,10 @@ public class App_View extends View<App_Model> { // 1 extends BorderPane
 		btnCreateState.setText(t.getString("button.btnCreateState"));
 		btnDeleteState.setText(t.getString("button.btnDeleteState"));
 		btnUpdateState.setText(t.getString("button.btnUpdateState"));
+		
+		getTableView().getColumns().get(0).setText(t.getString("row.tableview.country"));
+
+		getStateTableView().getColumns().get(0).setText(t.getString("row.stateTableView.State"));
 
 		stage.setTitle(t.getString("program.name"));
 	}
@@ -743,18 +752,35 @@ public class App_View extends View<App_Model> { // 1 extends BorderPane
 	public void setColMyStates(TableColumn<State, String> colMyStates) {
 		this.colMyStates = colMyStates;
 	}
+	
+	public TableView<State> getMyStatesTableView()
+	{
+		return this.myStatesTableView;
+	}
 
 	private TableView<State> createMyStatesTablewView() {
 		this.myStatesTableView = new TableView<State>();
 		this.myStatesTableView.setEditable(false);
 
-		colMyStates = new TableColumn<>("My States");
-		colMyStates.setMinWidth(50);
-		colMyStates.setCellValueFactory(new PropertyValueFactory<>("myStates"));
+		colMyStates = new TableColumn<>("State");
+		colMyStates.setMinWidth(200);
+		colMyStates.setCellValueFactory(new PropertyValueFactory<>("name"));
 		myStatesTableView.getColumns().add(colMyStates);
+		
+		colMyStateArea = new TableColumn<>("Area");
+		colMyStateArea.setMinWidth(200);
+		colMyStateArea.setCellValueFactory(new PropertyValueFactory<>("area"));
+		myStatesTableView.getColumns().add(colMyStateArea);
 
-		// Finally, attach the tableView to the ObservableList of data
-//		myStatesTableView.setItems(model.getMyStates());
+		colMyStatePopulation = new TableColumn<>("Population");
+		colMyStatePopulation.setMinWidth(200);
+		colMyStatePopulation.setCellValueFactory(new PropertyValueFactory<>("population"));
+		myStatesTableView.getColumns().add(colMyStatePopulation);
+
+		colMyStateFormOfGov = new TableColumn<>("Form of Government State");
+		colMyStateFormOfGov.setMinWidth(200);
+		colMyStateFormOfGov.setCellValueFactory(new PropertyValueFactory<>("formOfGovernment"));
+		myStatesTableView.getColumns().add(colMyStateFormOfGov);
 
 		return myStatesTableView;
 	}

@@ -66,11 +66,10 @@ public class App_Model extends Model {
 
 	// CREATE State
 	// Fügt / speichert der Liste ein neu erzeugtes State Objekts hinzu (MR)
-	public static void createNewState(String name, double area, int population, FormOfGovernment formOfGovernment,
+	public void createNewState(String name, double area, int population, FormOfGovernment formOfGovernment,
 			Country myCountry) {
 		State state = new State(name, area, population, formOfGovernment, myCountry);
 		governedRegions.add(state);
-		myCountry.addState(state);
 		states.add(state);
 //		getMyStates().add(state);
 

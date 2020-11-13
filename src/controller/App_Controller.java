@@ -79,13 +79,14 @@ public class App_Controller extends Controller<App_Model, App_View> {
 		});
 
 		// (SAVE UPDATEVIEWCOUNTRY)
-		view.getUpdateView().getBtnUpdateSave().setOnAction(event -> {
+		view.getUpdateView().getBtnUpdateSave().setOnAction(event -> {			
 			view.getStage().setScene(getMainScene());
 		});
 
 		// *** COUNTRY VIEW ***
 		// BUTTON CANCEL und Eingaben leeren
 		view.getCountryView().getBtnCancel().setOnAction(event -> {
+			view.getCountryView().reset();
 			view.getStage().setScene(getMainScene());
 
 		});
@@ -107,6 +108,7 @@ public class App_Controller extends Controller<App_Model, App_View> {
 		// SZENEN WECHSEL: GOTO -> App_View from UpdateViewState
 		// BUTTON: UPDATE State
 		view.getUpdateViewState().getBtnUpdateCancelState().setOnAction(event -> {
+//			view.getUpdateViewState().reset();
 			view.getStage().setScene(getMainScene());
 		});
 
@@ -171,7 +173,12 @@ public class App_Controller extends Controller<App_Model, App_View> {
 					view.getUpdateViewCountry().getTxtUpdateCountry().setText(name);
 					view.getUpdateViewCountry().getTxtUpdateArea().setText(areaString);
 					view.getUpdateViewCountry().getTxtUpdatePopulation().setText(populationString);
-
+					
+					view.getUpdateViewCountry().getCmbFormOfGov().getSelectionModel().select(formOfGovernment);
+					
+					view.getMyStatesTableView().setItems(model.getCountryByName(view.getTableView().getSelectionModel().getSelectedItem().getName()).getMyStates());
+					
+					
 				}
 			}
 		});
@@ -202,18 +209,30 @@ public class App_Controller extends Controller<App_Model, App_View> {
 					int population = state.getPopulation();
 					String populationString = Integer.toString(population);
 
-	//				FormOfGovernment formOfGovernment = state.getFormOfGovernment();
+					FormOfGovernment formOfGovernment = state.getFormOfGovernment();
+					Country myCountry = state.getMyCountry();
 
 					view.getUpdateViewState().getTxtUpdateState().setText(name);
 					view.getUpdateViewState().getTxtUpdateAreaState().setText(areaString);
 					view.getUpdateViewState().getTxtUpdatePopulationState().setText(populationString);
+					
+					
+					view.getUpdateViewState().getCmbUpdateFormOfGovState().getSelectionModel().select(formOfGovernment);	
+					view.getUpdateViewState().getCmbMyCountry().getSelectionModel().select(myCountry);
+					
+					
 
 				}
 			}
 		});
 
 		// UPDATE STATE TEIL 2 - Save Button unter Aktion setzen
-		view.getUpdateViewState().getBtnUpdateSaveState().setOnAction(this::updateState);
+//		view.getUpdateViewState().getBtnUpdateSaveState().setOnAction(this::updateState);
+		view.getUpdateViewState().getBtnUpdateSaveState().setOnAction(event -> {
+			this.updateState(event);
+			view.getMyStatesTableView().refresh();
+		});
+
 
 		// *** COUNTRY VIEW ***
 		// SAVE (CREATE) COUNTRY - Event handler for the button in App_View
@@ -225,6 +244,7 @@ public class App_Controller extends Controller<App_Model, App_View> {
 
 		// CANCEL STATEVIEW) SZENEN Wechsel von StateView zu App_View
 		view.getStateView().getBtnCancelState().setOnAction(event -> {
+			view.getStateView().reset();
 			view.getStage().setScene(getMainScene());
 		});
 
@@ -339,6 +359,8 @@ public class App_Controller extends Controller<App_Model, App_View> {
 		 */
 		view.getBtnDeleteCountry().disableProperty()
 				.bind(Bindings.isEmpty(view.getTableView().getSelectionModel().getSelectedItems()));
+
+		
 		/**
 		 * 3 Wenn kein Zeile in der TableView angewählt ist "DEAKTIVIERE" den UPDATE
 		 * Button (DISABLED)
@@ -411,12 +433,6 @@ public class App_Controller extends Controller<App_Model, App_View> {
 			return row;
 		});
 
-//		view.getTableView().setRowFactory( tableView -> {
-//			TableRow<Country> row = new TableRow<>();
-//			row.setOnMouseClicked(event -> {
-//				
-//			});
-//		});
 
 		serviceLocator = ServiceLocator.getServiceLocator();
 		serviceLocator.getLogger().info("Application controller initialized");
@@ -828,13 +844,14 @@ public class App_Controller extends Controller<App_Model, App_View> {
 		// 1. Lese den Wert des Textfelds mit den Namen des Landes aus
 		String name = view.getCountryView().getTxtCountry().getText();
 		// 2. Lese den Wert des Textfelds mit der Fläche des Landes aus
-		double area = Integer.parseInt(view.getCountryView().getTxtArea().getText());
+		double area = Double.parseDouble(view.getCountryView().getTxtArea().getText());
 		int population = Integer.parseInt(view.getCountryView().getTxtPopulation().getText());
 		// 3. Hole den ausgewählten Wert der ComboBox
 		FormOfGovernment formOfGovernment = view.getCountryView().getCmbFormOfGov().getValue();
 		ObservableList<State> myStates = FXCollections.observableArrayList();
 		// 4. Überprüfen das Kontrollelemente nicht leer sind
 		if (name != null && area != 0 && formOfGovernment != null && myStates != null) {
+			
 			// 5
 			model.createNewCountry(name, area, population, formOfGovernment, myStates);
 			view.setStatus("Country Objekt hinzugefügt"); // Aktualisiert Status
@@ -863,6 +880,9 @@ public class App_Controller extends Controller<App_Model, App_View> {
 
 			int position = view.getTableView().getSelectionModel().getSelectedIndex();
 			view.getTableView().getItems().set((int) position, selectedItem);
+			
+			view.getStateTableView().getItems();	
+			view.getStateTableView().refresh();
 		}
 	}
 
@@ -874,22 +894,28 @@ public class App_Controller extends Controller<App_Model, App_View> {
 		double area = Double.parseDouble(view.getUpdateViewState().getTxtUpdateAreaState().getText());
 		int population = Integer.parseInt(view.getUpdateViewState().getTxtUpdatePopulationState().getText());
 		// 3. Hole den ausgewählten Wert der ComboBox
-//		FormOfGovernment formOfGovernment = view.getUpdateViewState().getCmbUpdateFormOfGovState().getValue();
+		FormOfGovernment formOfGovernment = view.getUpdateViewState().getCmbUpdateFormOfGovState().getValue();
+		
+		Country myCountry = view.getUpdateViewState().getCmbMyCountry().getValue();
 
 		// 4. Überprüfen das Kontrollelemente nicht leer sind
-		if (name != null && area != 0 && population != 0) {
+		if (name != null && area != 0 && population != 0 && formOfGovernment != null && myCountry != null) {
 
 			State selectedItem = view.getStateTableView().getSelectionModel().getSelectedItem();
 			selectedItem.setName(name);
 			selectedItem.setArea(area);
 			selectedItem.setPopulation(population);
 //			selectedItem.setFormOfGovernment(formOfGovernment);
+			selectedItem.setFormOfGovernment(formOfGovernment);	
+			selectedItem.setMyCountry(myCountry);
 
 			int position = view.getStateTableView().getSelectionModel().getSelectedIndex();
 			view.getStateTableView().getItems().set((int) position, selectedItem);
+			view.getStateTableView().refresh();
+			view.getMyStatesTableView().refresh();
 		} else {
 			Alert alert = new Alert(AlertType.INFORMATION,
-					"Dieser State existiert bereits, geben Sie einen anderen State ein");
+					"Bitte fuellen Sie alle Felder aus");
 			alert.showAndWait();
 
 		}
@@ -904,10 +930,7 @@ public class App_Controller extends Controller<App_Model, App_View> {
 		FormOfGovernment formOfGovernment = view.getStateView().getCmbFormOfGovState().getValue();
 
 		Country myCountry = view.getStateView().getCmbMyCountry().getValue();
-
-		State newState = new State(name, area, population, formOfGovernment, myCountry);
-//		model.addState(newState);
-
+		
 		// 4. Überprüfen das Kontrollelemente nicht leer sind
 		if (name != null && area != 0 && formOfGovernment != null && myCountry != null) {
 			// 5

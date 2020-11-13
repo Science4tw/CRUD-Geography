@@ -33,11 +33,11 @@ public class UpdateViewState extends GridPane {
 	private TextField txtUpdateAreaState = new TextField();
 	private TextField txtUpdatePopulationState = new TextField();
 	// ComboBox um die Regierungsform auszuwählen
-//	protected ComboBox<FormOfGovernment> cmbUpdateFormOfGovState = new ComboBox<FormOfGovernment>();
+	protected ComboBox<FormOfGovernment> cmbUpdateFormOfGovState = new ComboBox<FormOfGovernment>();
 	
 	
 	// ComboBox um zu wählen zu welchem Land ein neu erzeugtes State Objekt gehört
-//	private ComboBox<Country> cmbMyCountry = new ComboBox<Country>();
+	private ComboBox<Country> cmbMyCountry = new ComboBox<Country>();
 
 	// 1 Buttons (Data Control)
 	protected Button btnUpdateSaveState = new Button("Save State");
@@ -63,13 +63,13 @@ public class UpdateViewState extends GridPane {
 		lblUpdateState = new Label("Name des States");
 		lblUpdateAreaState = new Label("Fläche des States");
 		lblUpdatePopulationState = new Label("Population des States");
-//		lblUpdateFormOfGovState = new Label("Regierungsform des States");
-//		lblMyCountry = new Label("Land des States");
+		lblUpdateFormOfGovState = new Label("Regierungsform des States");
+		lblMyCountry = new Label("Land des States");
 		
-//		cmbMyCountry.setItems(model.getCountries());
+		cmbMyCountry.setItems(model.getCountries());
 		
 		// Fill combos (hol mir die Items,alle hinzufügen von den values der Enums)
-//		cmbUpdateFormOfGovState.getItems().addAll(FormOfGovernment.values());
+		cmbUpdateFormOfGovState.getItems().addAll(FormOfGovernment.values());
 		//cmbUpdateFormOfGovState.setValue(FormOfGovernment.DICTATORSHIP);
 		
 		// Organize the layout, add in the controls (col, row)
@@ -80,10 +80,10 @@ public class UpdateViewState extends GridPane {
 		pane.add(getTxtUpdateAreaState(), 1, 2);
 		pane.add(lblUpdatePopulationState, 0, 3);
 		pane.add(getTxtUpdatePopulationState(), 1, 3);
-//		pane.add(lblUpdateFormOfGovState, 0, 4);
-//		pane.add(getCmbUpdateFormOfGovState(), 1, 4);
-//		pane.add(lblMyCountry, 0, 5);
-//		pane.add(cmbMyCountry, 1, 5);
+		pane.add(lblUpdateFormOfGovState, 0, 4);
+		pane.add(getCmbUpdateFormOfGovState(), 1, 4);
+		pane.add(lblMyCountry, 0, 5);
+		pane.add(cmbMyCountry, 1, 5);
 		
 		return pane;
 		
@@ -189,13 +189,13 @@ public class UpdateViewState extends GridPane {
 		this.txtUpdatePopulationState = txtUpdatePopulationState;
 	}
 
-//	public ComboBox<FormOfGovernment> getCmbUpdateFormOfGovState() {
-//		return cmbUpdateFormOfGovState;
-//	}
-//
-//	public void setCmbUpdateFormOfGovState(ComboBox<FormOfGovernment> cmbUpdateFormOfGovState) {
-//		this.cmbUpdateFormOfGovState = cmbUpdateFormOfGovState;
-//	}
+	public ComboBox<FormOfGovernment> getCmbUpdateFormOfGovState() {
+		return cmbUpdateFormOfGovState;
+	}
+
+	public void setCmbUpdateFormOfGovState(ComboBox<FormOfGovernment> cmbUpdateFormOfGovState) {
+		this.cmbUpdateFormOfGovState = cmbUpdateFormOfGovState;
+	}
 
 	public Button getBtnUpdateSaveState() {
 		return btnUpdateSaveState;
@@ -214,13 +214,13 @@ public class UpdateViewState extends GridPane {
 	}
 
 
-//	public ComboBox<Country> getCmbMyCountry() {
-//		return cmbMyCountry;
-//	}
-//
-//	public void setCmbMyCountry(ComboBox<Country> cmbMyCountry) {
-//		this.cmbMyCountry = cmbMyCountry;
-//	}
-//	
+	public ComboBox<Country> getCmbMyCountry() {
+		return cmbMyCountry;
+	}
+
+	public void setCmbMyCountry(ComboBox<Country> cmbMyCountry) {
+		this.cmbMyCountry = cmbMyCountry;
+	}
+	
 	
 }

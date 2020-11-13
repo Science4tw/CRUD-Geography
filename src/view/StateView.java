@@ -67,7 +67,8 @@ public class StateView extends GridPane {
 		this.txtState.setText("");
 		this.txtAreaState.setText("");
 		this.txtPopulationState.setText("");
-		this.cmbMyCountry.getSelectionModel().clearSelection(); 
+		this.cmbMyCountry.getSelectionModel().clearSelection();	
+		this.getCmbFormOfGovState().getSelectionModel().clearSelection();
 	}
 
 	// 1 Data Entry Pane

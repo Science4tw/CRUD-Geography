@@ -16,6 +16,7 @@ public class State extends GovernedRegion {
 	public State(String name, double area, int population, FormOfGovernment formOfGovernment, Country myCountry) {
 		super(name, area, population, formOfGovernment);
 		this.myCountry = myCountry;
+		myCountry.addState(this);
 		this.myCountryName = myCountry.getName();
 		}
 
@@ -26,7 +27,7 @@ public class State extends GovernedRegion {
 
 	// Getter für myCountry (MR)
 	public String getMyCountryName() {
-		return myCountryName;
+		return myCountry.getName();
 	}
 	
 	// Setter für myCountry (MR)

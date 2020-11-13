@@ -121,38 +121,32 @@ public class App_Controller extends Controller<App_Model, App_View> {
 			// Holt das ausgewählt Item in der TableView
 			GovernedRegion selectedItem = view.getTableView().getSelectionModel().getSelectedItem();
 			Alert alert = new Alert(AlertType.CONFIRMATION, "Möchten Sie das Land wirklich löschen?");
-			
+
 			Optional<ButtonType> result = alert.showAndWait();
 			if (result.get() == ButtonType.OK) {
 				view.getTableView().getItems().remove(selectedItem);
 
 			} else {
-			
+
 			}
-			
+
 		});
-		
-		//Alert für MenuItem Shortcut
+
+		// Alert für MenuItem Shortcut
 		view.getMenuHelpShortcuts().setOnAction(e -> {
 			Alert info = new Alert(AlertType.INFORMATION);
 			info.setTitle("Information");
 			info.setHeaderText("Shortcuts");
-			
-			info.setContentText("Ctrl+C\t\tLand erstellen"
-					+ "\nCtrl+U\t\tLand aktualisieren"
-					+ "\nCtrl+D\t\tLand loeschen"
-					+ "\n"
-					+ "\nCtrl+Shift+C\t\tState erstellen"
-					+ "\nCtrl+Shift+U\t\tState aktualisieren"
-					+ "\nCtrl+Shift+D\t\tState loeschen"
-					+ "\n"
-					+ "\nCtrl+S\t\tLand/State speichern"
-					+ "\nCtrl+X\t\tAktuelle Ansicht verlassen");
-			
+
+			info.setContentText("Ctrl+C\t\tLand erstellen" + "\nCtrl+U\t\tLand aktualisieren"
+					+ "\nCtrl+D\t\tLand loeschen" + "\n" + "\nCtrl+Shift+C\t\tState erstellen"
+					+ "\nCtrl+Shift+U\t\tState aktualisieren" + "\nCtrl+Shift+D\t\tState loeschen" + "\n"
+					+ "\nCtrl+S\t\tLand/State speichern" + "\nCtrl+X\t\tAktuelle Ansicht verlassen");
+
 			info.showAndWait();
-			
+
 		});
-		
+
 		// UPDATE COUNTRY Teil 1
 		// Die TableView wird permanent überwacht und die Werte der ausgewählten Zeile
 		// werden immer in die UpdateViewCountry übertragen
@@ -246,15 +240,15 @@ public class App_Controller extends Controller<App_Model, App_View> {
 		view.getBtnDeleteState().setOnAction(e -> { // Holt den Button und setzt in durch das Event unter Aktion
 			GovernedRegion selectedItem = view.getStateTableView().getSelectionModel().getSelectedItem();
 			Alert alert = new Alert(AlertType.CONFIRMATION, "Möchten Sie diesen State wirklich löschen?");
-		
+
 			Optional<ButtonType> result = alert.showAndWait();
 			if (result.get() == ButtonType.OK) {
 				view.getStateTableView().getItems().remove(selectedItem);
 
 			} else {
-			
+
 			}
-			
+
 		});
 
 //		// Szenen Wechsel von der UpdateViewState zur App_View (STATE)
@@ -337,8 +331,6 @@ public class App_Controller extends Controller<App_Model, App_View> {
 					validateStatePopulationUpdate(newValue);
 				});
 
-
-		
 		// ADDITIONAL FUNCTIONALITY
 		/**
 		 * 3 Wenn kein Zeile in der TableView angewählt ist "DEAKTIVIERE" den DELETE
@@ -390,7 +382,7 @@ public class App_Controller extends Controller<App_Model, App_View> {
 			@Override
 			public void handle(WindowEvent event) {
 				Alert alert = new Alert(AlertType.CONFIRMATION, "Möchten Sie wirklich beenden?");
-				
+
 				Optional<ButtonType> result = alert.showAndWait();
 				if (result.get() == ButtonType.OK) {
 					model.saveCountries();
@@ -398,13 +390,11 @@ public class App_Controller extends Controller<App_Model, App_View> {
 					Platform.exit();
 
 				} else {
-				
+
 				}
-				
+
 			}
 		});
-		
-		
 
 		// doppelclick auf countryrow updateCountry
 		view.getTableView().setRowFactory(tv -> {
@@ -854,7 +844,7 @@ public class App_Controller extends Controller<App_Model, App_View> {
 		FormOfGovernment formOfGovernment = view.getCountryView().getCmbFormOfGov().getValue();
 		ObservableList<State> myStates = null;
 		// 4. Überprüfen das Kontrollelemente nicht leer sind
-		if (name != null && area != 0 && formOfGovernment != null) {
+		if (name != null && area != 0 && formOfGovernment != null && myStates == null) {
 			// 5
 			model.createNewCountry(name, area, population, formOfGovernment, myStates);
 			view.setStatus("Country Objekt hinzugefügt"); // Aktualisiert Status
@@ -897,8 +887,7 @@ public class App_Controller extends Controller<App_Model, App_View> {
 		FormOfGovernment formOfGovernment = view.getUpdateViewState().getCmbUpdateFormOfGovState().getValue();
 
 		// 4. Überprüfen das Kontrollelemente nicht leer sind
-		if (name != null && area != 0 && formOfGovernment != null
-				&& ((Country) App_Model.getStates()).hasState(name) != true) {
+		if (name != null && area != 0 && formOfGovernment != null) {
 
 			State selectedItem = view.getStateTableView().getSelectionModel().getSelectedItem();
 			selectedItem.setName(name);
@@ -909,7 +898,8 @@ public class App_Controller extends Controller<App_Model, App_View> {
 			int position = view.getStateTableView().getSelectionModel().getSelectedIndex();
 			view.getStateTableView().getItems().set((int) position, selectedItem);
 		} else {
-			Alert alert = new Alert(AlertType.INFORMATION, "Dieser State existiert bereits, geben Sie einen anderen State ein");
+			Alert alert = new Alert(AlertType.INFORMATION,
+					"Dieser State existiert bereits, geben Sie einen anderen State ein");
 			alert.showAndWait();
 
 		}

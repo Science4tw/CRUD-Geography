@@ -55,14 +55,14 @@ public class App_Model extends Model {
 
 	}
 
-	// CREATE Country (OHNE LISTE MIT STATES)
-	// Fügt / speichert der Liste ein neu erzeugtes Country Objekts hinzu (MR)
-	public static void createNewCountry(String name, double area, int population, FormOfGovernment formOfGovernment) {
-		Country country = new Country(name, area, population, formOfGovernment);
-		governedRegions.add(country);
-		countries.add(country);
-
-	}
+//	// CREATE Country (OHNE LISTE MIT STATES)
+//	// Fügt / speichert der Liste ein neu erzeugtes Country Objekts hinzu (MR)
+//	public static void createNewCountry(String name, double area, int population, FormOfGovernment formOfGovernment) {
+//		Country country = new Country(name, area, population, formOfGovernment);
+//		governedRegions.add(country);
+//		countries.add(country);
+//
+//	}
 
 	// CREATE State
 	// Fügt / speichert der Liste ein neu erzeugtes State Objekts hinzu (MR)

@@ -84,9 +84,9 @@ public class App_View extends View<App_Model> { // 1 extends BorderPane
 	protected TableColumn<State, String> colStateFormOfGov;
 	protected TableColumn<State, String> colMyCountry;
 
-//	// MyStates VIEW
-//	protected TableView<State> myStatesTableView;
-//	protected TableColumn<State, String> colMyStates;
+	// MyStates VIEW
+	protected TableView<State> myStatesTableView;
+	protected TableColumn<State, String> colMyStates;
 
 	// *** MENUS ***
 	protected Menu menuFile;
@@ -97,27 +97,16 @@ public class App_View extends View<App_Model> { // 1 extends BorderPane
 	// 1 & 2 Aktueller Status Label
 	private Label lblStatus;
 
-	// 0
+	// 0 Konstruktor
 	public App_View(Stage primaryStage, App_Model model) {
 		super(primaryStage, model);
 
 		ServiceLocator.getServiceLocator().getLogger().info("Application view initialized");
 		mainScene = create_GUI();
 
-		// VIEWS
-//		this.add(createCountryView(), 0, 0);
-
-//		// MENU Bereich initialisieren
-//		root.add(createMenuPane(), 0, 1);
-
 		stage.setScene(mainScene);
 		stage.setResizable(true);
 		mainScene.getStylesheets().add(getClass().getResource("view.css").toExternalForm());
-
-		// Diese 2 Zeilen Blockieren die Buttons, nur durch Shortcuts kann das GUI
-		// bedient werden
-		// primaryStage.setScene(scene);
-		// primaryStage.show();
 
 	}
 
@@ -146,7 +135,6 @@ public class App_View extends View<App_Model> { // 1 extends BorderPane
 	// 0
 	public void stop() {
 		stage.hide();
-		// TODO Auto-generated method stub
 
 	}
 
@@ -179,7 +167,7 @@ public class App_View extends View<App_Model> { // 1 extends BorderPane
 	}
 
 	/*
-	 * 1, 2 & 3 Data Display Pane TableView für die COUNTRY Liste
+	 * 1, 2 & 3 Data Display Pane TableView für die "countries" Liste
 	 */
 	private TableView<Country> createTableView() {
 		this.tableView = new TableView<Country>();
@@ -219,7 +207,7 @@ public class App_View extends View<App_Model> { // 1 extends BorderPane
 	}
 
 	/*
-	 * 1, 2 & 3 Data Display Pane TableView für die Country Liste
+	 * 1, 2 & 3 Data Display Pane TableView für die "states" Liste
 	 */
 	private TableView<State> createStateTableView() {
 		this.stateTableView = new TableView<State>();
@@ -354,10 +342,11 @@ public class App_View extends View<App_Model> { // 1 extends BorderPane
 	public MenuItem getMenuHelpShortcuts() {
 		return menuHelpShortcuts;
 	}
+
 	public void setMenuHelpShortcuts(MenuItem menuHelpShortcuts) {
 		this.menuHelpShortcuts = menuHelpShortcuts;
 	}
-	
+
 	public Button getBtnCreateCountry() {
 		return btnCreateCountry;
 	}
@@ -540,14 +529,6 @@ public class App_View extends View<App_Model> { // 1 extends BorderPane
 		this.colStatePopulation = colStatePopulation;
 	}
 
-//	public TableColumn<GovernedRegion, String> getColStateFormOfGov() {
-//		return colStateFormOfGov;
-//	}
-//
-//	public void setColStateFormOfGov(TableColumn<GovernedRegion, String> colStateFormOfGov) {
-//		this.colStateFormOfGov = colStateFormOfGov;
-//	}
-
 	public UpdateViewState getUpdateViewState() {
 		return this.updateViewState;
 	}
@@ -555,69 +536,6 @@ public class App_View extends View<App_Model> { // 1 extends BorderPane
 	public void setUpdateViewState(UpdateViewState updateViewState) {
 		this.updateViewState = updateViewState;
 	}
-
-//	@Override
-//	protected Scene create_GUI() {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}	
-
-	// **** VIEWS *****
-
-////	@Override
-//	protected Pane createMenuPane() {
-//		ServiceLocator sl = ServiceLocator.getServiceLocator();
-//		Logger logger = sl.getLogger();
-//
-//		MenuBar menuBar = new MenuBar();
-//		menuFile = new Menu();
-//		menuFileLanguage = new Menu();
-//		menuFile.getItems().add(menuFileLanguage);
-//
-//		for (Locale locale : sl.getLocales()) {
-//			MenuItem language = new MenuItem(locale.getLanguage());
-//			menuFileLanguage.getItems().add(language);
-//			language.setOnAction(event -> {
-//				sl.getConfiguration().setLocalOption("Language", locale.getLanguage());
-//				sl.setTranslator(new Translator(locale.getLanguage()));
-//				updateTexts();
-//			});
-//		}
-//
-//		menuHelp = new Menu();
-//		menuBar.getMenus().addAll(menuFile, menuHelp);
-//
-//		GridPane root = new GridPane();
-//		root.add(menuBar, 0, 0);
-//
-//		updateTexts();
-//
-////        Scene scene = new Scene(root);
-////        scene.getStylesheets().add(
-////                getClass().getResource("app.css").toExternalForm());
-//		return root;
-//	}
-
-//	protected void updateTexts() {
-//		Translator t = ServiceLocator.getServiceLocator().getTranslator();
-//
-//		// The menu entries
-//		menuFile.setText(t.getString("program.menu.file"));
-//		menuFileLanguage.setText(t.getString("program.menu.file.language"));
-//		menuHelp.setText(t.getString("program.menu.help"));
-//
-//		// Other controls
-//		// Controls Countries
-////           btnCreateCountry.setText(t.getString("button.btnCreateCountry"));
-////           btnDeleteCountry.setText(t.getString("button.btnDeleteCountry"));
-////           btnUpdateCountry.setText(t.getString("button.btnUpdateCountry"));
-//
-//		stage.setTitle(t.getString("program.name"));
-//	}
-//
-//	public TableColumn<Country, Integer> getColPopulation() {
-//		return colPopulation;
-//	}
 
 	@Override
 	protected Scene create_GUI() {
@@ -657,9 +575,6 @@ public class App_View extends View<App_Model> { // 1 extends BorderPane
 		root.add(tableView, 0, 4);
 		this.tableView.prefWidthProperty().bind(root.widthProperty());
 
-//		this.myStatesTableView = createMyStatesTablewView();
-//		root.add(myStatesTableView, 2, 3);
-
 		// Control Pane mit den Buttons Create, Delete und Update in der App_View für
 		// die State View
 		root.add(createControlPaneState(), 0, 6);
@@ -668,6 +583,9 @@ public class App_View extends View<App_Model> { // 1 extends BorderPane
 		// Initialisieren der TableView
 		this.stateTableView = createStateTableView();
 		root.add(stateTableView, 0, 7);
+
+		this.myStatesTableView = createMyStatesTablewView();
+		root.add(myStatesTableView, 0, 8);
 
 		// SZENEN
 		countryScene = new Scene(createCountryView(), 450, 450);
@@ -678,7 +596,7 @@ public class App_View extends View<App_Model> { // 1 extends BorderPane
 		// 1 Aktueller Status
 		this.lblStatus = new Label("Everything okay");
 		this.lblStatus.setStyle("-fx-text-fill: #1577c2; -fx-font-size: 16;");
-		root.add(this.lblStatus, 0, 8);
+		root.add(this.lblStatus, 0, 9);
 
 		updateTexts();
 
@@ -818,26 +736,40 @@ public class App_View extends View<App_Model> { // 1 extends BorderPane
 		stage.setTitle(t.getString("program.name"));
 	}
 
-//	public TableColumn<State, String> getColMyStates() {
-//	return colMyStates;
-//}
-//
-//public void setColMyStates(TableColumn<State, String> colMyStates) {
-//	this.colMyStates = colMyStates;
-//}
+	public TableColumn<State, String> getColMyStates() {
+		return colMyStates;
+	}
 
-//	private TableView<State> createMyStatesTablewView(){
-//	this.myStatesTableView = new TableView<State>();
-//	this.myStatesTableView.setEditable(false);
-//	
-//	colMyStates = new TableColumn<>("My States");
-//	colMyStates.setMinWidth(50);
-//	colMyStates.setCellValueFactory(new PropertyValueFactory<>("myStates"));
-//	myStatesTableView.getColumns().add(colMyStates);
-//	
-//	// Finally, attach the tableView to the ObservableList of data
-////	myStatesTableView.setItems(model.getMyStates());
-//
-//	return myStatesTableView;
-//}
+	public void setColMyStates(TableColumn<State, String> colMyStates) {
+		this.colMyStates = colMyStates;
+	}
+
+	private TableView<State> createMyStatesTablewView() {
+		this.myStatesTableView = new TableView<State>();
+		this.myStatesTableView.setEditable(false);
+
+		colMyStates = new TableColumn<>("My States");
+		colMyStates.setMinWidth(50);
+		colMyStates.setCellValueFactory(new PropertyValueFactory<>("myStates"));
+		myStatesTableView.getColumns().add(colMyStates);
+
+		// Finally, attach the tableView to the ObservableList of data
+//		myStatesTableView.setItems(model.getMyStates());
+
+		return myStatesTableView;
+	}
+
+	// **** GETTER & SETTER FUER DIE VIEWS ****
+	// Country
+
+	// State
+
+	// **** ENDE ****
+
+	// **** GETTER & SETTER FUER DIE SZENEN ****
+	// Country
+
+	// State
+
+	// **** ENDE ****
 }

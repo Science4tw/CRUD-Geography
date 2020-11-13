@@ -11,6 +11,7 @@ import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -831,9 +832,9 @@ public class App_Controller extends Controller<App_Model, App_View> {
 		int population = Integer.parseInt(view.getCountryView().getTxtPopulation().getText());
 		// 3. Hole den ausgewählten Wert der ComboBox
 		FormOfGovernment formOfGovernment = view.getCountryView().getCmbFormOfGov().getValue();
-		ObservableList<State> myStates = null;
+		ObservableList<State> myStates = FXCollections.observableArrayList();
 		// 4. Überprüfen das Kontrollelemente nicht leer sind
-		if (name != null && area != 0 && formOfGovernment != null && myStates == null) {
+		if (name != null && area != 0 && formOfGovernment != null && myStates != null) {
 			// 5
 			model.createNewCountry(name, area, population, formOfGovernment, myStates);
 			view.setStatus("Country Objekt hinzugefügt"); // Aktualisiert Status
@@ -847,7 +848,7 @@ public class App_Controller extends Controller<App_Model, App_View> {
 		// 1. Lese den Wert des Textfelds mit den Namen des Landes aus
 		String name = view.getUpdateViewCountry().getTxtUpdateCountry().getText();
 		// 2. Lese den Wert des Textfelds mit der Fläche des Landes aus
-		double area = (double) Integer.parseInt(view.getUpdateViewCountry().getTxtUpdateArea().getText());
+		double area = Double.parseDouble(view.getUpdateViewCountry().getTxtUpdateArea().getText());
 		int population = Integer.parseInt(view.getUpdateViewCountry().getTxtUpdatePopulation().getText());
 		// 3. Hole den ausgewählten Wert der ComboBox
 		FormOfGovernment formOfGovernment = view.getUpdateViewCountry().getCmbUpdateFormOfGov().getValue();

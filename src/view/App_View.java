@@ -6,32 +6,22 @@ import java.util.logging.Logger;
 import abstractClasses.View;
 import commonClasses.Translator;
 import mvc.ServiceLocator;
-import splashScreen.Splash_View;
 import controller.App_Controller;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.RadioMenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyCodeCombination;
-import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import model.App_Model;
 import model.Country;
-import model.GovernedRegion;
 import model.State;
 
 // 0
@@ -63,11 +53,13 @@ public class App_View extends View<App_Model> { // 1 extends BorderPane
 	private Button btnCreateCountry;
 	private Button btnDeleteCountry;
 	private Button btnUpdateCountry;
-
+	private Label lblCountryTitle;
+	
 	// Controls State
 	private Button btnCreateState;
 	private Button btnDeleteState;
 	private Button btnUpdateState;
+	private Label lblStateTitle;
 
 	// 1 (Data Display) die TableView für die Countries
 	protected TableView<Country> tableView;
@@ -146,12 +138,15 @@ public class App_View extends View<App_Model> { // 1 extends BorderPane
 	// Methode um die Kontrollelemente zu erzeugen (Country)
 	public Pane createControlPane() {
 		GridPane pane = new GridPane();
+		lblCountryTitle = new Label("Countries");
+		lblCountryTitle.setStyle("-fx-font-weight: bold; -fx-font-size: 16;");
 		btnCreateCountry = new Button("Create Country");
 		btnDeleteCountry = new Button("Delete Country");
 		btnUpdateCountry = new Button("Update Country");
-		pane.add(btnCreateCountry, 0, 0);
-		pane.add(btnDeleteCountry, 2, 0);
-		pane.add(btnUpdateCountry, 4, 0);
+		pane.add(lblCountryTitle, 0, 0);
+		pane.add(btnCreateCountry, 2, 0);
+		pane.add(btnDeleteCountry, 4, 0);
+		pane.add(btnUpdateCountry, 6, 0);
 		pane.setHgap(5);
 		pane.setPadding(new Insets(10, 10, 10, 10));
 		return pane;
@@ -160,12 +155,15 @@ public class App_View extends View<App_Model> { // 1 extends BorderPane
 	// Methode um die Kontrollelemente zu erzeugen (State)
 	public Pane createControlPaneState() {
 		GridPane pane = new GridPane();
+		lblStateTitle = new Label("States");
+		lblStateTitle.setStyle("-fx-font-weight: bold; -fx-font-size: 16;");
 		btnCreateState = new Button("Create State");
 		btnDeleteState = new Button("Delete State");
 		btnUpdateState = new Button("Update State");
-		pane.add(btnCreateState, 0, 0);
-		pane.add(btnDeleteState, 2, 0);
-		pane.add(btnUpdateState, 4, 0);
+		pane.add(lblStateTitle, 0, 0);
+		pane.add(btnCreateState, 2, 0);
+		pane.add(btnDeleteState, 4, 0);
+		pane.add(btnUpdateState, 6, 0);
 		pane.setHgap(5);
 		pane.setPadding(new Insets(10, 10, 10, 10));
 		return pane;
@@ -614,30 +612,92 @@ public class App_View extends View<App_Model> { // 1 extends BorderPane
 	protected void updateTexts() {
 		Translator t = ServiceLocator.getServiceLocator().getTranslator();
 
+		// Common controls
+		stage.setTitle(t.getString("program.name"));
+		
 		// The menu entries
 		menuFile.setText(t.getString("program.menu.file"));
 		menuFileLanguage.setText(t.getString("program.menu.file.language"));
 		menuHelp.setText(t.getString("program.menu.help"));
-
-		// Other controls
-//           btnClick.setText(t.getString("button.clickme"));
+		menuHelpShortcuts.setText(t.getString("program.menu.help.shortcuts"));
+		
+		// TabelView Country
+		getTableView().getColumns().get(0).setText(t.getString("row.tableview.country"));
+		getTableView().getColumns().get(1).setText(t.getString("row.tableview.area"));
+		getTableView().getColumns().get(2).setText(t.getString("row.tableview.population"));
+		getTableView().getColumns().get(3).setText(t.getString("row.tableview.formOfGov"));
+		
+		// TabelView State
+		getStateTableView().getColumns().get(0).setText(t.getString("row.stateTableview.state"));
+		getStateTableView().getColumns().get(1).setText(t.getString("row.stateTableview.area"));
+		getStateTableView().getColumns().get(2).setText(t.getString("row.stateTableview.population"));
+		getStateTableView().getColumns().get(3).setText(t.getString("row.stateTableview.formOfGov"));
+		getStateTableView().getColumns().get(4).setText(t.getString("row.stateTableview.country"));
+		
+		// TabelView dependency
+		getMyStatesTableView().getColumns().get(0).setText(t.getString("row.stateTableview.state"));
+		getMyStatesTableView().getColumns().get(1).setText(t.getString("row.stateTableview.area"));
+		getMyStatesTableView().getColumns().get(2).setText(t.getString("row.stateTableview.population"));
+		getMyStatesTableView().getColumns().get(3).setText(t.getString("row.stateTableview.formOfGov"));
+		
 		// Controls Country
+		lblCountryTitle.setText(t.getString("label.lblCountryTitle"));
 		btnCreateCountry.setText(t.getString("button.btnCreateCountry"));
 		btnDeleteCountry.setText(t.getString("button.btnDeleteCountry"));
 		btnUpdateCountry.setText(t.getString("button.btnUpdateCountry"));
 
 		// Controls State
+		lblStateTitle.setText(t.getString("label.lblStateTitle"));
 		btnCreateState.setText(t.getString("button.btnCreateState"));
 		btnDeleteState.setText(t.getString("button.btnDeleteState"));
 		btnUpdateState.setText(t.getString("button.btnUpdateState"));
 		
-		
-		
-		getTableView().getColumns().get(0).setText(t.getString("row.tableview.country"));
+		// Labels CountryView
+		countryView.getLblCountryTitle().setText(t.getString("countryview.label.title"));
+		countryView.getLblCountry().setText(t.getString("countryview.label.name"));
+		countryView.getLblArea().setText(t.getString("countryview.label.area"));
+		countryView.getLblPopulation().setText(t.getString("countryview.label.population"));
+		countryView.getLblFormOfGov().setText(t.getString("countryview.label.formOfGov"));
+				
+		// Buttons CountryView
+		countryView.getBtnSave().setText(t.getString("countryview.button.save"));
+		countryView.getBtnCancel().setText(t.getString("countryview.button.cancel"));
+			
+		// Labels StateView
+		stateView.getLblStateTitle().setText(t.getString("stateview.label.title"));
+		stateView.getLblState().setText(t.getString("stateview.label.name"));
+		stateView.getLblAreaState().setText(t.getString("stateview.label.area"));
+		stateView.getLblPopulationState().setText(t.getString("stateview.label.population"));
+		stateView.getLblFormOfGovState().setText(t.getString("stateview.label.formOfGov"));
+		stateView.getLblMyCountry().setText(t.getString("stateview.label.countryOfState"));
+				
+		// Buttons StateView
+		stateView.getBtnCreateState().setText(t.getString("stateview.button.save"));
+		stateView.getBtnCancelState().setText(t.getString("stateview.button.cancel"));
 
-		getStateTableView().getColumns().get(0).setText(t.getString("row.stateTableView.State"));
+		// Labels UpdateView Country
+		updateViewCountry.getLblUpdateCountryTitle().setText(t.getString("updateviewcountry.label.title"));
+		updateViewCountry.getLblUpdateCountry().setText(t.getString("updateviewcountry.label.name"));
+		updateViewCountry.getLblUpdateArea().setText(t.getString("updateviewcountry.label.area"));
+		updateViewCountry.getLblUpdatePopulation().setText(t.getString("updateviewcountry.label.population"));
+		updateViewCountry.getLblUpdateFormOfGov().setText(t.getString("updateviewcountry.label.formOfGov"));
+		
+		// Buttons UpdateView Country
+		updateViewCountry.getBtnUpdateSave().setText(t.getString("updateviewcountry.button.save"));
+		updateViewCountry.getBtnUpdateCancel().setText(t.getString("updateviewcountry.button.cancel"));
 
-		stage.setTitle(t.getString("program.name"));
+		// Labels UpdateView State
+		updateViewState.getLblUpdateStateTitle().setText(t.getString("updateviewstate.label.title"));
+		updateViewState.getLblUpdateState().setText(t.getString("updateviewstate.label.name"));
+		updateViewState.getLblUpdateAreaState().setText(t.getString("updateviewstate.label.area"));
+		updateViewState.getLblUpdatePopulationState().setText(t.getString("updateviewstate.label.population"));
+		updateViewState.getLblUpdateFormOfGovState().setText(t.getString("updateviewstate.label.formOfGov"));
+		updateViewState.getLblMyCountry().setText(t.getString("updateviewstate.label.country"));
+		
+		// Buttons UpdateView State
+		updateViewState.getBtnUpdateSaveState().setText(t.getString("updateviewstate.button.save"));
+		updateViewState.getBtnUpdateCancelState().setText(t.getString("updateviewstate.button.cancel"));
+				
 	}
 
 	public TableColumn<State, String> getColMyStates() {

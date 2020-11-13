@@ -80,11 +80,13 @@ public class ServiceLocator {
         return locales;
     }
 
-    public Translator getTranslator() {
-        return translator;
-    }
+   
     
     public void setTranslator(Translator translator) {
         this.translator = translator;
     }
+
+	public Translator getTranslator() {
+		return translator;
+	}
 }

@@ -221,6 +221,14 @@ public class UpdateViewState extends GridPane {
 	public void setCmbMyCountry(ComboBox<Country> cmbMyCountry) {
 		this.cmbMyCountry = cmbMyCountry;
 	}
+
+	public Label getLblUpdateStateTitle() {
+		return lblUpdateStateTitle;
+	}
+
+	public Label getLblMyCountry() {
+		return lblMyCountry;
+	}
 	
 	
 }

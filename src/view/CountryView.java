@@ -1,5 +1,10 @@
 package view;
 
+import java.util.Locale;
+import java.util.logging.Logger;
+
+import com.sun.java.accessibility.util.Translator;
+
 import controller.App_Controller;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -7,6 +12,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBase;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -20,6 +26,7 @@ import model.Country;
 import model.FormOfGovernment;
 import model.App_Model;
 import model.State;
+import mvc.ServiceLocator;
 
 // 0
 public class CountryView extends GridPane {
@@ -61,6 +68,7 @@ public class CountryView extends GridPane {
 
 	// 1 Data Entry Pane
 	private Pane createDataEntryPane() {
+		
 		GridPane pane = new GridPane();
 		pane.setId("dataEntry");
 		// Declare the individual controls in the GUI
@@ -202,6 +210,25 @@ public class CountryView extends GridPane {
 		this.btnCancel = btnCancel;
 	}
 
+	public Label getLblCountryTitle() {
+		return lblCountryTitle;
+	}
+
+	public Label getLblCountry() {
+		return lblCountry;
+	}
+
+	public Label getLblArea() {
+		return lblArea;
+	}
+
+	public Label getLblPopulation() {
+		return lblPopulation;
+	}
+
+	public Label getLblFormOfGov() {
+		return lblFormOfGov;
+	}
 
 
 }

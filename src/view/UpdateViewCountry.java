@@ -225,5 +225,25 @@ public class UpdateViewCountry extends GridPane {
 		this.btnUpdateSave = btnUpdateSave;
 	}
 
+	public Label getLblUpdateCountryTitle() {
+		return lblUpdateCountryTitle;
+	}
+
+	public Label getLblUpdateCountry() {
+		return lblUpdateCountry;
+	}
+
+	public Label getLblUpdateArea() {
+		return lblUpdateArea;
+	}
+
+	public Label getLblUpdatePopulation() {
+		return lblUpdatePopulation;
+	}
+
+	public Label getLblUpdateFormOfGov() {
+		return lblUpdateFormOfGov;
+	}
+
 
 }

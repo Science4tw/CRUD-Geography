@@ -275,4 +275,12 @@ public class StateView extends GridPane {
 		this.cmbMyCountry = cmbMyCountry;
 	}
 
+	public Label getLblPopulationState() {
+		return lblPopulationState;
+	}
+
+	public Label getLblStateTitle() {
+		return lblStateTitle;
+	}
+
 }

@@ -125,8 +125,7 @@ public class App_Controller extends Controller<App_Model, App_View> {
 		view.getBtnDeleteCountry().setOnAction(e -> { // Holt den Button und setzt in durch das Event unter Aktion
 			// Holt das ausgewählt Item in der TableView
 			GovernedRegion selectedItem = view.getTableView().getSelectionModel().getSelectedItem();
-			Alert alert = new Alert(AlertType.CONFIRMATION);
-			alert.setContentText("Möchten Sie das Land wirklich löschen?");
+			Alert alert = new Alert(AlertType.CONFIRMATION, "Möchten Sie dieses Land wirklich löschen?");
 
 			Optional<ButtonType> result = alert.showAndWait();
 			if (result.get() == ButtonType.OK) {
@@ -1173,7 +1172,9 @@ public class App_Controller extends Controller<App_Model, App_View> {
 		return view.getCountryScene();
 
 	}
-
+	private Scene getUpdateScene() {
+		return view.getUpdateScene();
+	}
 	// Methode um die State Szene aus der App_View zu holen
 	private Scene getStateScene() {
 		return view.getStateScene();

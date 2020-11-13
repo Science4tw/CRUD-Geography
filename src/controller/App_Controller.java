@@ -26,6 +26,9 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableView.TableViewSelectionModel;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
 import javafx.stage.WindowEvent;
 import model.FormOfGovernment;
 import model.App_Model;
@@ -79,7 +82,7 @@ public class App_Controller extends Controller<App_Model, App_View> {
 		});
 
 		// (SAVE UPDATEVIEWCOUNTRY)
-		view.getUpdateView().getBtnUpdateSave().setOnAction(event -> {			
+		view.getUpdateView().getBtnUpdateSave().setOnAction(event -> {
 			view.getStage().setScene(getMainScene());
 		});
 
@@ -173,12 +176,13 @@ public class App_Controller extends Controller<App_Model, App_View> {
 					view.getUpdateViewCountry().getTxtUpdateCountry().setText(name);
 					view.getUpdateViewCountry().getTxtUpdateArea().setText(areaString);
 					view.getUpdateViewCountry().getTxtUpdatePopulation().setText(populationString);
-					
+
 					view.getUpdateViewCountry().getCmbFormOfGov().getSelectionModel().select(formOfGovernment);
-					
-					view.getMyStatesTableView().setItems(model.getCountryByName(view.getTableView().getSelectionModel().getSelectedItem().getName()).getMyStates());
-					
-					
+
+					view.getMyStatesTableView().setItems(
+							model.getCountryByName(view.getTableView().getSelectionModel().getSelectedItem().getName())
+									.getMyStates());
+
 				}
 			}
 		});
@@ -215,12 +219,9 @@ public class App_Controller extends Controller<App_Model, App_View> {
 					view.getUpdateViewState().getTxtUpdateState().setText(name);
 					view.getUpdateViewState().getTxtUpdateAreaState().setText(areaString);
 					view.getUpdateViewState().getTxtUpdatePopulationState().setText(populationString);
-					
-					
-					view.getUpdateViewState().getCmbUpdateFormOfGovState().getSelectionModel().select(formOfGovernment);	
+
+					view.getUpdateViewState().getCmbUpdateFormOfGovState().getSelectionModel().select(formOfGovernment);
 					view.getUpdateViewState().getCmbMyCountry().getSelectionModel().select(myCountry);
-					
-					
 
 				}
 			}
@@ -232,7 +233,6 @@ public class App_Controller extends Controller<App_Model, App_View> {
 			this.updateState(event);
 			view.getMyStatesTableView().refresh();
 		});
-
 
 		// *** COUNTRY VIEW ***
 		// SAVE (CREATE) COUNTRY - Event handler for the button in App_View
@@ -360,7 +360,6 @@ public class App_Controller extends Controller<App_Model, App_View> {
 		view.getBtnDeleteCountry().disableProperty()
 				.bind(Bindings.isEmpty(view.getTableView().getSelectionModel().getSelectedItems()));
 
-		
 		/**
 		 * 3 Wenn kein Zeile in der TableView angewählt ist "DEAKTIVIERE" den UPDATE
 		 * Button (DISABLED)
@@ -433,6 +432,221 @@ public class App_Controller extends Controller<App_Model, App_View> {
 			return row;
 		});
 
+		// set shortcut ctrl'c to create country
+
+		view.getBtnCreateCountry().getScene().getAccelerators()
+
+				.put(new KeyCodeCombination(KeyCode.C, KeyCombination.CONTROL_DOWN), new Runnable() {
+
+					public void run() {
+
+						view.getBtnCreateCountry().fire();
+
+					}
+
+				});
+
+		// set shortcut ctrl'c to update country
+
+		view.getBtnUpdateCountry().getScene().getAccelerators()
+
+				.put(new KeyCodeCombination(KeyCode.U, KeyCombination.CONTROL_DOWN), new Runnable() {
+
+					public void run() {
+
+						view.getBtnUpdateCountry().fire();
+
+					}
+
+				});
+
+		// set ctrl d to delete country
+
+		view.getBtnDeleteCountry().getScene().getAccelerators()
+
+				.put(new KeyCodeCombination(KeyCode.D, KeyCombination.CONTROL_DOWN), new Runnable() {
+
+					public void run() {
+
+						view.getBtnDeleteCountry().fire();
+
+					}
+
+				});
+
+		// set shortcut ctrl c to create state button
+
+		view.getBtnCreateState().getScene().getAccelerators().put(
+
+				new KeyCodeCombination(KeyCode.C, KeyCombination.CONTROL_DOWN, KeyCombination.SHIFT_DOWN),
+
+				new Runnable() {
+
+					public void run() {
+
+						view.getBtnCreateState().fire();
+
+					}
+
+				});
+
+		// set shortcut ctrl u to update state button
+
+		view.getBtnUpdateState().getScene().getAccelerators().put(
+
+				new KeyCodeCombination(KeyCode.U, KeyCombination.CONTROL_DOWN, KeyCombination.SHIFT_DOWN),
+
+				new Runnable() {
+
+					public void run() {
+
+						view.getBtnUpdateState().fire();
+
+					}
+
+				});
+
+		// set shortcut ctrl d to delete state button
+
+		view.getBtnDeleteState().getScene().getAccelerators().put(
+
+				new KeyCodeCombination(KeyCode.D, KeyCombination.CONTROL_DOWN, KeyCombination.SHIFT_DOWN),
+
+				new Runnable() {
+
+					public void run() {
+
+						view.getBtnDeleteState().fire();
+
+					}
+
+				});
+
+		// set ctrl s to save button on country scene
+
+		view.getCountryScene().getAccelerators().put(new KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_DOWN),
+
+				new Runnable() {
+
+					public void run() {
+
+						view.getCountryView().getBtnSave().fire();
+
+					}
+
+				});
+
+		// set ctrl s to create button on state scene
+
+		view.getStateScene().getAccelerators().put(new KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_DOWN),
+
+				new Runnable() {
+
+					public void run() {
+
+						view.getStateView().getBtnCreate().fire();
+
+					}
+
+				});
+
+		// set ctrl s to save button on country update scene
+
+		view.getUpdateScene().getAccelerators().put(new KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_DOWN),
+
+				new Runnable() {
+
+					public void run() {
+
+						view.getUpdateViewCountry().getBtnUpdateSave().fire();
+
+					}
+
+				});
+
+		// set ctrl s to create button on state update scene
+
+		view.getUpdateSceneState().getAccelerators().put(new KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_DOWN),
+
+				new Runnable() {
+
+					public void run() {
+
+						view.getUpdateViewState().getBtnUpdateSaveState().fire();
+
+					}
+
+				});
+
+		// set ctrl x to cancel on country scene
+
+		view.getCountryScene().getAccelerators().put(new KeyCodeCombination(KeyCode.X, KeyCombination.CONTROL_DOWN),
+
+				new Runnable() {
+
+					public void run() {
+
+						view.getCountryView().getBtnCancel().fire();
+
+					}
+
+				});
+
+		// set ctrl x to cancel on state scene
+
+		view.getStateScene().getAccelerators().put(new KeyCodeCombination(KeyCode.X, KeyCombination.CONTROL_DOWN),
+
+				new Runnable() {
+
+					public void run() {
+
+						view.getStateView().getBtnCancelState().fire();
+
+					}
+
+				});
+
+		// set ctrl x to cancel on country update scene
+
+		view.getUpdateScene().getAccelerators().put(new KeyCodeCombination(KeyCode.X, KeyCombination.CONTROL_DOWN),
+
+				new Runnable() {
+
+					public void run() {
+
+						view.getUpdateViewCountry().getBtnUpdateCancel().fire();
+
+					}
+
+				});
+
+		// set ctrl x to cancel on country update scene
+
+		view.getUpdateScene().getAccelerators().put(new KeyCodeCombination(KeyCode.X, KeyCombination.CONTROL_DOWN),
+
+				new Runnable() {
+
+					public void run() {
+
+						view.getUpdateViewCountry().getBtnUpdateCancel().fire();
+
+					}
+
+				});
+
+		// set ctrl x to cancel on state update scene
+
+		view.getUpdateSceneState().getAccelerators().put(new KeyCodeCombination(KeyCode.X, KeyCombination.CONTROL_DOWN),
+
+				new Runnable() {
+
+					public void run() {
+
+						view.getUpdateViewState().getBtnUpdateCancelState().fire();
+
+					}
+
+				});
 
 		serviceLocator = ServiceLocator.getServiceLocator();
 		serviceLocator.getLogger().info("Application controller initialized");
@@ -851,7 +1065,7 @@ public class App_Controller extends Controller<App_Model, App_View> {
 		ObservableList<State> myStates = FXCollections.observableArrayList();
 		// 4. Überprüfen das Kontrollelemente nicht leer sind
 		if (name != null && area != 0 && formOfGovernment != null && myStates != null) {
-			
+
 			// 5
 			model.createNewCountry(name, area, population, formOfGovernment, myStates);
 			view.setStatus("Country Objekt hinzugefügt"); // Aktualisiert Status
@@ -880,8 +1094,8 @@ public class App_Controller extends Controller<App_Model, App_View> {
 
 			int position = view.getTableView().getSelectionModel().getSelectedIndex();
 			view.getTableView().getItems().set((int) position, selectedItem);
-			
-			view.getStateTableView().getItems();	
+
+			view.getStateTableView().getItems();
 			view.getStateTableView().refresh();
 		}
 	}
@@ -895,7 +1109,7 @@ public class App_Controller extends Controller<App_Model, App_View> {
 		int population = Integer.parseInt(view.getUpdateViewState().getTxtUpdatePopulationState().getText());
 		// 3. Hole den ausgewählten Wert der ComboBox
 		FormOfGovernment formOfGovernment = view.getUpdateViewState().getCmbUpdateFormOfGovState().getValue();
-		
+
 		Country myCountry = view.getUpdateViewState().getCmbMyCountry().getValue();
 
 		// 4. Überprüfen das Kontrollelemente nicht leer sind
@@ -906,7 +1120,7 @@ public class App_Controller extends Controller<App_Model, App_View> {
 			selectedItem.setArea(area);
 			selectedItem.setPopulation(population);
 //			selectedItem.setFormOfGovernment(formOfGovernment);
-			selectedItem.setFormOfGovernment(formOfGovernment);	
+			selectedItem.setFormOfGovernment(formOfGovernment);
 			selectedItem.setMyCountry(myCountry);
 
 			int position = view.getStateTableView().getSelectionModel().getSelectedIndex();
@@ -914,8 +1128,7 @@ public class App_Controller extends Controller<App_Model, App_View> {
 			view.getStateTableView().refresh();
 			view.getMyStatesTableView().refresh();
 		} else {
-			Alert alert = new Alert(AlertType.INFORMATION,
-					"Bitte fuellen Sie alle Felder aus");
+			Alert alert = new Alert(AlertType.INFORMATION, "Bitte fuellen Sie alle Felder aus");
 			alert.showAndWait();
 
 		}
@@ -930,7 +1143,7 @@ public class App_Controller extends Controller<App_Model, App_View> {
 		FormOfGovernment formOfGovernment = view.getStateView().getCmbFormOfGovState().getValue();
 
 		Country myCountry = view.getStateView().getCmbMyCountry().getValue();
-		
+
 		// 4. Überprüfen das Kontrollelemente nicht leer sind
 		if (name != null && area != 0 && formOfGovernment != null && myCountry != null) {
 			// 5

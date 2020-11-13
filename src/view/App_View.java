@@ -607,113 +607,6 @@ public class App_View extends View<App_Model> { // 1 extends BorderPane
 
 		Scene scene = new Scene(root);
 
-		// set shortcut ctrl'c to create country
-		btnCreateCountry.getScene().getAccelerators()
-				.put(new KeyCodeCombination(KeyCode.C, KeyCombination.CONTROL_DOWN), new Runnable() {
-					public void run() {
-						btnCreateCountry.fire();
-					}
-				});
-		// set shortcut ctrl'c to update country
-		btnUpdateCountry.getScene().getAccelerators()
-				.put(new KeyCodeCombination(KeyCode.U, KeyCombination.CONTROL_DOWN), new Runnable() {
-					public void run() {
-						btnUpdateCountry.fire();
-					}
-				});
-
-		// set ctrl d to delete country
-		btnDeleteCountry.getScene().getAccelerators()
-				.put(new KeyCodeCombination(KeyCode.D, KeyCombination.CONTROL_DOWN), new Runnable() {
-					public void run() {
-						btnDeleteCountry.fire();
-					}
-				});
-		// set shortcut ctrl s to create state button
-		btnCreateState.getScene().getAccelerators().put(
-				new KeyCodeCombination(KeyCode.C, KeyCombination.CONTROL_DOWN, KeyCombination.SHIFT_DOWN),
-				new Runnable() {
-					public void run() {
-						btnCreateState.fire();
-					}
-				});
-		// set shortcut ctrl s to create state button
-		btnUpdateState.getScene().getAccelerators().put(
-				new KeyCodeCombination(KeyCode.U, KeyCombination.CONTROL_DOWN, KeyCombination.SHIFT_DOWN),
-				new Runnable() {
-					public void run() {
-						btnUpdateState.fire();
-					}
-				});
-		// set shortcut ctrl s to create state button
-		btnDeleteState.getScene().getAccelerators().put(
-				new KeyCodeCombination(KeyCode.D, KeyCombination.CONTROL_DOWN, KeyCombination.SHIFT_DOWN),
-				new Runnable() {
-					public void run() {
-						btnDeleteState.fire();
-					}
-				});
-		// set ctrl s to save button on country scene
-		countryScene.getAccelerators().put(new KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_DOWN),
-				new Runnable() {
-					public void run() {
-						countryView.getBtnSave().fire();
-					}
-				});
-		// set ctrl s to create button on state scene
-		stateScene.getAccelerators().put(new KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_DOWN),
-				new Runnable() {
-					public void run() {
-						stateView.getBtnCreate().fire();
-					}
-				});
-
-		// >FGHJKLKéJUGZFTDRSDTFHJGKLéJHJGHFDFSDF
-		// set ctrl s to save button on country update scene
-		updateScene.getAccelerators().put(new KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_DOWN),
-				new Runnable() {
-					public void run() {
-						updateViewCountry.getBtnUpdateSave().fire();
-					}
-				});
-
-		// set ctrl s to create button on state update scene
-		updateSceneState.getAccelerators().put(new KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_DOWN),
-				new Runnable() {
-					public void run() {
-						updateViewState.getBtnUpdateSaveState().fire();
-					}
-				});
-
-		// set ctrl x to cancel on country scene
-		countryScene.getAccelerators().put(new KeyCodeCombination(KeyCode.X, KeyCombination.CONTROL_DOWN),
-				new Runnable() {
-					public void run() {
-						countryView.getBtnCancel().fire();
-					}
-				});
-		// set ctrl x to cancel on state scene
-		stateScene.getAccelerators().put(new KeyCodeCombination(KeyCode.X, KeyCombination.CONTROL_DOWN),
-				new Runnable() {
-					public void run() {
-						stateView.getBtnCancelState().fire();
-					}
-				});
-
-		// set ctrl x to cancel on country update scene
-		updateScene.getAccelerators().put(new KeyCodeCombination(KeyCode.X, KeyCombination.CONTROL_DOWN),
-				new Runnable() {
-					public void run() {
-						updateViewCountry.getBtnUpdateCancel().fire();
-					}
-				});
-		// set ctrl x to cancel on state update scene
-		updateSceneState.getAccelerators().put(new KeyCodeCombination(KeyCode.X, KeyCombination.CONTROL_DOWN),
-				new Runnable() {
-					public void run() {
-						updateViewState.getBtnUpdateCancelState().fire();
-					}
-				});
 
 		return scene;
 	}
@@ -737,6 +630,8 @@ public class App_View extends View<App_Model> { // 1 extends BorderPane
 		btnCreateState.setText(t.getString("button.btnCreateState"));
 		btnDeleteState.setText(t.getString("button.btnDeleteState"));
 		btnUpdateState.setText(t.getString("button.btnUpdateState"));
+		
+		
 		
 		getTableView().getColumns().get(0).setText(t.getString("row.tableview.country"));
 

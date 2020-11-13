@@ -36,8 +36,8 @@ public class App_Model extends Model {
 	private static ObservableList<State> states = FXCollections.observableArrayList();
 
 	// AF
-	private static String CountrylistFile = "C:\\ProgProjekte\\00 Software Engineering Projects\\CRUD-Geography\\src\\model\\SE_CountryList.csv";
-	private static String StatelistFile = "C:\\ProgProjekte\\00 Software Engineering Projects\\CRUD-Geography\\src\\model\\SE_StateList.csv";
+	private static String CountrylistFile = "src/model/SE_CountryList.csv";
+	private static String StatelistFile = "src/model/SE_StateList.csv";
 	private static String SEPARATOR = ";";
 
 	// Konstruktor
@@ -132,7 +132,7 @@ public class App_Model extends Model {
 
 	public void readCountries() {
 
-		File countriesFile = new File(CountrylistFile);
+		File countriesFile = new File(getWorkFolder(), CountrylistFile);
 
 		String data = "";
 		// Reader wird initilisiert um File zu lesen
@@ -170,7 +170,7 @@ public class App_Model extends Model {
 
 	public void readStates() {
 
-		File statesFile = new File(StatelistFile);
+		File statesFile = new File(getWorkFolder(), StatelistFile);
 
 		String data = "";
 		// Reader wird initilisiert um File zu lesen
@@ -210,6 +210,7 @@ public class App_Model extends Model {
 
 		return state;
 	}
+
 	public void saveCountries() {
 
 		File countryFile = new File(CountrylistFile);
@@ -218,7 +219,7 @@ public class App_Model extends Model {
 			for (Country country : countries) {
 				String line = writeCountry(country);
 				out.write(line);
-				
+
 			}
 			out.flush();
 		} catch (IOException e) {
@@ -232,6 +233,7 @@ public class App_Model extends Model {
 				+ SEPARATOR + country.getFormOfGovernment() + "\n";
 		return line;
 	}
+
 	public void saveStates() {
 
 		File stateFile = new File(StatelistFile);
@@ -240,7 +242,7 @@ public class App_Model extends Model {
 			for (State state : states) {
 				String line = writeState(state);
 				out.write(line);
-				
+
 			}
 			out.flush();
 		} catch (IOException e) {
@@ -250,13 +252,16 @@ public class App_Model extends Model {
 	}
 
 	private String writeState(State state) {
-		String line = state.getName() + SEPARATOR + state.getArea() + SEPARATOR + state.getPopulation()
-				+ SEPARATOR + state.getFormOfGovernment() + SEPARATOR + state.getMyCountry() + "\n";
+		String line = state.getName() + SEPARATOR + state.getArea() + SEPARATOR + state.getPopulation() + SEPARATOR
+				+ state.getFormOfGovernment() + SEPARATOR + state.getMyCountry() + "\n";
 		return line;
 	}
 
 	public void addState(State selectedItem) {
-		
-		
+
 	}
+	private File getWorkFolder() {
+
+		return new File(".");
+		}
 }

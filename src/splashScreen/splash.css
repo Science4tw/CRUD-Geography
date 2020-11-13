@@ -1,8 +1,8 @@
 #splash{
-    -fx-background-image: url("splash_background.png");
+    -fx-background-image: url("splashscreen.jpeg");
     -fx-background-color: transparent;
     -fx-background-repeat: stretch;   
-    -fx-background-size: 300 300;
+    -fx-background-size: 200 200;
     -fx-background-position: center center;
 }
 

@@ -31,25 +31,30 @@ public class Splash_Model extends Model {
         @Override
         protected Void call() throws Exception {
             this.updateProgress(1,  6);
+            Thread.sleep(1000);
 
             // Create the service locator to hold our resources
             serviceLocator = ServiceLocator.getServiceLocator();
             this.updateProgress(2,  6);
-
+            Thread.sleep(1000);
+            
             // Initialize the resources in the service locator
             serviceLocator.setLogger(configureLogging());
             this.updateProgress(3,  6);
-
+            Thread.sleep(1000);
+            
             serviceLocator.setConfiguration(new Configuration());
             this.updateProgress(4,  6);
-
+            Thread.sleep(1000);
+            
             String language = serviceLocator.getConfiguration().getOption("Language");
             serviceLocator.setTranslator(new Translator(language));
             this.updateProgress(5,  6);
+            Thread.sleep(1000);
             
             // ... more resources would go here...
             this.updateProgress(6,  6);
-            Thread.sleep(5000); // ACHTUNG: Unnötige künstliche Verzögerung um den Splash Screen zu sehen
+            Thread.sleep(1000); // ACHTUNG: Unnötige künstliche Verzögerung um den Splash Screen zu sehen
             return null;
         }
     };

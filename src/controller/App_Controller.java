@@ -871,16 +871,16 @@ public class App_Controller extends Controller<App_Model, App_View> {
 		double area = Double.parseDouble(view.getUpdateViewState().getTxtUpdateAreaState().getText());
 		int population = Integer.parseInt(view.getUpdateViewState().getTxtUpdatePopulationState().getText());
 		// 3. Hole den ausgewählten Wert der ComboBox
-		FormOfGovernment formOfGovernment = view.getUpdateViewState().getCmbUpdateFormOfGovState().getValue();
+//		FormOfGovernment formOfGovernment = view.getUpdateViewState().getCmbUpdateFormOfGovState().getValue();
 
 		// 4. Überprüfen das Kontrollelemente nicht leer sind
-		if (name != null && area != 0 && formOfGovernment != null) {
+		if (name != null && area != 0 && population != 0) {
 
 			State selectedItem = view.getStateTableView().getSelectionModel().getSelectedItem();
 			selectedItem.setName(name);
 			selectedItem.setArea(area);
 			selectedItem.setPopulation(population);
-			selectedItem.setFormOfGovernment(formOfGovernment);
+//			selectedItem.setFormOfGovernment(formOfGovernment);
 
 			int position = view.getStateTableView().getSelectionModel().getSelectedIndex();
 			view.getStateTableView().getItems().set((int) position, selectedItem);

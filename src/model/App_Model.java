@@ -36,8 +36,8 @@ public class App_Model extends Model {
 	private static ObservableList<State> states = FXCollections.observableArrayList();
 
 	// AF
-	private static String CountrylistFile = "C:/ProgProjekte/00 Software Engineering Projects/CRUD-Geography/src/model/SE_CountryList.csv";
-	private static String StatelistFile = "C:/ProgProjekte/00 Software Engineering Projects/CRUD-Geography/src/model/SE_StateList.csv";
+	private static String CountrylistFile = "C:\\ProgProjekte\\00 Software Engineering Projects\\CRUD-Geography\\src\\model\\SE_CountryList.csv";
+	private static String StatelistFile = "C:\\ProgProjekte\\00 Software Engineering Projects\\CRUD-Geography\\src\\model\\SE_StateList.csv";
 	private static String SEPARATOR = ";";
 
 	// Konstruktor
@@ -253,5 +253,10 @@ public class App_Model extends Model {
 		String line = state.getName() + SEPARATOR + state.getArea() + SEPARATOR + state.getPopulation()
 				+ SEPARATOR + state.getFormOfGovernment() + SEPARATOR + state.getMyCountry() + "\n";
 		return line;
+	}
+
+	public void addState(State selectedItem) {
+		
+		
 	}
 }

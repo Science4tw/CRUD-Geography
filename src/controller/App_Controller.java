@@ -378,25 +378,14 @@ public class App_Controller extends Controller<App_Model, App_View> {
 		});
 
 		// register ourselves to handle window-closing event
-		view.getStage().setOnCloseRequest(new EventHandler<WindowEvent>() {
-			@Override
-			public void handle(WindowEvent event) {
-				Alert alert = new Alert(AlertType.CONFIRMATION, "Möchten Sie wirklich beenden?");
-
-				Optional<ButtonType> result = alert.showAndWait();
-				if (result.get() == ButtonType.OK) {
-					model.saveCountries();
-					model.saveStates();
-					Platform.exit();
-
-				} else {
-
-				}
-
-			}
+		view.getStage().setOnCloseRequest(evt -> {
+			Alert alert = new Alert(AlertType.CONFIRMATION);
+			alert.setTitle("Programm beenden");
+			alert.setHeaderText("Möchten Sie wirklich beenden?");
+			alert.showAndWait().filter(r -> r != ButtonType.OK).ifPresent(r -> evt.consume());
 		});
 
-		// doppelclick auf countryrow updateCountry
+		// Doppelclick auf countryrow updateCountry
 		view.getTableView().setRowFactory(tv -> {
 			TableRow<Country> row = new TableRow<>();
 			row.setOnMouseClicked(e -> {
@@ -407,7 +396,7 @@ public class App_Controller extends Controller<App_Model, App_View> {
 
 			return row;
 		});
-		// doppelclick auf state row updateState
+		// Doppelclick auf state row updateState
 		view.getStateTableView().setRowFactory(tv -> {
 			TableRow<State> row = new TableRow<>();
 			row.setOnMouseClicked(e -> {
@@ -431,12 +420,10 @@ public class App_Controller extends Controller<App_Model, App_View> {
 	}
 
 	protected TableView<State> getStateTableView() {
-		// TODO Auto-generated method stub
 		return view.getStateTableView();
 	}
 
 	private Scene getUpdateSceneState() {
-		// TODO Auto-generated method stub
 		return view.getUpdateSceneState();
 	}
 

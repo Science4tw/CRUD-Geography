@@ -92,7 +92,7 @@ public class App_View extends View<App_Model> { // 1 extends BorderPane
 	protected Menu menuFile;
 	protected Menu menuFileLanguage;
 	protected Menu menuHelp;
-	protected Menu menuHelpShortcuts;
+	protected MenuItem menuHelpShortcuts;
 
 	// 1 & 2 Aktueller Status Label
 	private Label lblStatus;
@@ -113,10 +113,11 @@ public class App_View extends View<App_Model> { // 1 extends BorderPane
 		stage.setScene(mainScene);
 		stage.setResizable(true);
 		mainScene.getStylesheets().add(getClass().getResource("view.css").toExternalForm());
-		
-		//Diese 2 Zeilen Blockieren die Buttons, nur durch Shortcuts kann das GUI bedient werden
-		//primaryStage.setScene(scene);
-		//primaryStage.show();
+
+		// Diese 2 Zeilen Blockieren die Buttons, nur durch Shortcuts kann das GUI
+		// bedient werden
+		// primaryStage.setScene(scene);
+		// primaryStage.show();
 
 	}
 
@@ -350,6 +351,13 @@ public class App_View extends View<App_Model> { // 1 extends BorderPane
 		this.stage = stage;
 	}
 
+	public MenuItem getMenuHelpShortcuts() {
+		return menuHelpShortcuts;
+	}
+	public void setMenuHelpShortcuts(MenuItem menuHelpShortcuts) {
+		this.menuHelpShortcuts = menuHelpShortcuts;
+	}
+	
 	public Button getBtnCreateCountry() {
 		return btnCreateCountry;
 	}
@@ -620,7 +628,6 @@ public class App_View extends View<App_Model> { // 1 extends BorderPane
 		menuFile = new Menu();
 		menuFileLanguage = new Menu();
 		menuFile.getItems().add(menuFileLanguage);
-		
 
 		for (Locale locale : sl.getLocales()) {
 			MenuItem language = new MenuItem(locale.getLanguage());
@@ -631,10 +638,10 @@ public class App_View extends View<App_Model> { // 1 extends BorderPane
 				updateTexts();
 			});
 		}
-		
+
 		menuHelp = new Menu();
-		MenuItem shortcuts = new MenuItem("Shortcuts");
-		menuHelp.getItems().add(shortcuts);
+		menuHelpShortcuts = new MenuItem("Shortcuts");
+		menuHelp.getItems().add(menuHelpShortcuts);
 		menuBar.getMenus().addAll(menuFile, menuHelp);
 
 		GridPane root = new GridPane();
@@ -661,7 +668,6 @@ public class App_View extends View<App_Model> { // 1 extends BorderPane
 		// Initialisieren der TableView
 		this.stateTableView = createStateTableView();
 		root.add(stateTableView, 0, 7);
-		
 
 		// SZENEN
 		countryScene = new Scene(createCountryView(), 450, 450);
@@ -678,13 +684,21 @@ public class App_View extends View<App_Model> { // 1 extends BorderPane
 
 		Scene scene = new Scene(root);
 
-		// set shortcut ctrl'c to create country 
+		// set shortcut ctrl'c to create country
 		btnCreateCountry.getScene().getAccelerators()
 				.put(new KeyCodeCombination(KeyCode.C, KeyCombination.CONTROL_DOWN), new Runnable() {
 					public void run() {
 						btnCreateCountry.fire();
 					}
 				});
+		// set shortcut ctrl'c to update country
+		btnUpdateCountry.getScene().getAccelerators()
+				.put(new KeyCodeCombination(KeyCode.U, KeyCombination.CONTROL_DOWN), new Runnable() {
+					public void run() {
+						btnUpdateCountry.fire();
+					}
+				});
+
 		// set ctrl d to delete country
 		btnDeleteCountry.getScene().getAccelerators()
 				.put(new KeyCodeCombination(KeyCode.D, KeyCombination.CONTROL_DOWN), new Runnable() {
@@ -693,17 +707,27 @@ public class App_View extends View<App_Model> { // 1 extends BorderPane
 					}
 				});
 		// set shortcut ctrl s to create state button
-		btnCreateState.getScene().getAccelerators().put(new KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_DOWN),
+		btnCreateState.getScene().getAccelerators().put(
+				new KeyCodeCombination(KeyCode.C, KeyCombination.CONTROL_DOWN, KeyCombination.SHIFT_DOWN),
 				new Runnable() {
 					public void run() {
 						btnCreateState.fire();
 					}
 				});
-		// set ctrl x to cancel on country scene
-		countryScene.getAccelerators().put(new KeyCodeCombination(KeyCode.X, KeyCombination.CONTROL_DOWN),
+		// set shortcut ctrl s to create state button
+		btnUpdateState.getScene().getAccelerators().put(
+				new KeyCodeCombination(KeyCode.U, KeyCombination.CONTROL_DOWN, KeyCombination.SHIFT_DOWN),
 				new Runnable() {
 					public void run() {
-						countryView.getBtnCancel().fire();
+						btnUpdateState.fire();
+					}
+				});
+		// set shortcut ctrl s to create state button
+		btnDeleteState.getScene().getAccelerators().put(
+				new KeyCodeCombination(KeyCode.D, KeyCombination.CONTROL_DOWN, KeyCombination.SHIFT_DOWN),
+				new Runnable() {
+					public void run() {
+						btnDeleteState.fire();
 					}
 				});
 		// set ctrl s to save button on country scene
@@ -713,12 +737,61 @@ public class App_View extends View<App_Model> { // 1 extends BorderPane
 						countryView.getBtnSave().fire();
 					}
 				});
+		// set ctrl s to create button on state scene
 		stateScene.getAccelerators().put(new KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_DOWN),
 				new Runnable() {
 					public void run() {
 						stateView.getBtnCreate().fire();
 					}
 				});
+
+		// >FGHJKLKéJUGZFTDRSDTFHJGKLéJHJGHFDFSDF
+		// set ctrl s to save button on country update scene
+		updateScene.getAccelerators().put(new KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_DOWN),
+				new Runnable() {
+					public void run() {
+						updateViewCountry.getBtnUpdateSave().fire();
+					}
+				});
+
+		// set ctrl s to create button on state update scene
+		updateSceneState.getAccelerators().put(new KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_DOWN),
+				new Runnable() {
+					public void run() {
+						updateViewState.getBtnUpdateSaveState().fire();
+					}
+				});
+
+		// set ctrl x to cancel on country scene
+		countryScene.getAccelerators().put(new KeyCodeCombination(KeyCode.X, KeyCombination.CONTROL_DOWN),
+				new Runnable() {
+					public void run() {
+						countryView.getBtnCancel().fire();
+					}
+				});
+		// set ctrl x to cancel on state scene
+		stateScene.getAccelerators().put(new KeyCodeCombination(KeyCode.X, KeyCombination.CONTROL_DOWN),
+				new Runnable() {
+					public void run() {
+						stateView.getBtnCancelState().fire();
+					}
+				});
+
+		// set ctrl x to cancel on country update scene
+		updateScene.getAccelerators().put(new KeyCodeCombination(KeyCode.X, KeyCombination.CONTROL_DOWN),
+				new Runnable() {
+					public void run() {
+						updateViewCountry.getBtnUpdateCancel().fire();
+					}
+				});
+		// set ctrl x to cancel on state update scene
+		updateSceneState.getAccelerators().put(new KeyCodeCombination(KeyCode.X, KeyCombination.CONTROL_DOWN),
+				new Runnable() {
+					public void run() {
+						updateViewState.getBtnUpdateCancelState().fire();
+					}
+				});
+
 		return scene;
 	}
 

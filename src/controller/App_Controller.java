@@ -1,6 +1,7 @@
 
 package controller;
 
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -22,6 +23,7 @@ import javafx.scene.control.TablePosition;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableView.TableViewSelectionModel;
 import javafx.stage.WindowEvent;
 import model.FormOfGovernment;
@@ -119,15 +121,38 @@ public class App_Controller extends Controller<App_Model, App_View> {
 			// Holt das ausgewählt Item in der TableView
 			GovernedRegion selectedItem = view.getTableView().getSelectionModel().getSelectedItem();
 			Alert alert = new Alert(AlertType.CONFIRMATION, "Möchten Sie das Land wirklich löschen?");
-			alert.showAndWait();
-			// TODO:
-			if (true == true) {
+			
+			Optional<ButtonType> result = alert.showAndWait();
+			if (result.get() == ButtonType.OK) {
+				view.getTableView().getItems().remove(selectedItem);
+
 			} else {
-
+			
 			}
-			view.getTableView().getItems().remove(selectedItem);
+			
 		});
-
+		
+		//Alert für MenuItem Shortcut
+		view.getMenuHelpShortcuts().setOnAction(e -> {
+			Alert info = new Alert(AlertType.INFORMATION);
+			info.setTitle("Information");
+			info.setHeaderText("Shortcuts");
+			
+			info.setContentText("Ctrl+C\t\tLand erstellen"
+					+ "\nCtrl+U\t\tLand aktualisieren"
+					+ "\nCtrl+D\t\tLand loeschen"
+					+ "\n"
+					+ "\nCtrl+Shift+C\t\tState erstellen"
+					+ "\nCtrl+Shift+U\t\tState aktualisieren"
+					+ "\nCtrl+Shift+D\t\tState loeschen"
+					+ "\n"
+					+ "\nCtrl+S\t\tLand/State speichern"
+					+ "\nCtrl+X\t\tAktuelle Ansicht verlassen");
+			
+			info.showAndWait();
+			
+		});
+		
 		// UPDATE COUNTRY Teil 1
 		// Die TableView wird permanent überwacht und die Werte der ausgewählten Zeile
 		// werden immer in die UpdateViewCountry übertragen
@@ -221,8 +246,15 @@ public class App_Controller extends Controller<App_Model, App_View> {
 		view.getBtnDeleteState().setOnAction(e -> { // Holt den Button und setzt in durch das Event unter Aktion
 			GovernedRegion selectedItem = view.getStateTableView().getSelectionModel().getSelectedItem();
 			Alert alert = new Alert(AlertType.CONFIRMATION, "Möchten Sie diesen State wirklich löschen?");
-			alert.showAndWait();
-			view.getStateTableView().getItems().remove(selectedItem);
+		
+			Optional<ButtonType> result = alert.showAndWait();
+			if (result.get() == ButtonType.OK) {
+				view.getStateTableView().getItems().remove(selectedItem);
+
+			} else {
+			
+			}
+			
 		});
 
 //		// Szenen Wechsel von der UpdateViewState zur App_View (STATE)
@@ -305,6 +337,8 @@ public class App_Controller extends Controller<App_Model, App_View> {
 					validateStatePopulationUpdate(newValue);
 				});
 
+
+		
 		// ADDITIONAL FUNCTIONALITY
 		/**
 		 * 3 Wenn kein Zeile in der TableView angewählt ist "DEAKTIVIERE" den DELETE
@@ -356,12 +390,21 @@ public class App_Controller extends Controller<App_Model, App_View> {
 			@Override
 			public void handle(WindowEvent event) {
 				Alert alert = new Alert(AlertType.CONFIRMATION, "Möchten Sie wirklich beenden?");
-				alert.showAndWait();
-				model.saveCountries();
-				model.saveStates();
-				Platform.exit();
+				
+				Optional<ButtonType> result = alert.showAndWait();
+				if (result.get() == ButtonType.OK) {
+					model.saveCountries();
+					model.saveStates();
+					Platform.exit();
+
+				} else {
+				
+				}
+				
 			}
 		});
+		
+		
 
 		// doppelclick auf countryrow updateCountry
 		view.getTableView().setRowFactory(tv -> {
@@ -866,13 +909,8 @@ public class App_Controller extends Controller<App_Model, App_View> {
 			int position = view.getStateTableView().getSelectionModel().getSelectedIndex();
 			view.getStateTableView().getItems().set((int) position, selectedItem);
 		} else {
-			Alert alert = new Alert(AlertType.INFORMATION, "Dieser State existiert bereits,geben Sie einen anderen State ein");
+			Alert alert = new Alert(AlertType.INFORMATION, "Dieser State existiert bereits, geben Sie einen anderen State ein");
 			alert.showAndWait();
-			// TODO:
-			if (true == true) {
-			} else {
-
-			}
 
 		}
 

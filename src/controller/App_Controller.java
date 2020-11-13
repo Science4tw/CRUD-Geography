@@ -201,7 +201,7 @@ public class App_Controller extends Controller<App_Model, App_View> {
 					int population = state.getPopulation();
 					String populationString = Integer.toString(population);
 
-					FormOfGovernment formOfGovernment = state.getFormOfGovernment();
+	//				FormOfGovernment formOfGovernment = state.getFormOfGovernment();
 
 					view.getUpdateViewState().getTxtUpdateState().setText(name);
 					view.getUpdateViewState().getTxtUpdateAreaState().setText(areaString);
@@ -383,6 +383,8 @@ public class App_Controller extends Controller<App_Model, App_View> {
 			alert.setTitle("Programm beenden");
 			alert.setHeaderText("Möchten Sie wirklich beenden?");
 			alert.showAndWait().filter(r -> r != ButtonType.OK).ifPresent(r -> evt.consume());
+			model.saveCountries();
+			model.saveStates();
 		});
 
 		// Doppelclick auf countryrow updateCountry

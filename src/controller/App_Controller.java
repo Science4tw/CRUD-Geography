@@ -130,7 +130,7 @@ public class App_Controller extends Controller<App_Model, App_View> {
 			Optional<ButtonType> result = alert.showAndWait();
 			if (result.get() == ButtonType.OK) {
 				view.getTableView().getItems().remove(selectedItem);
-				view.setStatus("Country/Land deleted/gelöscht");
+				view.setStatus("Country deleted/Land gelöscht");
 			} else {
 
 			}
@@ -264,7 +264,7 @@ public class App_Controller extends Controller<App_Model, App_View> {
 			Optional<ButtonType> result = alert.showAndWait();
 			if (result.get() == ButtonType.OK) {
 				view.getStateTableView().getItems().remove(selectedItem);
-				view.setStatus("State/Kanton deleted/gelöscht");
+				view.setStatus("State deleted/Kanton gelöscht");
 
 			} else {
 
@@ -955,7 +955,7 @@ public class App_Controller extends Controller<App_Model, App_View> {
 
 			// 5
 			model.createNewCountry(name, area, population, formOfGovernment, myStates);
-			view.setStatus("Country/Land added/hinzugefügt"); // Aktualisiert Status
+			view.setStatus("Country added/Land hinzugefügt"); // Aktualisiert Status
 			view.getCountryView().reset(); // Setzt die Eingaben in den Kontrollelementen zurück
 		}
 
@@ -1016,7 +1016,7 @@ public class App_Controller extends Controller<App_Model, App_View> {
 			view.getStateTableView().getItems().set((int) position, selectedItem);
 			view.getStateTableView().refresh();
 			view.getMyStatesTableView().refresh();
-			view.setStatus("State updatet/Kanton aktualisiert"); // Aktualisiert Status
+			view.setStatus("State updated/Kanton aktualisiert"); // Aktualisiert Status
 			view.getUpdateViewState().getBtnUpdateSaveState().setDisable(true);
 		} else {
 			Alert alert = new Alert(AlertType.INFORMATION, "Bitte füllen Sie alle Felder aus");

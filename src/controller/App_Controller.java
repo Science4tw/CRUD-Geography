@@ -264,6 +264,7 @@ public class App_Controller extends Controller<App_Model, App_View> {
 			Optional<ButtonType> result = alert.showAndWait();
 			if (result.get() == ButtonType.OK) {
 				view.getStateTableView().getItems().remove(selectedItem);
+				view.getMyStatesTableView().getItems().remove(selectedItem);
 				view.setStatus("State deleted/Kanton gelöscht");
 
 			} else {
@@ -1004,16 +1005,19 @@ public class App_Controller extends Controller<App_Model, App_View> {
 		// 4. Überprüfen das Kontrollelemente nicht leer sind
 		if (name != null && area != 0 && population != 0 && formOfGovernment != null && myCountry != null) {
 
-			State selectedItem = view.getStateTableView().getSelectionModel().getSelectedItem();
-			selectedItem.setName(name);
-			selectedItem.setArea(area);
-			selectedItem.setPopulation(population);
-//			selectedItem.setFormOfGovernment(formOfGovernment);
-			selectedItem.setFormOfGovernment(formOfGovernment);
-			selectedItem.setMyCountry(myCountry);
-
-			int position = view.getStateTableView().getSelectionModel().getSelectedIndex();
-			view.getStateTableView().getItems().set((int) position, selectedItem);
+			// Update State
+			State selectedItem = view.getStateTableView().getSelectionModel().getSelectedItem(); // Holt das ausgewählte Objekt
+			
+			String selectedName = selectedItem.getName(); // Speichert den Namen des ausgewählten Objekts
+			int index = model.getStates().indexOf(selectedItem);// Holt den Index wo das Objekt gespeichert ist 
+			
+			State oldState= model.getStateByName(selectedName); // Schaut in "states" ob ein State it diesem namen vorhanden ist
+			
+			State newState = new State(name, area, population, formOfGovernment, myCountry); // Erstellt neues Objekt mit den neuen Werten
+			
+			model.getStates().set(index, newState);
+			
+			view.getMyStatesTableView().getItems().remove(selectedItem);
 			view.getStateTableView().refresh();
 			view.getMyStatesTableView().refresh();
 			view.setStatus("State updated/Kanton aktualisiert"); // Aktualisiert Status

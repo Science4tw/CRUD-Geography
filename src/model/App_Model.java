@@ -113,7 +113,7 @@ public class App_Model extends Model {
 	}
 
 	// Um nach dem Namen eines States zu holen
-	public static State getStateByName(StringProperty name) {
+	public static State getStateByName(String name) {
 		for (State state : states) {
 			if (state instanceof State && state.getName() != null && state.getName().equals(name)) {
 				return (State) state;

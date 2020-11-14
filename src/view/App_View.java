@@ -175,6 +175,7 @@ public class App_View extends View<App_Model> { // 1 extends BorderPane
 	private TableView<Country> createTableView() {
 		this.tableView = new TableView<Country>();
 		this.tableView.setEditable(false);
+		this.tableView.setPlaceholder(new Label("-"));
 
 		// Each column needs a title, and a source of data.
 		// For editable columns, each column needs to contain a TextField.
@@ -215,7 +216,7 @@ public class App_View extends View<App_Model> { // 1 extends BorderPane
 	private TableView<State> createStateTableView() {
 		this.stateTableView = new TableView<State>();
 		this.stateTableView.setEditable(false);
-//		this.stateTableView.set
+		this.stateTableView.setPlaceholder(new Label("-"));		
 
 		// Each column needs a title, and a source of data.
 		// For editable columns, each column needs to contain a TextField.
@@ -614,6 +615,7 @@ public class App_View extends View<App_Model> { // 1 extends BorderPane
 
 		// Common controls
 		stage.setTitle(t.getString("program.name"));
+		lblStatus.setText(t.getString("program.lblStatus"));
 		
 		// The menu entries
 		menuFile.setText(t.getString("program.menu.file"));
@@ -716,6 +718,7 @@ public class App_View extends View<App_Model> { // 1 extends BorderPane
 	private TableView<State> createMyStatesTablewView() {
 		this.myStatesTableView = new TableView<State>();
 		this.myStatesTableView.setEditable(false);
+		this.myStatesTableView.setPlaceholder(new Label("-"));
 
 		colMyStates = new TableColumn<>("State");
 		colMyStates.setMinWidth(200);

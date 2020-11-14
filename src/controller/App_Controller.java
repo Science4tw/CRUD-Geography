@@ -130,7 +130,7 @@ public class App_Controller extends Controller<App_Model, App_View> {
 			Optional<ButtonType> result = alert.showAndWait();
 			if (result.get() == ButtonType.OK) {
 				view.getTableView().getItems().remove(selectedItem);
-
+				view.setStatus("Country/Land deleted/gelöscht");
 			} else {
 
 			}
@@ -264,6 +264,7 @@ public class App_Controller extends Controller<App_Model, App_View> {
 			Optional<ButtonType> result = alert.showAndWait();
 			if (result.get() == ButtonType.OK) {
 				view.getStateTableView().getItems().remove(selectedItem);
+				view.setStatus("State/Kanton deleted/gelöscht");
 
 			} else {
 
@@ -385,8 +386,6 @@ public class App_Controller extends Controller<App_Model, App_View> {
 		 */
 		view.getCountryView().getBtnSave().setDisable(true);
 		view.getStateView().getBtnCreateState().setDisable(true);
-		view.getUpdateViewCountry().getBtnUpdateSave().setDisable(true);
-		view.getUpdateViewState().getBtnUpdateSaveState().setDisable(true);
 
 		// Event handler for the model's ObservableList requires a ListChangeListener.
 		// To make generics happy, we have to cast our lambda: what kind of data do we
@@ -432,219 +431,108 @@ public class App_Controller extends Controller<App_Model, App_View> {
 		});
 
 		// set shortcut ctrl'c to create country
-
-		view.getBtnCreateCountry().getScene().getAccelerators()
-
-				.put(new KeyCodeCombination(KeyCode.C, KeyCombination.CONTROL_DOWN), new Runnable() {
-
-					public void run() {
-
-						view.getBtnCreateCountry().fire();
-
+		view.getBtnCreateCountry().getScene().getAccelerators().put(new KeyCodeCombination(KeyCode.C, KeyCombination.CONTROL_DOWN), new Runnable() {
+				public void run() {
+					view.getBtnCreateCountry().fire();
 					}
-
 				});
 
 		// set shortcut ctrl'c to update country
-
-		view.getBtnUpdateCountry().getScene().getAccelerators()
-
-				.put(new KeyCodeCombination(KeyCode.U, KeyCombination.CONTROL_DOWN), new Runnable() {
-
-					public void run() {
-
-						view.getBtnUpdateCountry().fire();
-
+		view.getBtnUpdateCountry().getScene().getAccelerators().put(new KeyCodeCombination(KeyCode.U, KeyCombination.CONTROL_DOWN), new Runnable() {
+				public void run() {
+					view.getBtnUpdateCountry().fire();
 					}
-
 				});
 
 		// set ctrl d to delete country
-
-		view.getBtnDeleteCountry().getScene().getAccelerators()
-
-				.put(new KeyCodeCombination(KeyCode.D, KeyCombination.CONTROL_DOWN), new Runnable() {
-
-					public void run() {
-
-						view.getBtnDeleteCountry().fire();
-
+		view.getBtnDeleteCountry().getScene().getAccelerators().put(new KeyCodeCombination(KeyCode.D, KeyCombination.CONTROL_DOWN), new Runnable() {
+				public void run() {
+					view.getBtnDeleteCountry().fire();
 					}
-
 				});
 
 		// set shortcut ctrl c to create state button
-
-		view.getBtnCreateState().getScene().getAccelerators().put(
-
-				new KeyCodeCombination(KeyCode.C, KeyCombination.CONTROL_DOWN, KeyCombination.SHIFT_DOWN),
-
-				new Runnable() {
-
-					public void run() {
-
-						view.getBtnCreateState().fire();
-
+		view.getBtnCreateState().getScene().getAccelerators().put(new KeyCodeCombination(KeyCode.C, KeyCombination.CONTROL_DOWN, KeyCombination.SHIFT_DOWN), new Runnable() {
+				public void run() {
+					view.getBtnCreateState().fire();
 					}
-
 				});
 
 		// set shortcut ctrl u to update state button
-
-		view.getBtnUpdateState().getScene().getAccelerators().put(
-
-				new KeyCodeCombination(KeyCode.U, KeyCombination.CONTROL_DOWN, KeyCombination.SHIFT_DOWN),
-
-				new Runnable() {
-
-					public void run() {
-
-						view.getBtnUpdateState().fire();
-
+		view.getBtnUpdateState().getScene().getAccelerators().put(new KeyCodeCombination(KeyCode.U, KeyCombination.CONTROL_DOWN, KeyCombination.SHIFT_DOWN), new Runnable() {
+				public void run() {
+					view.getBtnUpdateState().fire();
 					}
-
 				});
 
 		// set shortcut ctrl d to delete state button
-
-		view.getBtnDeleteState().getScene().getAccelerators().put(
-
-				new KeyCodeCombination(KeyCode.D, KeyCombination.CONTROL_DOWN, KeyCombination.SHIFT_DOWN),
-
-				new Runnable() {
-
-					public void run() {
-
-						view.getBtnDeleteState().fire();
-
+		view.getBtnDeleteState().getScene().getAccelerators().put(new KeyCodeCombination(KeyCode.D, KeyCombination.CONTROL_DOWN, KeyCombination.SHIFT_DOWN), new Runnable() {
+				public void run() {
+					view.getBtnDeleteState().fire();
 					}
-
 				});
 
 		// set ctrl s to save button on country scene
-
-		view.getCountryScene().getAccelerators().put(new KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_DOWN),
-
-				new Runnable() {
-
-					public void run() {
-
-						view.getCountryView().getBtnSave().fire();
-
+		view.getCountryScene().getAccelerators().put(new KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_DOWN), new Runnable() {
+				public void run() {
+					view.getCountryView().getBtnSave().fire();
 					}
-
 				});
 
 		// set ctrl s to create button on state scene
-
-		view.getStateScene().getAccelerators().put(new KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_DOWN),
-
-				new Runnable() {
-
-					public void run() {
-
-						view.getStateView().getBtnCreate().fire();
-
+		view.getStateScene().getAccelerators().put(new KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_DOWN), new Runnable() {
+				public void run() {
+					view.getStateView().getBtnCreate().fire();
 					}
-
 				});
 
 		// set ctrl s to save button on country update scene
-
-		view.getUpdateScene().getAccelerators().put(new KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_DOWN),
-
-				new Runnable() {
-
-					public void run() {
-
-						view.getUpdateViewCountry().getBtnUpdateSave().fire();
-
+		view.getUpdateScene().getAccelerators().put(new KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_DOWN), new Runnable() {
+				public void run() {
+					view.getUpdateViewCountry().getBtnUpdateSave().fire();
 					}
-
 				});
 
 		// set ctrl s to create button on state update scene
-
-		view.getUpdateSceneState().getAccelerators().put(new KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_DOWN),
-
-				new Runnable() {
-
-					public void run() {
-
-						view.getUpdateViewState().getBtnUpdateSaveState().fire();
-
+		view.getUpdateSceneState().getAccelerators().put(new KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_DOWN), new Runnable() {
+				public void run() {
+					view.getUpdateViewState().getBtnUpdateSaveState().fire();
 					}
-
 				});
 
 		// set ctrl x to cancel on country scene
-
-		view.getCountryScene().getAccelerators().put(new KeyCodeCombination(KeyCode.X, KeyCombination.CONTROL_DOWN),
-
-				new Runnable() {
-
-					public void run() {
-
-						view.getCountryView().getBtnCancel().fire();
-
+		view.getCountryScene().getAccelerators().put(new KeyCodeCombination(KeyCode.X, KeyCombination.CONTROL_DOWN), new Runnable() {
+				public void run() {
+					view.getCountryView().getBtnCancel().fire();
 					}
-
 				});
 
 		// set ctrl x to cancel on state scene
-
-		view.getStateScene().getAccelerators().put(new KeyCodeCombination(KeyCode.X, KeyCombination.CONTROL_DOWN),
-
-				new Runnable() {
-
-					public void run() {
-
-						view.getStateView().getBtnCancelState().fire();
-
+		view.getStateScene().getAccelerators().put(new KeyCodeCombination(KeyCode.X, KeyCombination.CONTROL_DOWN), new Runnable() {
+				public void run() {
+					view.getStateView().getBtnCancelState().fire();
 					}
-
 				});
 
 		// set ctrl x to cancel on country update scene
-
-		view.getUpdateScene().getAccelerators().put(new KeyCodeCombination(KeyCode.X, KeyCombination.CONTROL_DOWN),
-
-				new Runnable() {
-
-					public void run() {
-
-						view.getUpdateViewCountry().getBtnUpdateCancel().fire();
-
-					}
-
+		view.getUpdateScene().getAccelerators().put(new KeyCodeCombination(KeyCode.X, KeyCombination.CONTROL_DOWN), new Runnable() {
+				public void run() {
+					view.getUpdateViewCountry().getBtnUpdateCancel().fire();
+				}
 				});
 
 		// set ctrl x to cancel on country update scene
-
-		view.getUpdateScene().getAccelerators().put(new KeyCodeCombination(KeyCode.X, KeyCombination.CONTROL_DOWN),
-
-				new Runnable() {
-
-					public void run() {
-
-						view.getUpdateViewCountry().getBtnUpdateCancel().fire();
-
+		view.getUpdateScene().getAccelerators().put(new KeyCodeCombination(KeyCode.X, KeyCombination.CONTROL_DOWN), new Runnable() {
+				public void run() {
+					view.getUpdateViewCountry().getBtnUpdateCancel().fire();
 					}
-
 				});
 
 		// set ctrl x to cancel on state update scene
-
-		view.getUpdateSceneState().getAccelerators().put(new KeyCodeCombination(KeyCode.X, KeyCombination.CONTROL_DOWN),
-
-				new Runnable() {
-
-					public void run() {
-
-						view.getUpdateViewState().getBtnUpdateCancelState().fire();
-
+		view.getUpdateSceneState().getAccelerators().put(new KeyCodeCombination(KeyCode.X, KeyCombination.CONTROL_DOWN), new Runnable() {
+				public void run() {
+					view.getUpdateViewState().getBtnUpdateCancelState().fire();
 					}
-
 				});
 
 		serviceLocator = ServiceLocator.getServiceLocator();
@@ -1067,7 +955,7 @@ public class App_Controller extends Controller<App_Model, App_View> {
 
 			// 5
 			model.createNewCountry(name, area, population, formOfGovernment, myStates);
-			view.setStatus("Country Objekt hinzugefügt"); // Aktualisiert Status
+			view.setStatus("Country/Land added/hinzugefügt"); // Aktualisiert Status
 			view.getCountryView().reset(); // Setzt die Eingaben in den Kontrollelementen zurück
 		}
 
@@ -1096,6 +984,8 @@ public class App_Controller extends Controller<App_Model, App_View> {
 
 			view.getStateTableView().getItems();
 			view.getStateTableView().refresh();
+			view.setStatus("Country updated/Land aktualisiert"); // Aktualisiert Status
+			view.getUpdateViewCountry().getBtnUpdateSave().setDisable(true);
 		}
 	}
 
@@ -1126,8 +1016,10 @@ public class App_Controller extends Controller<App_Model, App_View> {
 			view.getStateTableView().getItems().set((int) position, selectedItem);
 			view.getStateTableView().refresh();
 			view.getMyStatesTableView().refresh();
+			view.setStatus("State updatet/Kanton aktualisiert"); // Aktualisiert Status
+			view.getUpdateViewState().getBtnUpdateSaveState().setDisable(true);
 		} else {
-			Alert alert = new Alert(AlertType.INFORMATION, "Bitte fuellen Sie alle Felder aus");
+			Alert alert = new Alert(AlertType.INFORMATION, "Bitte füllen Sie alle Felder aus");
 			alert.showAndWait();
 
 		}
@@ -1147,7 +1039,7 @@ public class App_Controller extends Controller<App_Model, App_View> {
 		if (name != null && area != 0 && formOfGovernment != null && myCountry != null) {
 			// 5
 			model.createNewState(name, area, population, formOfGovernment, myCountry);
-			view.setStatus("State Objekt hinzugefügt"); // Aktualisiert Status
+			view.setStatus("State added/Kanton hinzugefügt"); // Aktualisiert Status
 			view.getStateView().reset(); // Setzt die Eingaben in den Kontrollelementen zurück
 		}
 	}
@@ -1172,9 +1064,11 @@ public class App_Controller extends Controller<App_Model, App_View> {
 		return view.getCountryScene();
 
 	}
+
 	private Scene getUpdateScene() {
 		return view.getUpdateScene();
 	}
+
 	// Methode um die State Szene aus der App_View zu holen
 	private Scene getStateScene() {
 		return view.getStateScene();

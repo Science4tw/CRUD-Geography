@@ -70,8 +70,7 @@ public class UpdateViewState extends GridPane {
 		
 		// Fill combos (hol mir die Items,alle hinzufügen von den values der Enums)
 		cmbUpdateFormOfGovState.getItems().addAll(FormOfGovernment.values());
-		//cmbUpdateFormOfGovState.setValue(FormOfGovernment.DICTATORSHIP);
-		
+			
 		// Organize the layout, add in the controls (col, row)
 		pane.add(lblUpdateStateTitle, 0, 0);
 		pane.add(lblUpdateState, 0, 1);
@@ -84,6 +83,10 @@ public class UpdateViewState extends GridPane {
 		pane.add(getCmbUpdateFormOfGovState(), 1, 4);
 		pane.add(lblMyCountry, 0, 5);
 		pane.add(cmbMyCountry, 1, 5);
+		
+		pane.setVgap(5);
+		pane.setHgap(10);
+		pane.setPadding(new Insets(10, 10, 10, 10));
 		
 		return pane;
 		
@@ -106,8 +109,7 @@ public class UpdateViewState extends GridPane {
 		this.txtUpdateState.setText("");
 		this.txtUpdateAreaState.setText("");
 		this.txtUpdatePopulationState.setText("");
-//		this.cmbUpdateFormOfGovState.getSelectionModel().clearSelection(); // API
-//		this.cmbMyCountry.getSelectionModel().clearSelection();
+
 	}
 	public App_Model getModel() {
 		return model;

@@ -5,6 +5,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import abstractClasses.Controller;
+import commonClasses.Translator;
 import mvc.ServiceLocator;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
@@ -23,6 +24,7 @@ import javafx.scene.control.TablePosition;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableView.TableViewSelectionModel;
 import javafx.scene.input.KeyCode;
@@ -40,9 +42,6 @@ import view.App_View;
 public class App_Controller extends Controller<App_Model, App_View> {
 
 	ServiceLocator serviceLocator;
-
-	// private App_Model model;
-	// private App_View view;
 
 	// Speichert Wert für gültige Textfelder
 	private boolean countryValid = false;
@@ -125,12 +124,20 @@ public class App_Controller extends Controller<App_Model, App_View> {
 		view.getBtnDeleteCountry().setOnAction(e -> { // Holt den Button und setzt in durch das Event unter Aktion
 			// Holt das ausgewählt Item in der TableView
 			GovernedRegion selectedItem = view.getTableView().getSelectionModel().getSelectedItem();
-			Alert alert = new Alert(AlertType.CONFIRMATION, "Möchten Sie dieses Land wirklich löschen?");
+			Alert alertDeletCountry = new Alert(AlertType.CONFIRMATION);
+			Translator t = ServiceLocator.getServiceLocator().getTranslator();
+			alertDeletCountry.setTitle(t.getString("alert.alertDeletCountry.title"));
+			alertDeletCountry.setHeaderText(t.getString("alert.alertDeletCountry.header"));
 
-			Optional<ButtonType> result = alert.showAndWait();
+			Button okButton = (Button) alertDeletCountry.getDialogPane().lookupButton(ButtonType.OK);
+			okButton.setText(t.getString("alert.buttonOk"));
+			Button cancelButton = (Button) alertDeletCountry.getDialogPane().lookupButton(ButtonType.CANCEL);
+			cancelButton.setText(t.getString("alert.buttonCancel"));
+
+			Optional<ButtonType> result = alertDeletCountry.showAndWait();
 			if (result.get() == ButtonType.OK) {
 				view.getTableView().getItems().remove(selectedItem);
-				view.setStatus("Country deleted/Land gelöscht");
+				view.setStatus(t.getString("statusLabel.deleteCountry"));
 			} else {
 
 			}
@@ -139,16 +146,14 @@ public class App_Controller extends Controller<App_Model, App_View> {
 
 		// Alert für MenuItem Shortcut
 		view.getMenuHelpShortcuts().setOnAction(e -> {
-			Alert info = new Alert(AlertType.INFORMATION);
-			info.setTitle("Information");
-			info.setHeaderText("Shortcuts");
+			Alert shortcutinfo = new Alert(AlertType.INFORMATION);
 
-			info.setContentText("Ctrl+C\t\tLand erstellen" + "\nCtrl+U\t\tLand aktualisieren"
-					+ "\nCtrl+D\t\tLand loeschen" + "\n" + "\nCtrl+Shift+C\t\tState erstellen"
-					+ "\nCtrl+Shift+U\t\tState aktualisieren" + "\nCtrl+Shift+D\t\tState loeschen" + "\n"
-					+ "\nCtrl+S\t\tLand/State speichern" + "\nCtrl+X\t\tAktuelle Ansicht verlassen");
+			Translator t = ServiceLocator.getServiceLocator().getTranslator();
+			shortcutinfo.setTitle(t.getString("alert.shortcutinfo.title"));
+			shortcutinfo.setHeaderText(t.getString("alert.shortcutinfo.header"));
+			shortcutinfo.setContentText(t.getString("alert.shortcutinfo.content"));
 
-			info.showAndWait();
+			shortcutinfo.showAndWait();
 
 		});
 
@@ -259,24 +264,27 @@ public class App_Controller extends Controller<App_Model, App_View> {
 		// DELETE STATE in App_View in der State TableView
 		view.getBtnDeleteState().setOnAction(e -> { // Holt den Button und setzt in durch das Event unter Aktion
 			GovernedRegion selectedItem = view.getStateTableView().getSelectionModel().getSelectedItem();
-			Alert alert = new Alert(AlertType.CONFIRMATION, "Möchten Sie diesen State wirklich löschen?");
+			Alert alertDeletState = new Alert(AlertType.CONFIRMATION);
 
-			Optional<ButtonType> result = alert.showAndWait();
+			Translator t = ServiceLocator.getServiceLocator().getTranslator();
+			alertDeletState.setTitle(t.getString("alert.alertDeletState.title"));
+			alertDeletState.setHeaderText(t.getString("alert.alertDeletState.header"));
+
+			Button okButton = (Button) alertDeletState.getDialogPane().lookupButton(ButtonType.OK);
+			okButton.setText(t.getString("alert.buttonOk"));
+			Button cancelButton = (Button) alertDeletState.getDialogPane().lookupButton(ButtonType.CANCEL);
+			cancelButton.setText(t.getString("alert.buttonCancel"));
+
+			Optional<ButtonType> result = alertDeletState.showAndWait();
 			if (result.get() == ButtonType.OK) {
 				view.getStateTableView().getItems().remove(selectedItem);
-				view.getMyStatesTableView().getItems().remove(selectedItem);
-				view.setStatus("State deleted/Kanton gelöscht");
+				view.setStatus(t.getString("statusLabel.deleteState"));
 
 			} else {
 
 			}
 
 		});
-
-//		// Szenen Wechsel von der UpdateViewState zur App_View (STATE)
-//		view.getUpdateViewState().getBtnUpdateCancelState().setOnAction(event -> {
-//			view.getStage().setScene(getMainScene());
-//		});
 
 		// SAVE COUNTRY - Event handler for the button in App_View
 		// Wenn der Create Button (btnCreate) gedrückt wird, ruft der Controller die
@@ -287,7 +295,7 @@ public class App_Controller extends Controller<App_Model, App_View> {
 		 * 3 ChangeListener für Textfelder Area, Country, Population, State
 		 */
 
-		// für countryView
+		// ChangeListener für countryView
 		view.getCountryView().getTxtCountry().textProperty().addListener((obserable, oldValue, newValue) -> {
 			validateCountry(newValue);
 		});
@@ -305,7 +313,7 @@ public class App_Controller extends Controller<App_Model, App_View> {
 					validateFormOfGovernment(newValue);
 				});
 
-		// für Update countryView
+		// ChangeListener für Update countryView
 		view.getUpdateViewCountry().getTxtUpdateCountry().textProperty()
 				.addListener((obserable, oldValue, newValue) -> {
 					validateCountryUpdate(newValue);
@@ -320,7 +328,7 @@ public class App_Controller extends Controller<App_Model, App_View> {
 					validatePopulationUpdate(newValue);
 				});
 
-		// für stateView
+		// ChangeListener für stateView
 		view.getStateView().getTxtState().textProperty().addListener((obserable, oldValue, newValue) -> {
 			validateState(newValue);
 		});
@@ -338,7 +346,7 @@ public class App_Controller extends Controller<App_Model, App_View> {
 					validateStateCountry(newValue);
 				});
 
-		// für UpdatestateView
+		// ChangeListener für UpdatestateView
 		view.getUpdateViewState().getTxtUpdateState().textProperty().addListener((obserable, oldValue, newValue) -> {
 			validateStateUpdate(newValue);
 		});
@@ -387,14 +395,16 @@ public class App_Controller extends Controller<App_Model, App_View> {
 		 */
 		view.getCountryView().getBtnSave().setDisable(true);
 		view.getStateView().getBtnCreateState().setDisable(true);
-		
+		view.getUpdateViewCountry().getBtnUpdateSave().setDisable(true);
+		view.getUpdateViewState().getBtnUpdateSaveState().setDisable(true);
+
 		// Scrollt automatisch zum zugefügten Country/State
 		model.getGovernedRegions().addListener((ListChangeListener<GovernedRegion>) c -> {
 			while (c.next()) {
 				view.getTableView().scrollTo(c.getFrom());
 			}
 		});
-		
+
 		// Scrollt automatisch zum zugefügten State
 		model.getGovernedRegions().addListener((ListChangeListener<GovernedRegion>) c -> {
 			while (c.next()) {
@@ -404,10 +414,18 @@ public class App_Controller extends Controller<App_Model, App_View> {
 
 		// register ourselves to handle window-closing event
 		view.getStage().setOnCloseRequest(evt -> {
-			Alert alert = new Alert(AlertType.CONFIRMATION);
-			alert.setTitle("Programm beenden");
-			alert.setHeaderText("Möchten Sie wirklich beenden?");
-			alert.showAndWait().filter(r -> r != ButtonType.OK).ifPresent(r -> evt.consume());
+			Alert closingAlert = new Alert(AlertType.CONFIRMATION);
+
+			Translator t = ServiceLocator.getServiceLocator().getTranslator();
+			closingAlert.setTitle(t.getString("alert.closingAlert.title"));
+			closingAlert.setHeaderText(t.getString("alert.closingAlert.header"));
+
+			Button okButton = (Button) closingAlert.getDialogPane().lookupButton(ButtonType.OK);
+			okButton.setText(t.getString("alert.buttonOk"));
+			Button cancelButton = (Button) closingAlert.getDialogPane().lookupButton(ButtonType.CANCEL);
+			cancelButton.setText(t.getString("alert.buttonCancel"));
+
+			closingAlert.showAndWait().filter(r -> r != ButtonType.OK).ifPresent(r -> evt.consume());
 			model.saveCountries();
 			model.saveStates();
 		});
@@ -436,107 +454,125 @@ public class App_Controller extends Controller<App_Model, App_View> {
 		});
 
 		// set shortcut ctrl'c to create country
-		view.getBtnCreateCountry().getScene().getAccelerators().put(new KeyCodeCombination(KeyCode.C, KeyCombination.CONTROL_DOWN), new Runnable() {
-				public void run() {
-					view.getBtnCreateCountry().fire();
+		view.getBtnCreateCountry().getScene().getAccelerators()
+				.put(new KeyCodeCombination(KeyCode.C, KeyCombination.CONTROL_DOWN), new Runnable() {
+					public void run() {
+						view.getBtnCreateCountry().fire();
 					}
 				});
 
 		// set shortcut ctrl'c to update country
-		view.getBtnUpdateCountry().getScene().getAccelerators().put(new KeyCodeCombination(KeyCode.U, KeyCombination.CONTROL_DOWN), new Runnable() {
-				public void run() {
-					view.getBtnUpdateCountry().fire();
+		view.getBtnUpdateCountry().getScene().getAccelerators()
+				.put(new KeyCodeCombination(KeyCode.U, KeyCombination.CONTROL_DOWN), new Runnable() {
+					public void run() {
+						view.getBtnUpdateCountry().fire();
 					}
 				});
 
 		// set ctrl d to delete country
-		view.getBtnDeleteCountry().getScene().getAccelerators().put(new KeyCodeCombination(KeyCode.D, KeyCombination.CONTROL_DOWN), new Runnable() {
-				public void run() {
-					view.getBtnDeleteCountry().fire();
+		view.getBtnDeleteCountry().getScene().getAccelerators()
+				.put(new KeyCodeCombination(KeyCode.D, KeyCombination.CONTROL_DOWN), new Runnable() {
+					public void run() {
+						view.getBtnDeleteCountry().fire();
 					}
 				});
 
-		// set shortcut ctrl c to create state button
-		view.getBtnCreateState().getScene().getAccelerators().put(new KeyCodeCombination(KeyCode.C, KeyCombination.CONTROL_DOWN, KeyCombination.SHIFT_DOWN), new Runnable() {
-				public void run() {
-					view.getBtnCreateState().fire();
+		// set shortcut ctrl shift c to create state button
+		view.getBtnCreateState().getScene().getAccelerators().put(
+				new KeyCodeCombination(KeyCode.C, KeyCombination.CONTROL_DOWN, KeyCombination.SHIFT_DOWN),
+				new Runnable() {
+					public void run() {
+						view.getBtnCreateState().fire();
 					}
 				});
 
-		// set shortcut ctrl u to update state button
-		view.getBtnUpdateState().getScene().getAccelerators().put(new KeyCodeCombination(KeyCode.U, KeyCombination.CONTROL_DOWN, KeyCombination.SHIFT_DOWN), new Runnable() {
-				public void run() {
-					view.getBtnUpdateState().fire();
+		// set shortcut ctrl shift u to update state button
+		view.getBtnUpdateState().getScene().getAccelerators().put(
+				new KeyCodeCombination(KeyCode.U, KeyCombination.CONTROL_DOWN, KeyCombination.SHIFT_DOWN),
+				new Runnable() {
+					public void run() {
+						view.getBtnUpdateState().fire();
 					}
 				});
 
-		// set shortcut ctrl d to delete state button
-		view.getBtnDeleteState().getScene().getAccelerators().put(new KeyCodeCombination(KeyCode.D, KeyCombination.CONTROL_DOWN, KeyCombination.SHIFT_DOWN), new Runnable() {
-				public void run() {
-					view.getBtnDeleteState().fire();
+		// set shortcut ctrl shift d to delete state button
+		view.getBtnDeleteState().getScene().getAccelerators().put(
+				new KeyCodeCombination(KeyCode.D, KeyCombination.CONTROL_DOWN, KeyCombination.SHIFT_DOWN),
+				new Runnable() {
+					public void run() {
+						view.getBtnDeleteState().fire();
 					}
 				});
 
 		// set ctrl s to save button on country scene
-		view.getCountryScene().getAccelerators().put(new KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_DOWN), new Runnable() {
-				public void run() {
-					view.getCountryView().getBtnSave().fire();
+		view.getCountryScene().getAccelerators().put(new KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_DOWN),
+				new Runnable() {
+					public void run() {
+						view.getCountryView().getBtnSave().fire();
 					}
 				});
 
 		// set ctrl s to create button on state scene
-		view.getStateScene().getAccelerators().put(new KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_DOWN), new Runnable() {
-				public void run() {
-					view.getStateView().getBtnCreate().fire();
+		view.getStateScene().getAccelerators().put(new KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_DOWN),
+				new Runnable() {
+					public void run() {
+						view.getStateView().getBtnCreate().fire();
 					}
 				});
 
 		// set ctrl s to save button on country update scene
-		view.getUpdateScene().getAccelerators().put(new KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_DOWN), new Runnable() {
-				public void run() {
-					view.getUpdateViewCountry().getBtnUpdateSave().fire();
+		view.getUpdateScene().getAccelerators().put(new KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_DOWN),
+				new Runnable() {
+					public void run() {
+						view.getUpdateViewCountry().getBtnUpdateSave().fire();
 					}
 				});
 
 		// set ctrl s to create button on state update scene
-		view.getUpdateSceneState().getAccelerators().put(new KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_DOWN), new Runnable() {
-				public void run() {
-					view.getUpdateViewState().getBtnUpdateSaveState().fire();
+		view.getUpdateSceneState().getAccelerators().put(new KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_DOWN),
+				new Runnable() {
+					public void run() {
+						view.getUpdateViewState().getBtnUpdateSaveState().fire();
 					}
 				});
 
 		// set ctrl x to cancel on country scene
-		view.getCountryScene().getAccelerators().put(new KeyCodeCombination(KeyCode.X, KeyCombination.CONTROL_DOWN), new Runnable() {
-				public void run() {
-					view.getCountryView().getBtnCancel().fire();
+		view.getCountryScene().getAccelerators().put(new KeyCodeCombination(KeyCode.X, KeyCombination.CONTROL_DOWN),
+				new Runnable() {
+					public void run() {
+						view.getCountryView().getBtnCancel().fire();
 					}
 				});
 
 		// set ctrl x to cancel on state scene
-		view.getStateScene().getAccelerators().put(new KeyCodeCombination(KeyCode.X, KeyCombination.CONTROL_DOWN), new Runnable() {
-				public void run() {
-					view.getStateView().getBtnCancelState().fire();
+		view.getStateScene().getAccelerators().put(new KeyCodeCombination(KeyCode.X, KeyCombination.CONTROL_DOWN),
+				new Runnable() {
+					public void run() {
+						view.getStateView().getBtnCancelState().fire();
 					}
 				});
 
 		// set ctrl x to cancel on country update scene
-		view.getUpdateScene().getAccelerators().put(new KeyCodeCombination(KeyCode.X, KeyCombination.CONTROL_DOWN), new Runnable() {
-				public void run() {
-					view.getUpdateViewCountry().getBtnUpdateCancel().fire();
-				}
+		view.getUpdateScene().getAccelerators().put(new KeyCodeCombination(KeyCode.X, KeyCombination.CONTROL_DOWN),
+				new Runnable() {
+					public void run() {
+						view.getUpdateViewCountry().getBtnUpdateCancel().fire();
+					}
 				});
 
 		// set ctrl x to cancel on country update scene
-		view.getUpdateScene().getAccelerators().put(new KeyCodeCombination(KeyCode.X, KeyCombination.CONTROL_DOWN), new Runnable() {
-				public void run() {
-					view.getUpdateViewCountry().getBtnUpdateCancel().fire();
+		view.getUpdateScene().getAccelerators().put(new KeyCodeCombination(KeyCode.X, KeyCombination.CONTROL_DOWN),
+				new Runnable() {
+					public void run() {
+						view.getUpdateViewCountry().getBtnUpdateCancel().fire();
 					}
 				});
 
 		// set ctrl x to cancel on state update scene
-		view.getUpdateSceneState().getAccelerators().put(new KeyCodeCombination(KeyCode.X, KeyCombination.CONTROL_DOWN), new Runnable() {
-				public void run() {
-					view.getUpdateViewState().getBtnUpdateCancelState().fire();
+		view.getUpdateSceneState().getAccelerators().put(new KeyCodeCombination(KeyCode.X, KeyCombination.CONTROL_DOWN),
+				new Runnable() {
+					public void run() {
+						view.getUpdateViewState().getBtnUpdateCancelState().fire();
 					}
 				});
 
@@ -958,12 +994,12 @@ public class App_Controller extends Controller<App_Model, App_View> {
 		// 4. Überprüfen das Kontrollelemente nicht leer sind
 		if (name != null && area != 0 && formOfGovernment != null && myStates != null) {
 
-			// 5
-			model.createNewCountry(name, area, population, formOfGovernment, myStates);
-			view.setStatus("Country added/Land hinzugefügt"); // Aktualisiert Status
-			view.getCountryView().reset(); // Setzt die Eingaben in den Kontrollelementen zurück
+		// 5
+		model.createNewCountry(name, area, population, formOfGovernment, myStates);
+		Translator t = ServiceLocator.getServiceLocator().getTranslator();
+		view.setStatus(t.getString("statusLabel.createCountry"));
+		view.getCountryView().reset(); 
 		}
-
 	}
 
 	// *** UPDATE COUNTRY
@@ -989,7 +1025,8 @@ public class App_Controller extends Controller<App_Model, App_View> {
 
 			view.getStateTableView().getItems();
 			view.getStateTableView().refresh();
-			view.setStatus("Country updated/Land aktualisiert"); // Aktualisiert Status
+			Translator t = ServiceLocator.getServiceLocator().getTranslator();
+			view.setStatus(t.getString("statusLabel.updateCountry"));
 			view.getUpdateViewCountry().getBtnUpdateSave().setDisable(true);
 		}
 	}
@@ -1008,27 +1045,28 @@ public class App_Controller extends Controller<App_Model, App_View> {
 
 		// 4. Überprüfen das Kontrollelemente nicht leer sind
 		if (name != null && area != 0 && population != 0 && formOfGovernment != null && myCountry != null) {
-		
-			State selectedItem = view.getStateTableView().getSelectionModel().getSelectedItem(); // Holt das ausgewählte Objekt
+			// Holt das ausgewählte Objekt
+			State selectedItem = view.getStateTableView().getSelectionModel().getSelectedItem(); 
+			// Speichert den Namen des ausgewählten Objekts
+			String selectedName = selectedItem.getName(); 
+			// Holt den Index wo das Objekt gespeichert ist
+			int index = model.getStates().indexOf(selectedItem);
 			
-			String selectedName = selectedItem.getName(); // Speichert den Namen des ausgewählten Objekts
-			int index = model.getStates().indexOf(selectedItem);// Holt den Index wo das Objekt gespeichert ist 
-			
-			State oldState= model.getStateByName(selectedName); // Schaut in "states" ob ein State it diesem namen vorhanden ist
-			
-			State newState = new State(name, area, population, formOfGovernment, myCountry); // Erstellt neues Objekt mit den neuen Werten
-			
+			// Schaut in "states" ob ein State it diesem namen vorhanden ist
+			State oldState = model.getStateByName(selectedName); 
+																
+			// Erstellt neues Objekt mit den neuen Werten
+			State newState = new State(name, area, population, formOfGovernment, myCountry); 	
+
 			model.getStates().set(index, newState);
-			
+
 			view.getMyStatesTableView().getItems().remove(selectedItem);
 			view.getStateTableView().refresh();
 			view.getMyStatesTableView().refresh();
-			view.setStatus("State updated/Kanton aktualisiert"); // Aktualisiert Status
+			Translator t = ServiceLocator.getServiceLocator().getTranslator();
+			view.setStatus(t.getString("statusLabel.updateState"));
 			view.getUpdateViewState().getBtnUpdateSaveState().setDisable(true);
 		} else {
-			Alert alert = new Alert(AlertType.INFORMATION, "Bitte füllen Sie alle Felder aus");
-			alert.showAndWait();
-
 		}
 
 	}
@@ -1044,10 +1082,12 @@ public class App_Controller extends Controller<App_Model, App_View> {
 
 		// 4. Überprüfen das Kontrollelemente nicht leer sind
 		if (name != null && area != 0 && formOfGovernment != null && myCountry != null) {
-			// 5
-			model.createNewState(name, area, population, formOfGovernment, myCountry);
-			view.setStatus("State added/Kanton hinzugefügt"); // Aktualisiert Status
-			view.getStateView().reset(); // Setzt die Eingaben in den Kontrollelementen zurück
+		
+		// 5
+		model.createNewState(name, area, population, formOfGovernment, myCountry);
+		Translator t = ServiceLocator.getServiceLocator().getTranslator();
+		view.setStatus(t.getString("statusLabel.createState"));
+		view.getStateView().reset(); 
 		}
 	}
 

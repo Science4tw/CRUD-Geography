@@ -77,7 +77,7 @@ public class StateView extends GridPane {
 		pane.setId("dataEntry");
 		// Declare the individual controls in the GUI
 		lblStateTitle = new Label("State erstellen");
-		lblStateTitle.setStyle("-fx-font-size: 16;");
+		lblStateTitle.setStyle("-fx-font-weight: bold; -fx-font-size: 16;");
 		lblState = new Label("Name State");
 		lblAreaState = new Label("Fläche State");
 		lblPopulationState = new Label("Population State");
@@ -86,23 +86,11 @@ public class StateView extends GridPane {
 	
 		
 		
-//		// Aus der TablewView soll die erste Spalte als Auswahlmöglichkeit angeboten werden		
-//		
-//		for (GovernedRegion governedRegion: model.getGovernedRegions()) {
-//			cmbMyCountry.getItems().add(governedRegion.getName());
-//		}
-
+		// Aus der TablewView soll die erste Spalte als Auswahlmöglichkeit angeboten werden		
 		cmbMyCountry.setItems(model.getCountries());
-//		cmbMyCountry.setModel(new DefaultComboBoxModel<GovernedRegion>(model.getGovernedRegions().toArray(new Country[0])));		
-//		cmbMyCountry.setValue(null);
-		
-
-		
-		
 
 		// Fill combos (hol mir die Items,alle hinzufügen von den values der Enums)
 		cmbFormOfGovState.getItems().addAll(FormOfGovernment.values());
-		//cmbFormOfGovState.setValue(FormOfGovernment.DICTATORSHIP);		
 		
 		// Organize the layout, add in the controls (col, row)
 		pane.add(lblStateTitle, 0, 0);
@@ -122,6 +110,8 @@ public class StateView extends GridPane {
 		pane.add(cmbMyCountry, 1, 5);
 		
 		pane.setVgap(5);
+		pane.setHgap(10);
+		pane.setPadding(new Insets(10, 10, 10, 10));
 
 		return pane;
 	}

@@ -28,9 +28,7 @@ import model.State;
 public class App_View extends View<App_Model> { // 1 extends BorderPane
 
 	// 0
-//	private Stage stage;
-//	private App_Model model;
-	// 1 (abklären ob das so machbar ist)
+
 	private App_Controller controller;
 
 	// VIEWS
@@ -76,6 +74,9 @@ public class App_View extends View<App_Model> { // 1 extends BorderPane
 	protected TableColumn<State, String> colStateFormOfGov;
 	protected TableColumn<State, String> colMyCountry;
 
+	//Label MyStates
+	private Label lblMyStatesTitle;
+	
 	// MyStates VIEW
 	protected TableView<State> myStatesTableView;
 	protected TableColumn<State, String> colMyStates;
@@ -83,7 +84,6 @@ public class App_View extends View<App_Model> { // 1 extends BorderPane
 	protected TableColumn<State, Integer> colMyStatePopulation;
 	protected TableColumn<State, String> colMyStateFormOfGov;
 
-	
 
 	// *** MENUS ***
 	protected Menu menuFile;
@@ -139,7 +139,7 @@ public class App_View extends View<App_Model> { // 1 extends BorderPane
 	public Pane createControlPane() {
 		GridPane pane = new GridPane();
 		lblCountryTitle = new Label("Countries");
-		lblCountryTitle.setStyle("-fx-font-weight: bold; -fx-font-size: 16;");
+		lblCountryTitle.getStyleClass().add("titleLabel");
 		btnCreateCountry = new Button("Create Country");
 		btnDeleteCountry = new Button("Delete Country");
 		btnUpdateCountry = new Button("Update Country");
@@ -156,7 +156,7 @@ public class App_View extends View<App_Model> { // 1 extends BorderPane
 	public Pane createControlPaneState() {
 		GridPane pane = new GridPane();
 		lblStateTitle = new Label("States");
-		lblStateTitle.setStyle("-fx-font-weight: bold; -fx-font-size: 16;");
+		lblStateTitle.getStyleClass().add("titleLabel");
 		btnCreateState = new Button("Create State");
 		btnDeleteState = new Button("Delete State");
 		btnUpdateState = new Button("Update State");
@@ -588,8 +588,11 @@ public class App_View extends View<App_Model> { // 1 extends BorderPane
 		this.stateTableView = createStateTableView();
 		root.add(stateTableView, 0, 7);
 
+		this.lblMyStatesTitle = new Label("My States");
+		this.lblMyStatesTitle.getStyleClass().add("titleLabel");
+		root.add(this.lblMyStatesTitle, 0, 8);
 		this.myStatesTableView = createMyStatesTablewView();
-		root.add(myStatesTableView, 0, 8);
+		root.add(myStatesTableView, 0, 9);
 
 		// SZENEN
 		countryScene = new Scene(createCountryView(), 450, 450);
@@ -599,13 +602,12 @@ public class App_View extends View<App_Model> { // 1 extends BorderPane
 
 		// 1 Aktueller Status
 		this.lblStatus = new Label("Everything okay");
-		this.lblStatus.setStyle("-fx-text-fill: #1577c2; -fx-font-size: 16;");
-		root.add(this.lblStatus, 0, 9);
+		this.lblStatus.getStyleClass().add("statusLabel");
+		root.add(this.lblStatus, 0, 10);
 
 		updateTexts();
 
 		Scene scene = new Scene(root);
-
 
 		return scene;
 	}
@@ -641,6 +643,8 @@ public class App_View extends View<App_Model> { // 1 extends BorderPane
 		getMyStatesTableView().getColumns().get(1).setText(t.getString("row.stateTableview.area"));
 		getMyStatesTableView().getColumns().get(2).setText(t.getString("row.stateTableview.population"));
 		getMyStatesTableView().getColumns().get(3).setText(t.getString("row.stateTableview.formOfGov"));
+		
+		lblMyStatesTitle.setText(t.getString("label.lblMyStatesTitle"));
 		
 		// Controls Country
 		lblCountryTitle.setText(t.getString("label.lblCountryTitle"));

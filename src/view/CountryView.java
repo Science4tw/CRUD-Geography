@@ -81,7 +81,6 @@ public class CountryView extends GridPane {
 		lblFormOfGov = new Label("Regierungsform des Landes");
 		// Fill combos (hol mir die Items,alle hinzufügen von den values der Enums)
 		cmbFormOfGov.getItems().addAll(FormOfGovernment.values());
-		//cmbFormOfGov.setValue(FormOfGovernment.DICTATORSHIP);
 		
 		// Organize the layout, add in the controls (col, row)
 		pane.add(lblCountryTitle, 0, 0);
@@ -99,6 +98,7 @@ public class CountryView extends GridPane {
 		pane.add(cmbFormOfGov, 1, 4);
 		
 		pane.setVgap(5);
+		pane.setHgap(10);
 		pane.setPadding(new Insets(10, 10, 10, 10));
 
 		return pane;

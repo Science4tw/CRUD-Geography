@@ -15,12 +15,30 @@
 }
 
 /*Controlls*/
+
 .label {
 	-fx-padding: 5.0px;
     -fx-min-width: 100.0;
     -fx-max-width: 1000.0;
-  	-fx-alignment: center;
 }
+.titleLabel {
+	-fx-padding: 5.0px;
+    -fx-min-width: 100.0;
+    -fx-max-width: 1000.0;
+    -fx-font-weight: bold; 
+    -fx-font-size: 16;
+    -fx-padding: 12 30 12 30;
+}
+
+.statusLabel {
+	-fx-padding: 5.0px;
+    -fx-min-width: 100.0;
+    -fx-max-width: 1000.0;
+    -fx-alignment: center; 	
+    -fx-text-fill: #1085de; 
+    -fx-font-size: 14;
+}
+
 .button {
 	-fx-background-color: #000000, 
 	linear-gradient(#7ebcea, #2f4b8f),
@@ -28,7 +46,6 @@
 	linear-gradient(#395cab, #223768);
 	-fx-background-inserts:0,1,2,3;
 	-fx-background-radius:3,2,2,2;
-	fx-padding: 12 30 12 30;
 	-fx-text-fill: white;
 	-fx-font-size: 12px;
 	}

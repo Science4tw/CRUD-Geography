@@ -61,12 +61,11 @@ public class UpdateViewCountry extends GridPane {
 		lblUpdateArea = new Label("Fläche des Landes");
 		lblUpdatePopulation = new Label("Population des Landes");
 		lblUpdateFormOfGov = new Label("Regierungsform des Landes");
+		
 		// Fill combos (hol mir die Items,alle hinzufügen von den values der Enums)
 		cmbUpdateFormOfGov.getItems().addAll(FormOfGovernment.values());
-		//cmbUpdateFormOfGov.setValue(FormOfGovernment.DICTATORSHIP);
-	
+		
 		// Organize the layout, add in the controls (col, row)
-		// pane.add(child, columnIndex, rowIndex);
 		pane.add(lblUpdateCountryTitle, 0, 0);
 		pane.add(lblUpdateCountry, 0, 1);
 		pane.add(getUpdateTxtCountry(), 1, 1);
@@ -76,7 +75,11 @@ public class UpdateViewCountry extends GridPane {
 		pane.add(getUpdateTxtPopulation(), 1, 3);
 		pane.add(lblUpdateFormOfGov, 0, 4);
 		pane.add(cmbUpdateFormOfGov, 1, 4);
-
+		
+		pane.setVgap(5);
+		pane.setHgap(10);
+		pane.setPadding(new Insets(10, 10, 10, 10));
+		
 		return pane;
 	}
 	// 1 Data Control Pane

@@ -15,10 +15,14 @@ Class hierarchy
 
 Additional Fuctionalitys:
 - Shortcuts and doubleclick with declaration in Menu Help
-- Splash Screen
-- Service Locator: Languages english & german
+- mit JAT implementiert
+	- Splash Screen
+	- Service Locator: Languages english & german
+	- Logging
+	- Configuration
 - Confirmation & Info Alerts when deleting Countries/States and exiting Platform
 - ReadWriteFile for initial Countries/States which is saved with changes when exiting Platform
 - Input Validation for TextFields and Comboboxes
+- Scrollt automatisch zum zugefügten Country/State
 
 

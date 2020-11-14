@@ -387,14 +387,18 @@ public class App_Controller extends Controller<App_Model, App_View> {
 		 */
 		view.getCountryView().getBtnSave().setDisable(true);
 		view.getStateView().getBtnCreateState().setDisable(true);
-
-		// Event handler for the model's ObservableList requires a ListChangeListener.
-		// To make generics happy, we have to cast our lambda: what kind of data do we
-		// have?S
-		// Note: May contain multiple changes - hence, the loop!
+		
+		// Scrollt automatisch zum zugefügten Country/State
 		model.getGovernedRegions().addListener((ListChangeListener<GovernedRegion>) c -> {
 			while (c.next()) {
 				view.getTableView().scrollTo(c.getFrom());
+			}
+		});
+		
+		// Scrollt automatisch zum zugefügten State
+		model.getGovernedRegions().addListener((ListChangeListener<GovernedRegion>) c -> {
+			while (c.next()) {
+				view.getStateTableView().scrollTo(c.getFrom());
 			}
 		});
 
@@ -1004,8 +1008,7 @@ public class App_Controller extends Controller<App_Model, App_View> {
 
 		// 4. Überprüfen das Kontrollelemente nicht leer sind
 		if (name != null && area != 0 && population != 0 && formOfGovernment != null && myCountry != null) {
-
-			// Update State
+		
 			State selectedItem = view.getStateTableView().getSelectionModel().getSelectedItem(); // Holt das ausgewählte Objekt
 			
 			String selectedName = selectedItem.getName(); // Speichert den Namen des ausgewählten Objekts
